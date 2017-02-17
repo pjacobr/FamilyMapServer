@@ -5,4 +5,13 @@ package result;
  */
 
 public class FillResult {
+    String message = null;
+
+    /**
+     * create a message based on the result.
+     * @param message
+     */
+    public FillResult(String message){
+        this.message = message;
+    }
 }

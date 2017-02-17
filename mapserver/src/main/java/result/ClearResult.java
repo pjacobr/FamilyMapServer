@@ -5,4 +5,13 @@ package result;
  */
 
 public class ClearResult {
+    String message = null;
+
+    /**
+     * create a message based on the result.
+     * @param message
+     */
+    public ClearResult(String message){
+        this.message = message;
+    }
 }
