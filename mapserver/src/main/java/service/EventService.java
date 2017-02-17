@@ -17,6 +17,7 @@ public class EventService {
     }
 
     /**
+     *
      * get all the evetns for all the family members of the current user
      * @return
      */

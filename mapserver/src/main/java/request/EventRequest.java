@@ -5,5 +5,21 @@ package request;
  */
 
 public class EventRequest {
+    private String eventID = null;
 
+    /**
+     * Get the id of the event
+     * @return
+     */
+    public String getEventID() {
+        return eventID;
+    }
+
+    /**
+     * Create the event request that has the evetn that is being requested
+     * @param eventID
+     */
+    public EventRequest(String eventID) {
+        this.eventID = eventID;
+    }
 }

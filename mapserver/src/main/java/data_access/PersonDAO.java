@@ -28,10 +28,10 @@ public class PersonDAO {
 
     /**
      * get a specific person from the database to check
-     * @param person
+     * @param personID
      * @return
      */
-    public Person getPerson(Person person){
+    public Person getPerson(String personID){
         return null;
     }
 
@@ -48,7 +48,7 @@ public class PersonDAO {
      * @param person
      * @return
      */
-    public boolean delete(Person person){
+    public boolean delete(String personID){
         return true;
     }
 
