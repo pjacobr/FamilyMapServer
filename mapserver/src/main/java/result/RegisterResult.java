@@ -12,7 +12,7 @@ public class RegisterResult {
     String message = null;
 
     /**
-     * Error result! 
+     * Error result!
      * @param message
      */
     public RegisterResult(String message) {

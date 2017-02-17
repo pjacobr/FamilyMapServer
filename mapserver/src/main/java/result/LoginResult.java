@@ -7,15 +7,16 @@ import model.AuthToken;
  */
 
 public class LoginResult {
-    String authToken = null;
-    String userName = null;
-    String personID= null;
 
-    String message = null;
+    private String authToken = null;
+    private String userName = null;
+    private String personID= null;
+
+    private String message = null;
 
     /**
      * if the login was an error give it a message
-     * @param message
+     * @param message error message that explains the error
      */
     public LoginResult(String message) {
         this.message = message;
