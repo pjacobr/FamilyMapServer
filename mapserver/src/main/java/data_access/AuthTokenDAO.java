@@ -10,7 +10,7 @@ import model.User;
 public class AuthTokenDAO {
     /**
      * Check on an Auth Token for a specified user
-     * @param user
+     * @param user the info of the user that should be connected to the new authtoken
      * @return
      */
     public AuthToken getAuthToken(User user){
@@ -19,7 +19,7 @@ public class AuthTokenDAO {
 
     /**
      * create a new auth token
-     * @param user
+     * @param user the info of the user that should be connected to the new authtoken
      * @return
      */
     public boolean addAuthToken(User user){

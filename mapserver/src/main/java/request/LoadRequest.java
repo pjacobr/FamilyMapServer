@@ -17,9 +17,9 @@ public class LoadRequest {
 
     /**
      * Create an object that will have lots of data to be passed
-     * @param users
-     * @param people
-     * @param events
+     * @param users the users that were loaded
+     * @param people the people that were loaded
+     * @param events the events that were loaded
      */
     public LoadRequest(User[] users, Person[] people, Event[] events) {
         this.users = users;

@@ -1,7 +1,8 @@
 package data_access;
 
-import model.Person;
 import java.util.List;
+
+import model.Person;
 
 /**
  * Created by jacob on 2/16/2017.
@@ -10,7 +11,7 @@ import java.util.List;
 public class PersonDAO {
     /**
      * add a new person to the database
-     * @param person
+     * @param person the info needed to add a new person into the databases
      * @return
      */
     public boolean addPerson(Person person){
@@ -19,7 +20,7 @@ public class PersonDAO {
 
     /**
      * add a list of people to the
-     * @param persons
+     * @param persons a list of the info needed to add a new person into the databases
      * @return
      */
     public boolean addPerson(List<Person> persons){
@@ -27,9 +28,22 @@ public class PersonDAO {
     }
 
     /**
-     * get a specific person from the database to check
-     * @param personID
+     * Update a person in the database based on the personID
+     * @param updatedPerson the info needed to update a new person into the databases
+     * @param personID the id of the person
      * @return
+     */
+    public boolean setPerson(Person updatedPerson, String personID){
+        return true;
+    }
+
+
+
+
+    /**
+     * get a specific person from the database to check
+     * @param personID the id of the person
+     * @return Person object
      */
     public Person getPerson(String personID){
         return null;
@@ -37,7 +51,7 @@ public class PersonDAO {
 
     /**
      * get all the people in the database
-     * @return
+     * @return List
      */
     public List<Person> getPerson(){
         return null;
@@ -45,8 +59,8 @@ public class PersonDAO {
 
     /**
      * delete a person in the database
-     * @param person
-     * @return
+     * @param personID The id of the person that we are trying to delete
+     * @return boolean
      */
     public boolean delete(String personID){
         return true;

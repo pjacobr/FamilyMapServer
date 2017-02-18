@@ -17,7 +17,7 @@ public class EventRequest {
 
     /**
      * Create the event request that has the evetn that is being requested
-     * @param eventID
+     * @param eventID the id of the event requested
      */
     public EventRequest(String eventID) {
         this.eventID = eventID;

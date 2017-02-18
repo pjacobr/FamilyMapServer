@@ -1,7 +1,8 @@
 package data_access;
 
-import model.User;
 import java.util.List;
+
+import model.User;
 
 /**
  * Created by jacob on 2/16/2017.
@@ -17,8 +18,8 @@ public class UserDAO {
 
     /**
      * Register a new user
-     * @param user
-     * @return
+     * @param user the information needed to add a new user into the system Should come from a person object and a userRequest
+     * @return boolean
      */
     public boolean addUser(User user){
         return true;
@@ -26,8 +27,8 @@ public class UserDAO {
 
     /**
      * Add a group of users
-     * @param users
-     * @return
+     * @param users a list of the information needed to add a new user into the system Should come from a person object and a userRequest
+     * @return boolean
      */
     public boolean addUser(List<User> users){
         return true;
@@ -35,8 +36,8 @@ public class UserDAO {
 
     /**
      * get a user
-     * @param userID
-     * @return
+     * @param userID the id of the user that we would like to get information
+     * @return User
      */
     public User getUser(String userID) {
         return null;
@@ -44,7 +45,7 @@ public class UserDAO {
 
     /**
      * get a list of users
-     * @return
+     * @return List
      */
     public List<User> getUser(){
         return null;
@@ -52,7 +53,7 @@ public class UserDAO {
 
     /**
      * delete a user
-     * @param user
+     * @param user the information needed to delete a user into the system Should come from a person object and a userRequest
      * @return
      */
     public boolean delete(User user){

@@ -1,7 +1,8 @@
 package service;
 
-import result.EventResult;
 import java.util.List;
+
+import result.EventResult;
 /**
  * Created by jacob on 2/16/2017.
  */
@@ -9,8 +10,8 @@ import java.util.List;
 public class EventService {
     /**
      * get an event based on an event id.
-     * @param eventID
-     * @return
+     * @param eventID the eventID
+     * @return EventResult
      */
     public EventResult event(String eventID){
         return null;

@@ -11,8 +11,8 @@ public class LoginRequest {
 
     /**
      * Login constructor
-     * @param userName
-     * @param password
+     * @param userName the username of the person logging in .
+     * @param password the password of the person logging in
      */
     public LoginRequest(String userName, String password) {
         this.userName = userName;

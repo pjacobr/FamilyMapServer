@@ -6,7 +6,7 @@ package model;
 
 public class User {
 
-    //Private datamembers
+
     private String username = null;
     private String password = null;
     private String email = null;
@@ -17,13 +17,13 @@ public class User {
 
     /**
      * Constructor
-     * @param username
-     * @param password
-     * @param email
-     * @param firstName
-     * @param lastName
-     * @param gender
-     * @param personID
+     * @param username the user name of the user
+     * @param password the password of the user
+     * @param email the email of the user
+     * @param firstName the first name of the usr
+     * @param lastName the last name of the user
+     * @param gender the gender of the user
+     * @param personID the id of the person that the user is connected with
      */
     public User(String username, String password, String email, String firstName, String lastName, char gender, String personID) {
         this.username = username;

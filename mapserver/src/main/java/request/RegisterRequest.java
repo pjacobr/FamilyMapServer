@@ -16,12 +16,12 @@ public class RegisterRequest {
     /**
      * <h1>Constructor</h1>
      *
-     * @param username
-     * @param password
-     * @param email
-     * @param firstName
-     * @param lastName
-     * @param gender
+     * @param username the username of the person being registerd
+     * @param password the password of the
+     * @param email the email of the person being registered
+     * @param firstName the first name of the person being registered
+     * @param lastName the last name of the person being registered
+     * @param gender the gender of the person being registered
      */
     public RegisterRequest(String username, String password, String email, String firstName, String lastName, char gender) {
         this.username = username;

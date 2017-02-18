@@ -1,7 +1,8 @@
 package data_access;
 
-import model.Event;
 import java.util.List;
+
+import model.Event;
 
 /**
  * Created by jacob on 2/16/2017.
@@ -28,11 +29,21 @@ public class EventDAO {
     }
 
     /**
+     * Update an event in the database based on the info given to the event
+     * @param updateEvent the new information for the event
+     * @param eventID the id of the event that we are looking for
+     * @return boolean
+     */
+    public boolean setEvent(Event updateEvent, String eventID){
+        return true;
+    }
+
+    /**
      * get a specified event based on a given request
-     * @param event
+     * @param eventid the eventid for the event that would like to get
      * @return EventResult
      */
-    public Event getEvent(Event event){
+    public Event getEvent(String eventid){
         return null;
     }
 

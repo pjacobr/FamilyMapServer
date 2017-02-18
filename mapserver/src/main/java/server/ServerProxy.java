@@ -1,5 +1,7 @@
 package server;
 
+import java.util.List;
+
 import request.LoadRequest;
 import request.LoginRequest;
 import request.RegisterRequest;
@@ -10,7 +12,6 @@ import result.LoadResult;
 import result.LoginResult;
 import result.PersonResult;
 import result.RegisterResult;
-import java.util.List;
 /**
  * Created by jacob on 2/13/2017.
  */

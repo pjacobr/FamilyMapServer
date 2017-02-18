@@ -6,8 +6,10 @@ package model;
 
 
 public class AuthToken {
-    // authToken will be the unique token that is used
-    //username will be the username associated with the AuthToken
+    /**
+     *  @param authToken will be the unique token that is used
+     *  @param username will be the username associated with the AuthToken
+      */
     private String authToken = null;
     private String username = null;
 

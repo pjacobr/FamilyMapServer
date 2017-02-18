@@ -18,14 +18,14 @@ public class Person {
     /**
      * Constructor
      * generates a new person that can be used to hold data
-     * @param personID
-     * @param descendant
-     * @param firstName
-     * @param lastName
-     * @param gender
-     * @param father
-     * @param mother
-     * @param spouse
+     * @param personID the id associated to the person
+     * @param descendant the id associated with the descendant of the person
+     * @param firstName the first name of the person
+     * @param lastName last name of the person
+     * @param gender gender of the person
+     * @param father id of the father of the person (not required)
+     * @param mother id of the mother of the person (not required)
+     * @param spouse id of the spouse of the person (not required)
      */
     public Person(String personID, String descendant, String firstName, String lastName, char gender, String father, String mother, String spouse) {
         this.personID = personID;

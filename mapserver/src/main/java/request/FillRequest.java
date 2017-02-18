@@ -20,7 +20,7 @@ public class FillRequest {
     /**
      * Create a request object that allows us to fill the
      * user with generated data.
-     * @param username
+     * @param username the user name of the person that needs their generations filled
      */
     public FillRequest(String username) {
         this.username = username;
