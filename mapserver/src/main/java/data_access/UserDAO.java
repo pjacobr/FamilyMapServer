@@ -1,5 +1,6 @@
 package data_access;
 
+import java.sql.Connection;
 import java.util.List;
 
 import model.User;
@@ -9,19 +10,21 @@ import model.User;
  */
 
 public class UserDAO {
+
+    Connection conn = null;
     /**
      * contructor for creating a connection
      */
-    public UserDAO(){
-
+    public UserDAO(Connection conn){
+        this.conn = conn;
     }
-
     /**
      * Register a new user
      * @param user the information needed to add a new user into the system Should come from a person object and a userRequest
      * @return boolean
      */
     public boolean addUser(User user){
+        
         return true;
     }
 
@@ -48,6 +51,9 @@ public class UserDAO {
      * @return List
      */
     public List<User> getUser(){
+
+
+
         return null;
     }
 
@@ -68,5 +74,15 @@ public class UserDAO {
         return true;
     }
 
+    /**
+     *  Updates the information of the user in the database. The username can't change and the userID could not change
+     *  Updates user event or relationship info
+     * @param user
+     * @return
+     */
+    public boolean updateUser(User user){
+
+        return true;
+    }
 
 }

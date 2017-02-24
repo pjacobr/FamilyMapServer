@@ -1,1 +1,1 @@
-include ':mapserver'
+include ':mapserver', ':sqlite-jdbc-3.7.2'

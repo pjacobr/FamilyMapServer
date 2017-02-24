@@ -1,5 +1,6 @@
 package data_access;
 
+import java.sql.Connection;
 import java.util.List;
 
 import model.Event;
@@ -9,6 +10,13 @@ import model.Event;
  */
 
 public class EventDAO {
+
+    private Connection conn = null;
+    //Create new Event Database object
+    public EventDAO(Connection conn){
+        this.conn = conn;
+    }
+
     /**
      * Given the request, adds an event into the database
      * if the add was successfull, return true

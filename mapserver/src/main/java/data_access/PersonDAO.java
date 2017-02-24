@@ -1,5 +1,6 @@
 package data_access;
 
+import java.sql.Connection;
 import java.util.List;
 
 import model.Person;
@@ -9,6 +10,11 @@ import model.Person;
  */
 
 public class PersonDAO {
+    private Connection conn = null;
+    //create a new Person Database connection
+    public PersonDAO(Connection conn){
+        this.conn = conn;
+    }
     /**
      * add a new person to the database
      * @param person the info needed to add a new person into the databases
