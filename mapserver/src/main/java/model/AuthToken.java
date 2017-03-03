@@ -13,9 +13,10 @@ public class AuthToken {
     private String authToken = null;
     private String username = null;
     private int timeStamp;
-    public AuthToken(String username, String authToken){
+    public AuthToken(String username, String authToken, int timeStamp){
         this.authToken = authToken;
         this.username = username;
+        this.timeStamp = timeStamp;
     }
     /**
      * Generate a unique Auth Token using the UUI interface

@@ -66,7 +66,7 @@ public class PersonDAO {
      * @param personID      the id of the person
      * @return
      */
-    public boolean setPerson(Person updatedPerson, String personID) {
+    public boolean updatePerson(Person updatedPerson, String personID) {
 
         try {
             //Go through all the events and add the event
@@ -109,7 +109,6 @@ public class PersonDAO {
     public Person getPerson(String personID) {
         String sql = "select * from Persons where personID='" + personID + "';";
 
-
         try {
             PreparedStatement stmt = null;
             ResultSet rs = null;
@@ -147,7 +146,7 @@ public class PersonDAO {
     public List<Person> getPerson() {
         List<Person> persons = new ArrayList<>();
 
-        String sql = "select personID,descendant, firstName, lastName, gender, father, mother, spouse from Persons";
+        String sql = "select personID, descendant, firstName, lastName, gender, father, mother, spouse from Persons";
         try {
             PreparedStatement stmt = null;
             ResultSet rs = null;
@@ -191,7 +190,7 @@ public class PersonDAO {
      * @param personID The id of the person that we are trying to delete
      * @return boolean
      */
-    public boolean delete(String personID) {
+    public void delete(String personID) {
 
         try {
         //Go through all the events and add the event ** Make sure to delete anything connected.
@@ -205,12 +204,12 @@ public class PersonDAO {
         stmt = conn.prepareStatement(sql);
         stmt.executeQuery();
         stmt.close();
-        return true;
+
 
     } catch (SQLException e) {
         e.printStackTrace();
     }
-        return true;
+
 
     }
 
@@ -219,14 +218,13 @@ public class PersonDAO {
      *
      * @return
      */
-    public boolean clear() {
+    public void clear() {
         try {
             //Go through all the events and add the event
             String sql = "drop table Events;";
             String sql2 = "create table Events";
             PreparedStatement stmt = null;
             ResultSet rs = null;
-
 
             //make a statement with the sql string above
             stmt = conn.prepareStatement(sql);
@@ -237,11 +235,9 @@ public class PersonDAO {
             stmt = conn.prepareStatement(sql2);
             stmt.executeQuery();
             stmt.close();
-            return true;
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return true;
     }
 }

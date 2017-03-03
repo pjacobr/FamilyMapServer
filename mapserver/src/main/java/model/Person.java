@@ -1,5 +1,5 @@
 package model;
-
+import java.util.UUID;
 /**
  * Created by jacob on 2/16/2017.
  */
@@ -37,7 +37,19 @@ public class Person {
         this.mother = mother;
         this.spouse = spouse;
     }
+    //Other version of our constructor that will take in more varied parameters
+    public Person(String descendant, String firstName, String lastName, char gender, String father, String mother, String spouse){
+        this.personID = UUID.randomUUID().toString();
+        this.descendant = descendant;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.gender = gender;
+        this.father = father;
+        this.mother = mother;
+        this.spouse = spouse;
+    }
 
+    
     public String getPersonID() {
         return personID;
     }

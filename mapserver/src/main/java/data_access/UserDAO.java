@@ -28,12 +28,21 @@ public class UserDAO {
      * @param user the information needed to add a new user into the system Should come from a person object and a userRequest
      * @return boolean
      */
-    public boolean addUser(User user){
+    public void addUser(User user){
+        String sql = "INSERT INTO Persons (username, password, email, first_name, last_name, person_id)" +
+                "VALUES ('" + user.getUsername() + "','" + user.getPassword() + "','" + user.getEmail() +
+                "','" + user.getFirstName() + "','" + user.getLastName() + "','" + user.getPersonID() + "';";
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
 
-
-
-
-        return true;
+        try {
+            //make a statement with the sql string above
+            stmt = conn.prepareStatement(sql);
+            rs = stmt.executeQuery();
+            stmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -41,8 +50,10 @@ public class UserDAO {
      * @param users a list of the information needed to add a new user into the system Should come from a person object and a userRequest
      * @return boolean
      */
-    public boolean addUser(List<User> users){
-        return true;
+    public void addUser(List<User> users){
+        for(User user : users){
+            addUser(user);
+        }
     }
 
     /**
@@ -150,19 +161,53 @@ public class UserDAO {
 
     /**
      * delete a user
-     * @param user the information needed to delete a user into the system Should come from a person object and a userRequest
+     * @param username the information needed to delete a user into the system Should come from a person object and a userRequest
      * @return
      */
-    public boolean delete(User user){
-        return true;
+    public void delete(String username){
+        try {
+            //Go through all the events and add the event ** Make sure to delete anything connected.
+            String sql = "delete from Users where username='" + username + "';";
+
+            PreparedStatement stmt = null;
+            //make a statement with the sql string above
+            stmt = conn.prepareStatement(sql);
+            stmt.executeQuery();
+            stmt.close();
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+
     }
 
     /**
      * delete all the users
      * @return
      */
-    public boolean clear(){
-        return true;
+    public void clear(){
+        try {
+            //Go through all the events and add the event
+            String sql = "drop table Users;";
+            String sql2 = "create table Users";
+            PreparedStatement stmt = null;
+            ResultSet rs = null;
+
+            //make a statement with the sql string above
+            stmt = conn.prepareStatement(sql);
+            stmt.executeQuery();
+            stmt.close();
+
+            //make a statement with the sql2 string above to recreate the tables
+            stmt = conn.prepareStatement(sql2);
+            stmt.executeQuery();
+            stmt.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -171,9 +216,30 @@ public class UserDAO {
      * @param user
      * @return
      */
-    public boolean updateUser(User user){
+    public void updateUser(User user){
 
-        return true;
+        try {
+            //Go through all the events and add the event
+            String sql = "update Users\n" +
+                    "SET username='" + user.getUsername() + "',"
+                    + "password='" + user.getPassword() + "',"
+                    + "email='" + user.getEmail() + "',"
+                    + "first_name='" + user.getFirstName() + "',"
+                    + "last_name='" + user.getLastName() + "',"
+                    + "gender='" + user.getGender() + "',"
+                    + "person_id='" + user.getPersonID() + "',"
+                    + "where personID='" + user.getPersonID() + "'s;";
+
+            PreparedStatement stmt = null;
+            ResultSet rs = null;
+
+            //make a statement with the sql string above
+            stmt = conn.prepareStatement(sql);
+            stmt.executeQuery();
+            stmt.close();
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
-
 }
