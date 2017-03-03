@@ -4,7 +4,6 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/FamilyMapServer.iml" filepath="$PROJECT_DIR$/.idea/modules/FamilyMapServer.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/mapserver/mapserver.iml" filepath="$PROJECT_DIR$/.idea/modules/mapserver/mapserver.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/sqlite-jdbc-3.7.2/sqlite-jdbc-3.7.2.iml" filepath="$PROJECT_DIR$/.idea/modules/sqlite-jdbc-3.7.2/sqlite-jdbc-3.7.2.iml" />
     </modules>
   </component>
 </project>

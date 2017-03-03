@@ -1,7 +1,12 @@
 package data_access;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 
 import model.User;
 
@@ -24,7 +29,10 @@ public class UserDAO {
      * @return boolean
      */
     public boolean addUser(User user){
-        
+
+
+
+
         return true;
     }
 
@@ -39,22 +47,105 @@ public class UserDAO {
 
     /**
      * get a user
-     * @param userID the id of the user that we would like to get information
+     * @param username the id of the user that we would like to get information
      * @return User
      */
-    public User getUser(String userID) {
-        return null;
+    public User getUser(String username) {
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        User user = null;
+
+
+        try{
+            String sql = "select * from Users where username = '" + username + "'";
+            stmt = conn.prepareStatement(sql);
+
+            rs = stmt.executeQuery();
+
+            //if there was not person that existed of that type
+            if(rs.wasNull()){
+                return null;
+            }
+            //make sure that the number of rows returned was not greater than 1
+            if(rs.getFetchSize() > 1){
+                //throw not more than one row found exception
+                return null;
+            }
+            //information from the database about the person
+            String firstName = null;
+            String lastName = null;
+            String email = null;
+            char gender = 0;
+            String personID = null;
+            String password = null;
+
+            while (rs.next()){
+                firstName = rs.getString(5);
+                lastName = rs.getString(6);
+                email = rs.getString(4);
+                gender = rs.getString(7).charAt(0);
+                personID = rs.getString(8);
+                password = rs.getString(3);
+            }
+
+            user = new User(username, password, email, firstName, lastName, gender, personID);
+        }catch(SQLException e) {
+            //ERROR
+        }finally {
+            return user;
+        }
     }
 
     /**
      * get a list of users
      * @return List
      */
-    public List<User> getUser(){
+    public Set<User> getUser(){
 
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        User user = null;
+        Set<User> users = new TreeSet<>();
+        try{
+            String sql = "select * from Users";
+            stmt = conn.prepareStatement(sql);
 
+            rs = stmt.executeQuery();
 
-        return null;
+            //if there was not person that existed of that type
+            if(rs.wasNull()){
+                return null;
+            }
+            //make sure that the number of rows returned was not greater than 1
+            if(rs.getFetchSize() > 1){
+                //throw not more than one row found exception
+                return null;
+            }
+            //information from the database about the person
+            String firstName = null;
+            String lastName = null;
+            String email = null;
+            char gender = 0;
+            String personID = null;
+            String password = null;
+                String userName = null;
+            //fill a set of all the users
+            while (rs.next()){
+                userName = rs.getString(2);
+                firstName = rs.getString(5);
+                lastName = rs.getString(6);
+                email = rs.getString(4);
+                gender = rs.getString(7).charAt(0);
+                personID = rs.getString(8);
+                password = rs.getString(3);
+                user = new User(userName, password, email, firstName, lastName, gender, personID);
+                users.add(user);
+            }
+        }catch(SQLException e) {
+            //ERROR
+        }finally {
+            return users;
+        }
     }
 
     /**

@@ -12,7 +12,11 @@ public class AuthToken {
       */
     private String authToken = null;
     private String username = null;
-
+    private int timeStamp;
+    public AuthToken(String username, String authToken){
+        this.authToken = authToken;
+        this.username = username;
+    }
     /**
      * Generate a unique Auth Token using the UUI interface
      * to generate a unique token for each auth

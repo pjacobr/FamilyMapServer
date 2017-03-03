@@ -8,20 +8,28 @@ import java.sql.Connection;
  */
 
 public class Transaction {
-    Connection conn = null;
-    String dbName = "db" + File.separator + "familyMap.sqlite";
-    String connectionURL = "jdbc:sqlite:" + dbName;
+    private Connection conn = null;
+    final private String dbName = "db" + File.separator + "familyMap.sqlite";
+    final private String connectionURL = "jdbc:sqlite:" + dbName;
 
-    public Transaction(/* Request Object here? */){
-        try{
+    static {
+        try {
             final String driver = "org.sqlite.JDBC";
             Class.forName(driver);
-        }catch(ClassNotFoundException e){
-            //Error! Could not load database driver
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
+    }
+    public Transaction(/* Request Object here? */){
+
     }
 
     public boolean openConnection() {
+        if(conn != null){
+            //check to see if the connection already open
+            //System.out.println("Connection open");
+            return false;
+        }
         try {
             //Open a database connection
             conn = DriverManager.getConnection(connectionURL);
@@ -40,6 +48,11 @@ public class Transaction {
 
     //Close the connection
     public boolean closeConnection(){
+        //make sure that the connection exists before killing it
+        if(conn == null){
+            //the connection does not exist
+            return false;
+        }
         //sets the connection to false
         try{
             conn.close();
@@ -52,16 +65,24 @@ public class Transaction {
         }
     }
 
-    /**
-     * Get the connection
-     * @return Connection
-     */
-    public Connection getConnection(){
-        return conn;
-    }
-
+    //Create a new event dao connector
     public EventDAO getEvent(){
         return new EventDAO(conn);
     }
+    //Create a new Person dao object
+    public PersonDAO getPerson(){
+        return new PersonDAO(conn);
+    }
+
+    //Create a new user dao object
+    public UserDAO getUser(){
+        return new UserDAO(conn);
+    }
+
+    //Create a new AuthToken Dao Object
+    public AuthTokenDAO getAuthToken() {
+        return new AuthTokenDAO(conn);
+    }
+
 
 }
