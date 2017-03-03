@@ -19,16 +19,16 @@ public class Event {
     /**
      * Constructor
      * creates
-
-     * @param eventID id of the event
+     *
+     * @param eventID    id of the event
      * @param descendant id of direct descendant of current person
-     * @param personID id of the current person
-     * @param latitude latitude of an event
-     * @param longitude longitude of the event
-     * @param country name of the country where the event occured
-     * @param city name of the city where the event occured
-     * @param eventType the type of event
-     * @param eventYear the year in which the event took place
+     * @param personID   id of the current person
+     * @param latitude   latitude of an event
+     * @param longitude  longitude of the event
+     * @param country    name of the country where the event occured
+     * @param city       name of the city where the event occured
+     * @param eventType  the type of event
+     * @param eventYear  the year in which the event took place
      */
     public Event(String eventID, String descendant, String personID, int latitude, int longitude, String country, String city, String eventType, int eventYear) {
         this.eventID = eventID;
@@ -41,6 +41,7 @@ public class Event {
         this.eventType = eventType;
         this.eventYear = eventYear;
     }
+
     public String getEventID() {
         return eventID;
     }

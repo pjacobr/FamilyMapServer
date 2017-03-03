@@ -17,18 +17,21 @@ import model.User;
 public class UserDAO {
 
     Connection conn = null;
+
     /**
      * contructor for creating a connection
      */
-    public UserDAO(Connection conn){
+    public UserDAO(Connection conn) {
         this.conn = conn;
     }
+
     /**
      * Register a new user
+     *
      * @param user the information needed to add a new user into the system Should come from a person object and a userRequest
      * @return boolean
      */
-    public void addUser(User user){
+    public void addUser(User user) {
         String sql = "INSERT INTO Persons (username, password, email, first_name, last_name, person_id)" +
                 "VALUES ('" + user.getUsername() + "','" + user.getPassword() + "','" + user.getEmail() +
                 "','" + user.getFirstName() + "','" + user.getLastName() + "','" + user.getPersonID() + "';";
@@ -47,17 +50,19 @@ public class UserDAO {
 
     /**
      * Add a group of users
+     *
      * @param users a list of the information needed to add a new user into the system Should come from a person object and a userRequest
      * @return boolean
      */
-    public void addUser(List<User> users){
-        for(User user : users){
+    public void addUser(List<User> users) {
+        for (User user : users) {
             addUser(user);
         }
     }
 
     /**
      * get a user
+     *
      * @param username the id of the user that we would like to get information
      * @return User
      */
@@ -67,18 +72,18 @@ public class UserDAO {
         User user = null;
 
 
-        try{
+        try {
             String sql = "select * from Users where username = '" + username + "'";
             stmt = conn.prepareStatement(sql);
 
             rs = stmt.executeQuery();
 
             //if there was not person that existed of that type
-            if(rs.wasNull()){
+            if (rs.wasNull()) {
                 return null;
             }
             //make sure that the number of rows returned was not greater than 1
-            if(rs.getFetchSize() > 1){
+            if (rs.getFetchSize() > 1) {
                 //throw not more than one row found exception
                 return null;
             }
@@ -90,7 +95,7 @@ public class UserDAO {
             String personID = null;
             String password = null;
 
-            while (rs.next()){
+            while (rs.next()) {
                 firstName = rs.getString(5);
                 lastName = rs.getString(6);
                 email = rs.getString(4);
@@ -100,35 +105,36 @@ public class UserDAO {
             }
 
             user = new User(username, password, email, firstName, lastName, gender, personID);
-        }catch(SQLException e) {
+        } catch (SQLException e) {
             //ERROR
-        }finally {
+        } finally {
             return user;
         }
     }
 
     /**
      * get a list of users
+     *
      * @return List
      */
-    public Set<User> getUser(){
+    public Set<User> getUser() {
 
         PreparedStatement stmt = null;
         ResultSet rs = null;
         User user = null;
         Set<User> users = new TreeSet<>();
-        try{
+        try {
             String sql = "select * from Users";
             stmt = conn.prepareStatement(sql);
 
             rs = stmt.executeQuery();
 
             //if there was not person that existed of that type
-            if(rs.wasNull()){
+            if (rs.wasNull()) {
                 return null;
             }
             //make sure that the number of rows returned was not greater than 1
-            if(rs.getFetchSize() > 1){
+            if (rs.getFetchSize() > 1) {
                 //throw not more than one row found exception
                 return null;
             }
@@ -139,9 +145,9 @@ public class UserDAO {
             char gender = 0;
             String personID = null;
             String password = null;
-                String userName = null;
+            String userName = null;
             //fill a set of all the users
-            while (rs.next()){
+            while (rs.next()) {
                 userName = rs.getString(2);
                 firstName = rs.getString(5);
                 lastName = rs.getString(6);
@@ -152,19 +158,20 @@ public class UserDAO {
                 user = new User(userName, password, email, firstName, lastName, gender, personID);
                 users.add(user);
             }
-        }catch(SQLException e) {
+        } catch (SQLException e) {
             //ERROR
-        }finally {
+        } finally {
             return users;
         }
     }
 
     /**
      * delete a user
+     *
      * @param username the information needed to delete a user into the system Should come from a person object and a userRequest
      * @return
      */
-    public void delete(String username){
+    public void delete(String username) {
         try {
             //Go through all the events and add the event ** Make sure to delete anything connected.
             String sql = "delete from Users where username='" + username + "';";
@@ -185,9 +192,10 @@ public class UserDAO {
 
     /**
      * delete all the users
+     *
      * @return
      */
-    public void clear(){
+    public void clear() {
         try {
             //Go through all the events and add the event
             String sql = "drop table Users;";
@@ -211,12 +219,13 @@ public class UserDAO {
     }
 
     /**
-     *  Updates the information of the user in the database. The username can't change and the userID could not change
-     *  Updates user event or relationship info
+     * Updates the information of the user in the database. The username can't change and the userID could not change
+     * Updates user event or relationship info
+     *
      * @param user
      * @return
      */
-    public void updateUser(User user){
+    public void updateUser(User user) {
 
         try {
             //Go through all the events and add the event

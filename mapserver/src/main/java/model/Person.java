@@ -1,5 +1,7 @@
 package model;
+
 import java.util.UUID;
+
 /**
  * Created by jacob on 2/16/2017.
  */
@@ -18,14 +20,15 @@ public class Person {
     /**
      * Constructor
      * generates a new person that can be used to hold data
-     * @param personID the id associated to the person
+     *
+     * @param personID   the id associated to the person
      * @param descendant the id associated with the descendant of the person
-     * @param firstName the first name of the person
-     * @param lastName last name of the person
-     * @param gender gender of the person
-     * @param father id of the father of the person (not required)
-     * @param mother id of the mother of the person (not required)
-     * @param spouse id of the spouse of the person (not required)
+     * @param firstName  the first name of the person
+     * @param lastName   last name of the person
+     * @param gender     gender of the person
+     * @param father     id of the father of the person (not required)
+     * @param mother     id of the mother of the person (not required)
+     * @param spouse     id of the spouse of the person (not required)
      */
     public Person(String personID, String descendant, String firstName, String lastName, char gender, String father, String mother, String spouse) {
         this.personID = personID;
@@ -37,8 +40,9 @@ public class Person {
         this.mother = mother;
         this.spouse = spouse;
     }
+
     //Other version of our constructor that will take in more varied parameters
-    public Person(String descendant, String firstName, String lastName, char gender, String father, String mother, String spouse){
+    public Person(String descendant, String firstName, String lastName, char gender, String father, String mother, String spouse) {
         this.personID = UUID.randomUUID().toString();
         this.descendant = descendant;
         this.firstName = firstName;
@@ -49,7 +53,7 @@ public class Person {
         this.spouse = spouse;
     }
 
-    
+
     public String getPersonID() {
         return personID;
     }

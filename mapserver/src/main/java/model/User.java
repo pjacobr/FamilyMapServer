@@ -17,13 +17,14 @@ public class User {
 
     /**
      * Constructor
-     * @param username the user name of the user
-     * @param password the password of the user
-     * @param email the email of the user
+     *
+     * @param username  the user name of the user
+     * @param password  the password of the user
+     * @param email     the email of the user
      * @param firstName the first name of the usr
-     * @param lastName the last name of the user
-     * @param gender the gender of the user
-     * @param personID the id of the person that the user is connected with
+     * @param lastName  the last name of the user
+     * @param gender    the gender of the user
+     * @param personID  the id of the person that the user is connected with
      */
     public User(String username, String password, String email, String firstName, String lastName, char gender, String personID) {
         this.username = username;
@@ -34,7 +35,6 @@ public class User {
         this.gender = gender;
         this.personID = personID;
     }
-
 
 
     public String getUsername() {

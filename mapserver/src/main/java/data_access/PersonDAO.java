@@ -193,22 +193,22 @@ public class PersonDAO {
     public void delete(String personID) {
 
         try {
-        //Go through all the events and add the event ** Make sure to delete anything connected.
-        String sql = "delete from Persons where personID='" + personID + "';";
+            //Go through all the events and add the event ** Make sure to delete anything connected.
+            String sql = "delete from Persons where personID='" + personID + "';";
 
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-
-
-        //make a statement with the sql string above
-        stmt = conn.prepareStatement(sql);
-        stmt.executeQuery();
-        stmt.close();
+            PreparedStatement stmt = null;
+            ResultSet rs = null;
 
 
-    } catch (SQLException e) {
-        e.printStackTrace();
-    }
+            //make a statement with the sql string above
+            stmt = conn.prepareStatement(sql);
+            stmt.executeQuery();
+            stmt.close();
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
 
 
     }

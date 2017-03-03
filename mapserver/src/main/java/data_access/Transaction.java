@@ -1,17 +1,15 @@
 package data_access;
+
 import java.io.File;
-import java.sql.*;
 import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 
 /**
  * Created by jacob on 2/23/2017.
  */
 
 public class Transaction {
-    private Connection conn = null;
-    final private String dbName = "db" + File.separator + "familyMap.sqlite";
-    final private String connectionURL = "jdbc:sqlite:" + dbName;
-
     static {
         try {
             final String driver = "org.sqlite.JDBC";
@@ -20,12 +18,17 @@ public class Transaction {
             e.printStackTrace();
         }
     }
-    public Transaction(/* Request Object here? */){
+
+    final private String dbName = "db" + File.separator + "familyMap.sqlite";
+    final private String connectionURL = "jdbc:sqlite:" + dbName;
+    private Connection conn = null;
+
+    public Transaction(/* Request Object here? */) {
 
     }
 
     public boolean openConnection() {
-        if(conn != null){
+        if (conn != null) {
             //check to see if the connection already open
             //System.out.println("Connection open");
             return false;
@@ -39,7 +42,7 @@ public class Transaction {
         } catch (SQLException e) {
             // ERROR
             return false;
-        } finally{
+        } finally {
             //System.out.println("Success");
             return true;
         }
@@ -47,35 +50,36 @@ public class Transaction {
 
 
     //Close the connection
-    public boolean closeConnection(){
+    public boolean closeConnection() {
         //make sure that the connection exists before killing it
-        if(conn == null){
+        if (conn == null) {
             //the connection does not exist
             return false;
         }
         //sets the connection to false
-        try{
+        try {
             conn.close();
         } catch (SQLException e) {
             e.printStackTrace();
             return false;
-        }finally {
+        } finally {
             conn = null;
             return true;
         }
     }
 
     //Create a new event dao connector
-    public EventDAO getEvent(){
+    public EventDAO getEvent() {
         return new EventDAO(conn);
     }
+
     //Create a new Person dao object
-    public PersonDAO getPerson(){
+    public PersonDAO getPerson() {
         return new PersonDAO(conn);
     }
 
     //Create a new user dao object
-    public UserDAO getUser(){
+    public UserDAO getUser() {
         return new UserDAO(conn);
     }
 
