@@ -4,9 +4,9 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
-import java.util.TreeSet;
 
 import model.User;
 
@@ -32,16 +32,16 @@ public class UserDAO {
      * @return boolean
      */
     public void addUser(User user) {
-        String sql = "INSERT INTO Persons (username, password, email, first_name, last_name, person_id)" +
+        String sql = "INSERT INTO Users (username, password, email, firstname, lastname, personID)" +
                 "VALUES ('" + user.getUsername() + "','" + user.getPassword() + "','" + user.getEmail() +
-                "','" + user.getFirstName() + "','" + user.getLastName() + "','" + user.getPersonID() + "';";
+                "','" + user.getFirstName() + "','" + user.getLastName() + "','" + user.getPersonID() + "');";
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
         try {
             //make a statement with the sql string above
             stmt = conn.prepareStatement(sql);
-            rs = stmt.executeQuery();
+            stmt.executeUpdate();
             stmt.close();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -73,43 +73,37 @@ public class UserDAO {
 
 
         try {
-            String sql = "select * from Users where username = '" + username + "'";
+            String sql = "select username, password, email, firstname, lastname, gender, personID from Users where username = '" + username + "'";
             stmt = conn.prepareStatement(sql);
 
             rs = stmt.executeQuery();
 
-            //if there was not person that existed of that type
-            if (rs.wasNull()) {
-                return null;
-            }
-            //make sure that the number of rows returned was not greater than 1
-            if (rs.getFetchSize() > 1) {
-                //throw not more than one row found exception
-                return null;
-            }
+
+            //make sure that the number of rows returned was not greater than
             //information from the database about the person
             String firstName = null;
             String lastName = null;
             String email = null;
-            char gender = 0;
+            String gender = null;
             String personID = null;
             String password = null;
 
-            while (rs.next()) {
-                firstName = rs.getString(5);
-                lastName = rs.getString(6);
-                email = rs.getString(4);
-                gender = rs.getString(7).charAt(0);
-                personID = rs.getString(8);
-                password = rs.getString(3);
-            }
+            if(rs.next()) {
+                password = rs.getString(2);
+                email = rs.getString(3);
+                firstName = rs.getString(4);
+                lastName = rs.getString(5);
+                gender = rs.getString(6);
+                personID = rs.getString(7);
 
-            user = new User(username, password, email, firstName, lastName, gender, personID);
+                rs.close();
+
+                return new User(username, password, email, firstName, lastName, gender, personID);
+            }
         } catch (SQLException e) {
             //ERROR
-        } finally {
-            return user;
         }
+        return null;
     }
 
     /**
@@ -117,50 +111,44 @@ public class UserDAO {
      *
      * @return List
      */
-    public Set<User> getUser() {
+    public List<User> getUser() {
 
         PreparedStatement stmt = null;
         ResultSet rs = null;
         User user = null;
-        Set<User> users = new TreeSet<>();
+        List<User> users = new ArrayList<>();
         try {
-            String sql = "select * from Users";
+            String sql = "select * from Users;";
             stmt = conn.prepareStatement(sql);
 
             rs = stmt.executeQuery();
 
-            //if there was not person that existed of that type
-            if (rs.wasNull()) {
-                return null;
-            }
-            //make sure that the number of rows returned was not greater than 1
-            if (rs.getFetchSize() > 1) {
-                //throw not more than one row found exception
-                return null;
-            }
+
             //information from the database about the person
             String firstName = null;
             String lastName = null;
             String email = null;
-            char gender = 0;
+            String gender = null;
             String personID = null;
             String password = null;
             String userName = null;
             //fill a set of all the users
             while (rs.next()) {
-                userName = rs.getString(2);
-                firstName = rs.getString(5);
-                lastName = rs.getString(6);
-                email = rs.getString(4);
-                gender = rs.getString(7).charAt(0);
-                personID = rs.getString(8);
-                password = rs.getString(3);
+                userName = rs.getString(1);
+                password = rs.getString(2);
+                email = rs.getString(3);
+                firstName = rs.getString(4);
+                lastName = rs.getString(5);
+                gender = rs.getString(6);
+                personID = rs.getString(7);
                 user = new User(userName, password, email, firstName, lastName, gender, personID);
                 users.add(user);
             }
+            rs.close();
         } catch (SQLException e) {
-            //ERROR
+            e.printStackTrace();
         } finally {
+
             return users;
         }
     }
@@ -179,7 +167,7 @@ public class UserDAO {
             PreparedStatement stmt = null;
             //make a statement with the sql string above
             stmt = conn.prepareStatement(sql);
-            stmt.executeQuery();
+            stmt.executeUpdate();
             stmt.close();
 
 
@@ -199,19 +187,30 @@ public class UserDAO {
         try {
             //Go through all the events and add the event
             String sql = "drop table Users;";
-            String sql2 = "create table Users";
+            String sql2 = "CREATE TABLE Users\n" +
+                    "(\n" +
+                    "\tusername varchar(255) NOT NULL UNIQUE,\n" +
+                    "\tpassword varchar(255) NOT NULL,\n" +
+                    "\temail varchar(255) NOT NULL UNIQUE,\n" +
+                    " \tfirstname varchar(255) NOT NULL,\n" +
+                    "\tlastname varchar(255) NOT NULL,\n" +
+                    "\tgender varchar(1),\n" +
+                    "\tpersonID varchar(255),\n" +
+                    "\tCONSTRAINT ck_gender CHECK (gender in ('m', 'f')),\n" +
+                    "\tFOREIGN KEY(personID) REFERENCES Person(personID)\n" +
+                    ");";
             PreparedStatement stmt = null;
             ResultSet rs = null;
 
             //make a statement with the sql string above
             stmt = conn.prepareStatement(sql);
-            stmt.executeQuery();
+            stmt.executeUpdate();
             stmt.close();
-
+            Statement stmt2 = null;
             //make a statement with the sql2 string above to recreate the tables
-            stmt = conn.prepareStatement(sql2);
-            stmt.executeQuery();
-            stmt.close();
+            stmt2 = conn.createStatement();
+            stmt2.executeUpdate(sql2);
+            stmt2.close();
 
         } catch (SQLException e) {
             e.printStackTrace();
@@ -230,21 +229,21 @@ public class UserDAO {
         try {
             //Go through all the events and add the event
             String sql = "update Users\n" +
-                    "SET username='" + user.getUsername() + "',"
-                    + "password='" + user.getPassword() + "',"
-                    + "email='" + user.getEmail() + "',"
-                    + "first_name='" + user.getFirstName() + "',"
-                    + "last_name='" + user.getLastName() + "',"
-                    + "gender='" + user.getGender() + "',"
-                    + "person_id='" + user.getPersonID() + "',"
-                    + "where personID='" + user.getPersonID() + "'s;";
+                    "SET username='" + user.getUsername() + "',\n" +
+                    "password='" + user.getPassword() + "',\n" +
+                    "email='" + user.getEmail() + "',\n" +
+                    "firstname='" + user.getFirstName() + "',\n" +
+                    "lastname='" + user.getLastName() + "',\n" +
+                    "gender='" + user.getGender() + "',\n" +
+                    "personID='" + user.getPersonID() + "' " +
+                    "where personID='" + user.getPersonID() + "';";
 
             PreparedStatement stmt = null;
             ResultSet rs = null;
 
             //make a statement with the sql string above
             stmt = conn.prepareStatement(sql);
-            stmt.executeQuery();
+            stmt.executeUpdate();
             stmt.close();
 
         } catch (SQLException e) {

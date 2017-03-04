@@ -12,7 +12,7 @@ public class User {
     private String email = null;
     private String firstName = null;
     private String lastName = null;
-    private char gender;
+    private String gender;
     private String personID = null;
 
     /**
@@ -26,7 +26,7 @@ public class User {
      * @param gender    the gender of the user
      * @param personID  the id of the person that the user is connected with
      */
-    public User(String username, String password, String email, String firstName, String lastName, char gender, String personID) {
+    public User(String username, String password, String email, String firstName, String lastName, String gender, String personID) {
         this.username = username;
         this.password = password;
         this.email = email;
@@ -77,11 +77,11 @@ public class User {
         this.lastName = lastName;
     }
 
-    public char getGender() {
+    public String getGender() {
         return gender;
     }
 
-    public void setGender(char gender) {
+    public void setGender(String gender) {
         this.gender = gender;
     }
 
