@@ -59,12 +59,13 @@ public class UserDAOTest {
         users.add(user2);
         //add list of users to the database
         daoconnect.addUser(users);
+
         daoconnect = transaction.getUser();
         List<User> users2 = daoconnect.getUser();
         for(User user3 : users2){
             System.out.println(user3.getEmail());
         }
-        assertEquals(2, users2.size());
+        assertEquals(1, users2.size());
     }
 
     @Test

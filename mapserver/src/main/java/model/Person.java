@@ -12,7 +12,7 @@ public class Person {
     private String descendant = null;
     private String firstName = null;
     private String lastName = null;
-    private char gender;
+    private String gender;
     private String father = null;
     private String mother = null;
     private String spouse = null;
@@ -30,7 +30,7 @@ public class Person {
      * @param mother     id of the mother of the person (not required)
      * @param spouse     id of the spouse of the person (not required)
      */
-    public Person(String personID, String descendant, String firstName, String lastName, char gender, String father, String mother, String spouse) {
+    public Person(String personID, String descendant, String firstName, String lastName, String gender, String father, String mother, String spouse) {
         this.personID = personID;
         this.descendant = descendant;
         this.firstName = firstName;
@@ -42,7 +42,7 @@ public class Person {
     }
 
     //Other version of our constructor that will take in more varied parameters
-    public Person(String descendant, String firstName, String lastName, char gender, String father, String mother, String spouse) {
+    public Person(String descendant, String firstName, String lastName, String gender, String father, String mother, String spouse) {
         this.personID = UUID.randomUUID().toString();
         this.descendant = descendant;
         this.firstName = firstName;
@@ -86,11 +86,11 @@ public class Person {
         this.lastName = lastName;
     }
 
-    public char getGender() {
+    public String getGender() {
         return gender;
     }
 
-    public void setGender(char gender) {
+    public void setGender(String gender) {
         this.gender = gender;
     }
 

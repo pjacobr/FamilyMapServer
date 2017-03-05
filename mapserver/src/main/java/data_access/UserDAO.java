@@ -36,7 +36,6 @@ public class UserDAO {
                 "VALUES ('" + user.getUsername() + "','" + user.getPassword() + "','" + user.getEmail() +
                 "','" + user.getFirstName() + "','" + user.getLastName() + "','" + user.getPersonID() + "');";
         PreparedStatement stmt = null;
-        ResultSet rs = null;
 
         try {
             //make a statement with the sql string above
@@ -95,7 +94,7 @@ public class UserDAO {
                 lastName = rs.getString(5);
                 gender = rs.getString(6);
                 personID = rs.getString(7);
-
+                stmt.close();
                 rs.close();
 
                 return new User(username, password, email, firstName, lastName, gender, personID);
