@@ -9,8 +9,8 @@ public class Event {
     private String eventID = null;
     private String descendant = null;
     private String personID = null;
-    private int latitude = 0;
-    private int longitude = 0;
+    private double latitude = 0;
+    private double longitude = 0;
     private String country = null;
     private String city = null;
     private String eventType = null;
@@ -30,7 +30,7 @@ public class Event {
      * @param eventType  the type of event
      * @param eventYear  the year in which the event took place
      */
-    public Event(String eventID, String descendant, String personID, int latitude, int longitude, String country, String city, String eventType, int eventYear) {
+    public Event(String eventID, String descendant, String personID, double latitude, double longitude, String country, String city, String eventType, int eventYear) {
         this.eventID = eventID;
         this.descendant = descendant;
         this.personID = personID;
@@ -66,19 +66,19 @@ public class Event {
         this.personID = personID;
     }
 
-    public int getLatitude() {
+    public double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(int latitude) {
+    public void setLatitude(double latitude) {
         this.latitude = latitude;
     }
 
-    public int getLongitude() {
+    public double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(int longitude) {
+    public void setLongitude(double longitude) {
         this.longitude = longitude;
     }
 

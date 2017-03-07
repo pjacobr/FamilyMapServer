@@ -1,5 +1,7 @@
 package model;
 
+import java.util.UUID;
+
 /**
  * Created by jacob on 2/16/2017.
  */
@@ -12,13 +14,14 @@ public class AuthToken {
      */
     private String authToken = null;
     private String username = null;
-    private int timeStamp;
 
-    public AuthToken(String username, String authToken, int timeStamp) {
+
+    public AuthToken(String username, String authToken) {
         this.authToken = authToken;
         this.username = username;
-        this.timeStamp = timeStamp;
+
     }
+
 
     /**
      * Constructor
@@ -27,17 +30,24 @@ public class AuthToken {
      * @param username
      */
     public AuthToken(String username) {
+        this.authToken = UUID.randomUUID().toString();
         this.username = username;
     }
 
-    /**
-     * Generate a unique Auth Token using the UUI interface
-     * to generate a unique token for each auth
-     *
-     * @return
-     */
-    private String generateAuthToken() {
-        return "";
+
+    public String getAuthToken() {
+        return authToken;
     }
 
+    public void setAuthToken(String authToken) {
+        this.authToken = authToken;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
 }

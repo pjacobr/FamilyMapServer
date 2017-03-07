@@ -53,11 +53,7 @@ public class TransactionTest {
         //get a new EventDao object
         EventDAO access_events = trans.getEvent();
         //
-        if(access_events.checkTable()){
-            System.out.println("Table already exists");
-        }else{
-            System.out.println("Table created!");
-        }
+
         trans.closeConnection();
 
 

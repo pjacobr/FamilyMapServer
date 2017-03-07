@@ -22,50 +22,6 @@ public class EventDAO {
         this.conn = conn;
     }
 
-
-    public boolean dropTable() {
-        //using connection
-
-
-        return true;
-    }
-
-    public boolean checkTable() {
-        //use connection and check if the table is there
-        try {
-            // Table does not exist
-            String sql = "create table Events (\n"
-                    + " eventID varchar(255) NOT NULL PRIMARY KEY UNIQUE,\n"
-                    + " descendant varchar(255),\n"
-                    + " person_id varchar(255) NOT NULL,\n"
-                    + " latitude int not null,\n"
-                    + " longitude int not null,\n"
-                    + " country varchar(255) NOT NULL,\n"
-                    + " city varchar(255) NOT NULL,\n"
-                    + " event_type varchar(255) NOT NULL,\n"
-                    + " year int NOT NULL,\n"
-                    + " CONSTRAINT ck_eventType CHECK (event_type in ('Birth', 'Baptism', 'Christening', 'Marriage', 'Death')),\n"
-                    + " FOREIGN KEY(person_id) REFERENCES Person(person_id)\n"
-                    + ");";
-            PreparedStatement stmt = null;
-            ResultSet rs = null;
-            stmt = conn.prepareStatement(sql);
-            stmt.execute();
-            stmt.close();
-
-
-            return true;
-
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        // check if "employee" table is there
-
-        //if it is not there then make the table
-        return false;
-    }
-
     /**
      * Given the request, adds an event into the database
      * if the add was successfull, return true
@@ -73,23 +29,20 @@ public class EventDAO {
      * @param event
      * @return boolean
      */
-    public boolean addEvent(Event event) {
-        String sql = "INSERT INTO Events (eventID, descendant, person_id, latitude, longitude, country, city, event_type, year)\n" +
+    public void addEvent(Event event) {
+        String sql = "INSERT INTO Events (eventID, descendant, personid, latitude, longitude, country, city, eventtype, year)\n" +
                 "VALUES (" + "'" + event.getEventID() + "','" + event.getDescendant() + "','" + event.getPersonID() +
                 "','" + event.getLatitude() + "','" + event.getLongitude() + "','" + event.getCountry() + "','"
                 + event.getCity() + "','" + event.getEventType() + "','" + event.getEventYear() + "');";
         PreparedStatement stmt = null;
-        ResultSet rs = null;
-
         try {
             //make a statement with the sql string above
             stmt = conn.prepareStatement(sql);
-            rs = stmt.executeQuery();
+            stmt.executeUpdate();
             stmt.close();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return true;
     }
 
     /**
@@ -98,15 +51,12 @@ public class EventDAO {
      * @param events
      * @return boolean
      */
-    public boolean addEvent(List<Event> events) {
+    public void addEvent(List<Event> events) {
 
         //Go through all the events and add the events
         for (Event event : events) {
             addEvent(event);
         }
-
-        return true;
-
     }
 
     /**
@@ -116,36 +66,31 @@ public class EventDAO {
      * @param eventID     the id of the event that we are looking for
      * @return boolean
      */
-    public boolean setEvent(Event updateEvent, String eventID) {
+    public void updateEvent(Event updateEvent, String eventID) {
         try {
             //Go through all the events and add the event
             String sql = "update Events\n" +
                     "SET eventID='" + updateEvent.getEventID() + "',"
                     + "descendant='" + updateEvent.getDescendant() + "',"
-                    + "person_id='" + updateEvent.getPersonID() + "',"
+                    + "personid='" + updateEvent.getPersonID() + "',"
                     + "latitude='" + updateEvent.getLatitude() + "',"
                     + "longitude='" + updateEvent.getLongitude() + "',"
                     + "country='" + updateEvent.getCountry() + "',"
                     + "city='" + updateEvent.getCity() + "',"
-                    + "event_type='" + updateEvent.getEventType() + "',"
+                    + "eventtype='" + updateEvent.getEventType() + "',"
                     + "year='" + updateEvent.getEventYear() + "'\n" +
-                    "where eventID='" + eventID + ";";
+                    "where eventID='" + eventID + "';";
 
             PreparedStatement stmt = null;
-            ResultSet rs = null;
-
 
             //make a statement with the sql string above
             stmt = conn.prepareStatement(sql);
-            stmt.executeQuery();
+            stmt.executeUpdate();
             stmt.close();
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return true;
-
-
     }
 
     /**
@@ -155,36 +100,35 @@ public class EventDAO {
      * @return EventResult
      */
     public Event getEvent(String eventid) {
-        String sql = "select * from Events where eventID='" + eventid + "';";
-
+        String sql = "select eventID, descendant, personID, latitude, longitude, country, city, eventtype, year from Events where eventID='" + eventid + "';";
 
         try {
             PreparedStatement stmt = null;
             ResultSet rs = null;
 
-
             //make a statement with the sql string above
             stmt = conn.prepareStatement(sql);
             rs = stmt.executeQuery();
-            //Get the data that is returned
-            String eventID = rs.getString(1);
-            String descendant = rs.getString(2);
-            String personID = rs.getString(3);
-            int latitude = rs.getInt(4);
-            int longitude = rs.getInt(5);
-            String country = rs.getString(6);
-            String city = rs.getString(7);
-            String eventType = rs.getString(8);
-            int year = rs.getInt(9);
+            if (rs.next()) {
+                //Get the data that is returned
+                String eventID = rs.getString(1);
+                String descendant = rs.getString(2);
+                String personID = rs.getString(3);
+                double latitude = rs.getDouble(4);
+                double longitude = rs.getDouble(5);
+                String country = rs.getString(6);
+                String city = rs.getString(7);
+                String eventType = rs.getString(8);
+                int year = rs.getInt(9);
 
-            stmt.close();
+                stmt.close();
 
-            return new Event(eventID, descendant, personID, latitude, longitude, country, city, eventType, year);
+                return new Event(eventID, descendant, personID, latitude, longitude, country, city, eventType, year);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            return null;
         }
+        return null;
 
 
     }
@@ -227,43 +171,38 @@ public class EventDAO {
             //close the necessary
             stmt.close();
             rs.close();
-            return events;
+            if (events.size() > 0) {
+                return events;
+            }
 
         } catch (SQLException e) {
             e.printStackTrace();
-        } finally {
-            return null;
         }
+        return null;
     }
 
 
     /**
      * delete a given event based on a request from the user
      *
-     * @param event
+     * @param eventID
      * @return
      */
-    public boolean deleteEvent(Event event) {
+    public void deleteEvent(String eventID) {
         try {
             //Go through all the events and add the event
-            String sql = "delete from Events where eventID='" + event.getEventID() + "';";
+            String sql = "delete from Events where eventID='" + eventID + "';";
 
             PreparedStatement stmt = null;
-            ResultSet rs = null;
-
 
             //make a statement with the sql string above
             stmt = conn.prepareStatement(sql);
-            stmt.executeQuery();
+            stmt.executeUpdate();
             stmt.close();
-            return true;
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return true;
-
-
     }
 
     /**
@@ -271,7 +210,7 @@ public class EventDAO {
      *
      * @return true if true
      */
-    public boolean clear() {
+    public void clear() {
         try {
             //Go through all the events and add the event
             String sql = "drop table Events;";
@@ -279,24 +218,18 @@ public class EventDAO {
             PreparedStatement stmt = null;
             ResultSet rs = null;
 
-
             //make a statement with the sql string above
             stmt = conn.prepareStatement(sql);
-            stmt.executeQuery();
+            stmt.executeUpdate();
             stmt.close();
 
             //make a statement with the sql2 string above to recreate the tables
             stmt = conn.prepareStatement(sql2);
             stmt.executeQuery();
             stmt.close();
-            return true;
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return true;
-
     }
-
-
 }
