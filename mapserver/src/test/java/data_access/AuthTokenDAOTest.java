@@ -32,9 +32,9 @@ public class AuthTokenDAOTest {
     public void addAuthToken() throws Exception {
         //get a new daoconnect
         AuthTokenDAO daoconnect = transaction.getAuthToken();
-        User myUser = new User("pjacobr", "password", "jacobp1794@gmail.com", "Jacob", "Pettingill", "m", "12321");
+        //User myUser = new User("pjacobr", "password", "jacobp1794@gmail.com", "Jacob", "Pettingill", "m", "12321");
 
-        daoconnect.addAuthToken(myUser);
+        daoconnect.addAuthToken("pjacobr");
         //Finally!!!! It works
         AuthToken authToken= daoconnect.getAuthToken("pjacobr");
         //System.out.println(newUser.getEmail());
@@ -46,7 +46,7 @@ public class AuthTokenDAOTest {
         //get a new daoconnect
         AuthTokenDAO daoconnect = transaction.getAuthToken();
         User user = new User("pjacobr", "password", "jacobp1794@gmail.com", "Jacob", "Pettingill", "m", "12321");
-        daoconnect.addAuthToken(user);
+        daoconnect.addAuthToken(user.getUsername());
         //Finally!!!! It works
         assertEquals("pjacobr", daoconnect.getAuthToken("pjacobr"));
         TimeUnit.SECONDS.sleep(3600);
@@ -60,7 +60,7 @@ public class AuthTokenDAOTest {
         //get a new daoconnect
         AuthTokenDAO daoconnect = transaction.getAuthToken();
         User user = new User("pjacobr", "password", "jacobp1794@gmail.com", "Jacob", "Pettingill", "m", "12321");
-        daoconnect.addAuthToken(user);
+        daoconnect.addAuthToken("pjacobr");
         //Finally!!!! It works
         assertEquals("pjacobr", daoconnect.getAuthToken("pjacobr"));
         daoconnect.updateAuthToken("pjacobr");

@@ -10,6 +10,8 @@ import result.LoginResult;
 public class LoginService {
 
     public LoginResult login(LoginRequest l){
+
+
         return null;
     }
 }

@@ -4,11 +4,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.List;
-
+import java.sql.Statement;
 import java.util.UUID;
+
 import model.AuthToken;
-import model.User;
 
 /**
  * Created by jacob on 2/16/2017.
@@ -72,7 +71,7 @@ if (nextDate.getMinutes() === 0) { // You can check for seconds here too
      */
 
     public void deleteAuthTokens(){
-        String sql = "delete from AuthTokens where timestamp <= datetime('now','-1 hour');";
+        String sql = "delete from AuthTokens where currenttime <= datetime('now','-1 hour');";
 
         try {
             PreparedStatement stmt = conn.prepareStatement(sql);
@@ -86,16 +85,24 @@ if (nextDate.getMinutes() === 0) { // You can check for seconds here too
     /**
      * create a new auth token
      *
-     * @param user the info of the user that should be connected to the new authtoken
+     * @param username the info of the user that should be connected to the new authtoken
      * @return
      */
-    public void addAuthToken(User user) {
+    public void addAuthToken(String username) {
         //get the current time and date to add to the person
-        String sql = "insert into AuthTokens(username, authtoken, timestamp) values (?,?,datetime('now','localtime'));";
-        PreparedStatement stmt = null;
+        String sql = "insert into AuthTokens(username, authtoken, currenttime) values ('" + username + "','" + UUID.randomUUID().toString() +  "',datetime('now','localtime'));";
+        try {
+            Statement stmt = conn.createStatement();
+            stmt.executeUpdate(sql);
+            stmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        /*PreparedStatement stmt = null;
         try {
             stmt = conn.prepareStatement(sql);
-            stmt.setString(1, user.getUsername());
+            stmt.setString(1, username);
             stmt.setString(2, UUID.randomUUID().toString());
             stmt.executeUpdate();
             stmt.close();
@@ -104,30 +111,13 @@ if (nextDate.getMinutes() === 0) { // You can check for seconds here too
         } catch (SQLException e) {
             e.printStackTrace();
         }
+        */
     }
 
-    public void addAuthToken(List<User> users) {
-        for (User user : users) {
-            addAuthToken(user);
-        }
-    }
+
 
 
     public void updateAuthToken(String username) {
-        //SQL to delete the person with given username
-        String sql = "update AuthTokens set timestamp='datetime('now','localtime')\n" +
-                "where username='" + username + "';";
-        //? Should we have a username that is
-        PreparedStatement stmt = null;
-        ResultSet rs = null;
-        try {
-            stmt = conn.prepareStatement(sql);
-            stmt.executeUpdate();
-            stmt.close();
-            //get the relevant data
-            //close the return Set and return the authtoken
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        System.out.println("hello world");
     }
 }

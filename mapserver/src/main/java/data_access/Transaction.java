@@ -69,7 +69,7 @@ public class Transaction {
                 "(\n" +
                 "\tusername varchar(255) NOT NULL,\n" +
                 "\tauthtoken varchar(255) NOT NULL,\n" +
-                "\ttimestamp DATETIME NOT NULL,\n" +
+                "\tcurrenttime DATETIME NOT NULL,\n" +
                 "\tFOREIGN KEY(username) REFERENCES User(username)ON delete CASCADE ON update CASCADE\n" +
                 ");\n" +
                 "CREATE TABLE Users\n" +

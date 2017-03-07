@@ -8,6 +8,12 @@ public class FillRequest {
 
     //the username that should be filled with generated data.
     private String username;
+    private int generations = 0;
+
+    public FillRequest(String username, int generations){
+        this.username = username;
+        this.generations = generations;
+    }
 
     /**
      * get the username associated with with the request
@@ -24,5 +30,6 @@ public class FillRequest {
      */
     public FillRequest(String username) {
         this.username = username;
+        generations = 4;
     }
 }

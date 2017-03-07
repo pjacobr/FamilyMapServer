@@ -32,7 +32,7 @@ public class UserDAO {
      * @return boolean
      */
     public void addUser(User user) {
-        String sql = "INSERT INTO Users (username, password, email, firstname, lastname, personID)" +
+        String sql = "INSERT INTO Users(username, password, email, firstname, lastname, personID)" +
                 "VALUES ('" + user.getUsername() + "','" + user.getPassword() + "','" + user.getEmail() +
                 "','" + user.getFirstName() + "','" + user.getLastName() + "','" + user.getPersonID() + "');";
         PreparedStatement stmt = null;
