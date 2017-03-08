@@ -16,6 +16,7 @@ public class Person {
     private String father = null;
     private String mother = null;
     private String spouse = null;
+    private int birthyear = 0;
 
     /**
      * Constructor
@@ -41,18 +42,26 @@ public class Person {
         this.spouse = spouse;
     }
 
+
     //Other version of our constructor that will take in more varied parameters
     public Person(String descendant, String firstName, String lastName, String gender, String father, String mother, String spouse) {
-        this.personID = UUID.randomUUID().toString();
-        this.descendant = descendant;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.gender = gender;
-        this.father = father;
-        this.mother = mother;
-        this.spouse = spouse;
+        this(UUID.randomUUID().toString(), descendant, firstName, lastName, gender, father, mother, spouse);
     }
 
+    public Person(String personID, String descendant, String firstName, String lastName, String gender, String father, String mother, String spouse, int year) {
+        this(personID, descendant, firstName, lastName, gender, father, mother, spouse);
+        this.birthyear = year;
+    }
+
+
+
+    public int getBirthyear(){
+        return birthyear;
+    }
+
+    public void setBirthyear(int birthyear){
+        this.birthyear = birthyear;
+    }
 
     public String getPersonID() {
         return personID;

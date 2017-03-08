@@ -5,6 +5,14 @@ package request;
  */
 
 public class LoginRequest {
+    public String getUserName() {
+        return userName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
     //private data members
     private String userName = null;
     private String password = null;

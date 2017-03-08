@@ -28,21 +28,17 @@ public class PersonDAO {
      * @param person the info needed to add a new person into the databases
      * @return
      */
-    public boolean addPerson(Person person) {
+    public boolean addPerson(Person person) throws SQLException {
         String sql = "INSERT INTO Persons (personID, descendant, firstName, lastName, gender, father, mother, spouse)\n" +
                 "VALUES (" + "'" + person.getPersonID() + "','" + person.getDescendant() + "','" + person.getFirstName() +
                 "','" + person.getLastName() + "','" + person.getGender() + "','" + person.getFather() + "','"
                 + person.getMother() + "','" + person.getSpouse() + "');";
         PreparedStatement stmt = null;
 
-        try {
-            //make a statement with the sql string above
-            stmt = conn.prepareStatement(sql);
-            stmt.executeUpdate();
-            stmt.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        //make a statement with the sql string above
+        stmt = conn.prepareStatement(sql);
+        stmt.executeUpdate();
+        stmt.close();
         return true;
     }
 
@@ -52,7 +48,7 @@ public class PersonDAO {
      * @param persons a list of the info needed to add a new person into the databases
      * @return
      */
-    public void addPerson(List<Person> persons) {
+    public void addPerson(List<Person> persons) throws SQLException {
         for (Person person : persons) {
             addPerson(person);
         }
@@ -65,34 +61,27 @@ public class PersonDAO {
      * @param personID      the id of the person
      * @return
      */
-    public void updatePerson(Person updatedPerson, String personID) {
+    public void updatePerson(Person updatedPerson, String personID) throws SQLException {
 
-        try {
-            //Go through all the events and add the event
-            String sql = "update Persons\n" +
-                    "SET personID='" + updatedPerson.getPersonID() + "',"
-                    + "descendant='" + updatedPerson.getDescendant() + "',"
-                    + "firstName='" + updatedPerson.getFirstName() + "',"
-                    + "lastName='" + updatedPerson.getLastName() + "',"
-                    + "gender='" + updatedPerson.getGender() + "',"
-                    + "father='" + updatedPerson.getFather() + "',"
-                    + "mother='" + updatedPerson.getMother() + "',"
-                    + "spouse='" + updatedPerson.getSpouse() + "'\n" +
-                    "where personID='" + personID + "';";
+        //Go through all the events and add the event
+        String sql = "update Persons\n" +
+                "SET personID='" + updatedPerson.getPersonID() + "',"
+                + "descendant='" + updatedPerson.getDescendant() + "',"
+                + "firstName='" + updatedPerson.getFirstName() + "',"
+                + "lastName='" + updatedPerson.getLastName() + "',"
+                + "gender='" + updatedPerson.getGender() + "',"
+                + "father='" + updatedPerson.getFather() + "',"
+                + "mother='" + updatedPerson.getMother() + "',"
+                + "spouse='" + updatedPerson.getSpouse() + "'\n" +
+                "where personID='" + personID + "';";
 
-            PreparedStatement stmt = null;
+        PreparedStatement stmt = null;
 
-            //make a statement with the sql string above
-            stmt = conn.prepareStatement(sql);
-            stmt.executeUpdate();
+        //make a statement with the sql string above
+        stmt = conn.prepareStatement(sql);
+        stmt.executeUpdate();
 
-            stmt.close();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-
+        stmt.close();
     }
 
 
@@ -102,39 +91,35 @@ public class PersonDAO {
      * @param personID the id of the person
      * @return Person object
      */
-    public Person getPerson(String personID) {
+    public Person getPerson(String personID) throws SQLException {
+
+        //get the person based on their person ID
         String sql = "select personID, descendant, firstname, lastname, gender, father, mother, spouse from Persons where personID='" + personID + "';";
         PreparedStatement stmt = null;
         ResultSet rs = null;
-        try {
 
+        //make a statement with the sql string above
+        stmt = conn.prepareStatement(sql);
+        rs = stmt.executeQuery();
+        if (rs.next()) {
 
-            //make a statement with the sql string above
-            stmt = conn.prepareStatement(sql);
-            rs = stmt.executeQuery();
-            if (rs.next()) {
+            //Get the data that is returned
+            String person_ID = rs.getString(1);
+            String descendant = rs.getString(2);
+            String firstName = rs.getString(3);
+            String lastName = rs.getString(4);
+            String gender = rs.getString(5);
+            String father = rs.getString(6);
+            String mother = rs.getString(7);
+            String spouse = rs.getString(8);
 
-
-                //Get the data that is returned
-                String person_ID = rs.getString(1);
-                String descendant = rs.getString(2);
-                String firstName = rs.getString(3);
-                String lastName = rs.getString(4);
-                String gender = rs.getString(5);
-                String father = rs.getString(6);
-                String mother = rs.getString(7);
-                String spouse = rs.getString(8);
-
-                stmt.close();
-                rs.close();
-                return new Person(person_ID, descendant, firstName, lastName, gender, father, mother, spouse);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return null;
+            //handle closing the statement and result set and return the user
+            stmt.close();
+            rs.close();
+            return new Person(person_ID, descendant, firstName, lastName, gender, father, mother, spouse);
         }
-        return null;
 
+        return null;
     }
 
     /**
@@ -142,45 +127,43 @@ public class PersonDAO {
      *
      * @return List
      */
-    public List<Person> getPerson() {
+    public List<Person> getPerson() throws SQLException {
         List<Person> persons = new ArrayList<>();
 
         String sql = "select * from Persons";
-        try {
-            PreparedStatement stmt = null;
-            ResultSet rs = null;
 
-            //make a statement with the sql string above
-            stmt = conn.prepareStatement(sql);
-            rs = stmt.executeQuery();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
 
+        //make a statement with the sql string above
+        stmt = conn.prepareStatement(sql);
+        rs = stmt.executeQuery();
+        boolean added = false;
 
-            while (rs.next()) {
+        while (rs.next()) {
+            added = true;
+            //Get the data that is returned
+            String personID = rs.getString(1);
+            String descendant = rs.getString(2);
+            String firstName = rs.getString(3);
+            String lastName = rs.getString(4);
+            String gender = rs.getString(5);
+            String father = rs.getString(6);
+            String mother = rs.getString(7);
+            String spouse = rs.getString(8);
 
-                //Get the data that is returned
-                String personID = rs.getString(1);
-                String descendant = rs.getString(2);
-                String firstName = rs.getString(3);
-                String lastName = rs.getString(4);
-                String gender = rs.getString(5);
-                String father = rs.getString(6);
-                String mother = rs.getString(7);
-                String spouse = rs.getString(8);
-
-                //Create a new event and add it to the list
-                Person p = new Person(personID, descendant, firstName, lastName, gender, father, mother, spouse);
-                persons.add(p);
-            }
-            //close the necessary
-            stmt.close();
-            rs.close();
+            //Create a new event and add it to the list
+            Person p = new Person(personID, descendant, firstName, lastName, gender, father, mother, spouse);
+            persons.add(p);
+        }
+        //close the necessary
+        stmt.close();
+        rs.close();
+        //if it got added
+        if (added) {
             return persons;
-
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
         return null;
-
     }
 
     /**
@@ -189,22 +172,15 @@ public class PersonDAO {
      * @param personID The id of the person that we are trying to delete
      * @return boolean
      */
-    public void delete(String personID) {
+    public void delete(String personID) throws SQLException {
 
-        try {
-            //Go through all the events and add the event ** Make sure to delete anything connected.
-            String sql = "delete from Persons where personID='" + personID + "';";
-            PreparedStatement stmt = null;
-            //make a statement with the sql string above
-            stmt = conn.prepareStatement(sql);
-            stmt.executeUpdate();
-            stmt.close();
-
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-
+        //Go through all the events and add the event ** Make sure to delete anything connected.
+        String sql = "delete from Persons where personID='" + personID + "';";
+        PreparedStatement stmt = null;
+        //make a statement with the sql string above
+        stmt = conn.prepareStatement(sql);
+        stmt.executeUpdate();
+        stmt.close();
     }
 
     /**
@@ -212,38 +188,34 @@ public class PersonDAO {
      *
      * @return
      */
-    public void clear() {
-        try {
-            //Go through all the events and add the event
-            String sql = "drop table Persons;";
-            String sql2 = "CREATE TABLE Persons\n" +
-                    "(\n" +
-                    "\tpersonID varchar(255) NOT NULL PRIMARY KEY,\n" +
-                    "\tdescendant varchar(255),\n" +
-                    "\tfirstname varchar(255) NOT NULL,\n" +
-                    "\tlastname varchar(255) NOT NULL,\n" +
-                    "\tgender varchar(1) NOT NULL,\n" +
-                    "\tfather varchar(255),\n" +
-                    "\tmother varchar(255),\n" +
-                    "\tspouse varchar(255),\n" +
-                    "\tCONSTRAINT ck_gender CHECK (gender in ('m', 'm'))\n" +
-                    ");";
-            PreparedStatement stmt = null;
-            ResultSet rs = null;
+    public void clear() throws SQLException {
+        //Go through all the events and add the event
+        String sql = "drop table Persons;";
+        String sql2 = "CREATE TABLE Persons\n" +
+                "(\n" +
+                "\tpersonID varchar(255) NOT NULL PRIMARY KEY,\n" +
+                "\tdescendant varchar(255),\n" +
+                "\tfirstname varchar(255) NOT NULL,\n" +
+                "\tlastname varchar(255) NOT NULL,\n" +
+                "\tgender varchar(1) NOT NULL,\n" +
+                "\tfather varchar(255),\n" +
+                "\tmother varchar(255),\n" +
+                "\tspouse varchar(255),\n" +
+                "\tCONSTRAINT ck_gender CHECK (gender in ('m', 'm'))\n" +
+                ");";
 
-            //make a statement with the sql string above
-            stmt = conn.prepareStatement(sql);
-            stmt.executeUpdate();
-            stmt.close();
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
 
-            Statement stmt2 = null;
-            //make a statement with the sql2 string above to recreate the tables
-            stmt2 = conn.createStatement();
-            stmt2.executeUpdate(sql2);
-            stmt2.close();
+        //make a statement with the sql string above
+        stmt = conn.prepareStatement(sql);
+        stmt.executeUpdate();
+        stmt.close();
 
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        Statement stmt2 = null;
+        //make a statement with the sql2 string above to recreate the tables
+        stmt2 = conn.createStatement();
+        stmt2.executeUpdate(sql2);
+        stmt2.close();
     }
 }

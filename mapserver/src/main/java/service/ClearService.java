@@ -1,5 +1,13 @@
 package service;
 
+import java.sql.SQLException;
+
+import data_access.EventDAO;
+import data_access.PersonDAO;
+import data_access.Transaction;
+import data_access.UserDAO;
+import model.AuthToken;
+import model.Event;
 import result.ClearResult;
 
 /**
@@ -12,6 +20,17 @@ public class ClearService {
      * @return
      */
     public ClearResult clear(){
-        return null;
+        Transaction trans = new Transaction();
+        trans.openConnection();
+    //try and drop the tables and recreate them. I don't know why I event have clear functions
+        try {
+            trans.createTables();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return new ClearResult(e.getMessage());
+        }finally{
+            trans.closeConnection();
+        }
+        return new ClearResult("Clear succeeded");
     }
 }

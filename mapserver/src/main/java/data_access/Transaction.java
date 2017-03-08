@@ -32,7 +32,7 @@ public class Transaction {
 
     }
     //Create all the tables in the database
-    public void createTables() {
+    public void createTables() throws SQLException{
         String sql = "drop table if exists Persons;\n" +
                 "drop table if exists AuthTokens;\n" +
                 "drop table if exists Users;\n" +
@@ -61,7 +61,7 @@ public class Transaction {
                 "\tcity varchar(255) NOT NULL,\n" +
                 "\teventtype varchar(255) NOT NULL,\n" +
                 "\tyear int NOT NULL,\n" +
-                "\tFOREIGN KEY(personID) REFERENCES Person(personID) ON delete CASCADE ON update CASCADE\n" +
+                "\tFOREIGN KEY(personID) REFERENCES Persons(personID) ON delete CASCADE ON update CASCADE\n" +
                 ");\n" +
                 "\n" +
                 "\n" +
@@ -70,7 +70,7 @@ public class Transaction {
                 "\tusername varchar(255) NOT NULL,\n" +
                 "\tauthtoken varchar(255) NOT NULL,\n" +
                 "\tcurrenttime DATETIME NOT NULL,\n" +
-                "\tFOREIGN KEY(username) REFERENCES User(username)ON delete CASCADE ON update CASCADE\n" +
+                "\tFOREIGN KEY(username) REFERENCES Users(username)ON delete CASCADE ON update CASCADE\n" +
                 ");\n" +
                 "CREATE TABLE Users\n" +
                 "(\n" +
@@ -82,17 +82,15 @@ public class Transaction {
                 "\tgender varchar(1),\n" +
                 "\tpersonID varchar(255),\n" +
                 "\tCONSTRAINT ck_gender CHECK (gender in ('m', 'f')),\n" +
-                "\tFOREIGN KEY(personID) REFERENCES Person(personID) ON delete CASCADE ON update CASCADE\n" +
+                "\tFOREIGN KEY(personID) REFERENCES Persons(personID) ON delete CASCADE ON update CASCADE\n" +
                 ");";
 
         Statement stmt = null;
-        try {
+
             stmt = conn.createStatement();
             stmt.executeUpdate(sql);
             stmt.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+
     }
 
     public boolean openConnection() {

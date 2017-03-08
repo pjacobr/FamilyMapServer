@@ -10,6 +10,18 @@ import model.User;
  */
 
 public class LoadRequest {
+    public User[] getUsers() {
+        return users;
+    }
+
+    public Person[] getPeople() {
+        return people;
+    }
+
+    public Event[] getEvents() {
+        return events;
+    }
+
     //data to be loaded into the database
     private User[] users = null;
     private Person[] people = null;

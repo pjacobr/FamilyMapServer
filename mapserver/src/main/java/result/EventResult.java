@@ -9,8 +9,8 @@ public class EventResult {
     String descendant = null;
     String eventID = null;
     String personID = null;
-    int latitude = 0;
-    int longitude = 0;
+    double latitude = 0;
+    double longitude = 0;
     String country = null;
     String city = null;
     String eventType = null;
@@ -39,7 +39,7 @@ public class EventResult {
      * @param eventType
      * @param year
      */
-    public EventResult(String descendant, String eventID, String personID, int latitude, int longitude, String country, String city, String eventType, int year) {
+    public EventResult(String descendant, String eventID, String personID, double latitude, double longitude, String country, String city, String eventType, int year) {
         this.descendant = descendant;
         this.eventID = eventID;
         this.personID = personID;
