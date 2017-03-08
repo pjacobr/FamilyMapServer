@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.Reader;
 import java.time.Year;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
@@ -78,7 +79,8 @@ public class DataGenerator {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-
+        eventList = new ArrayList<>();
+        ancestors = new ArrayList<>();
         //this.userNode = new PersonNode(userNode);
     }
 
@@ -213,11 +215,19 @@ public class DataGenerator {
     public void fillTrie() {
         if (userNode != null) {
             descendant = userNode.getInfo().getPersonID();
-            if(userNode.info.getBirthyear() == 0){
+            //if(userNode.info.getBirthyear() == 0){
                 helperTrie(userNode, 0, Year.now().getValue() - (new Random().nextInt(50) + 10));
-            }
+            //}
 
         }
+    }
+
+    public List<Event> getEventList(){
+        return eventList;
+    }
+
+    public List<Person> getAncestors(){
+        return ancestors;
     }
 
     //Here is a person node

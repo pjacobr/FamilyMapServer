@@ -14,4 +14,8 @@ public class FillResult {
     public FillResult(String message){
         this.message = message;
     }
+
+    public String getMessage() {
+        return message;
+    }
 }
