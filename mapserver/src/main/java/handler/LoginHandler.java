@@ -48,7 +48,6 @@ public class LoginHandler implements HttpHandler{
 
 
             exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
-            // TODO: Claim a route based on the request data
 
 
             success = true;

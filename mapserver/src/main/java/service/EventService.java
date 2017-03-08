@@ -64,7 +64,11 @@ public class EventService {
         for(Event e : eventList){
             eventResList.add(new EventResult(e.getDescendant(), e.getEventID(), e.getPersonID(), e.getLatitude(), e.getLongitude(), e.getCountry(), e.getCity(), e.getEventType(), e.getEventYear()));
         }
-        trans.closeConnection();
+        try {
+            trans.closeConnection(true);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return eventResList;
     }
 }

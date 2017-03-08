@@ -62,7 +62,11 @@ public class FillService {
         } catch (SQLException e) {
             e.printStackTrace();
         }finally {
-            trans.closeConnection();
+            try {
+                trans.closeConnection(true);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         //generate the data
 

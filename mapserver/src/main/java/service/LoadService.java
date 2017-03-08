@@ -48,7 +48,11 @@ public class LoadService {
             e.printStackTrace();
             return new LoadResult(e.getMessage());
         }finally{
-            trans.closeConnection();
+            try {
+                trans.closeConnection(true);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

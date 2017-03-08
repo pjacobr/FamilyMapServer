@@ -62,7 +62,11 @@ public class PersonService {
             list.add(new PersonResult(e.getMessage()));
             return list;
         } finally {
-            trans.closeConnection();
+            try {
+                trans.closeConnection(true);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

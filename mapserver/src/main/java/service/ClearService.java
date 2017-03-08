@@ -30,7 +30,11 @@ public class ClearService {
             e.printStackTrace();
             return new ClearResult(e.getMessage());
         }finally{
-            trans.closeConnection();
+            try {
+                trans.closeConnection(true);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
 
     }

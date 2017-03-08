@@ -27,10 +27,11 @@ public class LoginService {
             //if the user exists in the database
             if (user != null) {
                 //check to see if the correct password is given
-                if (user.getPassword() == l.getPassword()) {
+                if (user.getPassword().equals(l.getPassword())) {
                     AuthTokenDAO authdao = trans.getAuthToken();
                     authdao.addAuthToken(l.getUserName());
                     String authtoken = authdao.getAuthToken(l.getUserName()).getAuthToken();
+
                     //successfully logged in and got an authtoken
                     return new LoginResult(authtoken, l.getUserName(), user.getPersonID());
                 }
