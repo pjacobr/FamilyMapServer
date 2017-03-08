@@ -195,7 +195,6 @@ public class DataGenerator {
             generateEvents(curNode.mother.info, type, generateEventYear(motherBirthYear, type));
         }
 
-
         //death
         if(curLevel >= 3){
             type = "death";

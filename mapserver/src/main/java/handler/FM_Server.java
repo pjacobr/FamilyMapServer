@@ -35,11 +35,12 @@ public class FM_Server {
         //server.createContext("/clear",);
         //server.createContext("/fill/username/generations", );
         //server.createContext("/load", );
-        //server.createContext("/person/personID", );
+        //server.createContext("/person", );
         //server.createContext("/person", );
         //server.createContext("/event/[eventID]",);
         //server.createContext("/event",);
-        server.createContext("/", new FileHandler());
+        server.createContext("/", new DefaultHandler());
+
         System.out.println("Starting server");
         server.start();
     }
