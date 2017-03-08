@@ -45,13 +45,16 @@ public class RegisterService {
             //Fill their data
             //log them in
             return new RegisterResult(authdao.getAuthToken(newRegister.getUsername()).getAuthToken(), newRegister.getUsername(), uuid);
-
         } catch (SQLException e) {
             //SQL error found
             e.printStackTrace();
             return new RegisterResult(e.getMessage());
         }finally{
-            newTrans.closeConnection();
+            try {
+                newTrans.closeConnection(true);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

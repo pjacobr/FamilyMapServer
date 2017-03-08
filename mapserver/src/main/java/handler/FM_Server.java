@@ -35,13 +35,11 @@ public class FM_Server {
 
         System.out.println("Creating contexts");
         server.createContext("/user/login", new LoginHandler());
-        //server.createContext("/user/register",  );
-        //server.createContext("/clear",);
+        server.createContext("/user/register", new RegisterHandler());
+        server.createContext("/clear", new ClearHandler());
         server.createContext("/fill", new FillHandler());
         //server.createContext("/load", );
         //server.createContext("/person", );
-        //server.createContext("/person", );
-        //server.createContext("/event/[eventID]",);
         //server.createContext("/event",);
         server.createContext("/", new DefaultHandler());
 

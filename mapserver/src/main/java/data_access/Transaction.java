@@ -23,9 +23,9 @@ public class Transaction {
             e.printStackTrace();
         }
     }
-
-    final private String dbName = "mapserver" + File.separator + "db" + File.separator + "familyMap.sqlite";
-    final private String connectionURL = "jdbc:sqlite:" + dbName;
+    final private String ifTest = "mapserver" + File.separator;
+    final private String dbName = ifTest + "db" + File.separator + "familyMap.sqlite";
+    private String connectionURL = "jdbc:sqlite:" + dbName;
     private Connection conn = null;
 
     public Transaction() {
@@ -46,8 +46,8 @@ public class Transaction {
                 "\tgender varchar(1) NOT NULL,\n" +
                 "\tfather varchar(255),\n" +
                 "\tmother varchar(255),\n" +
-                "\tspouse varchar(255),\n" +
-                "\tCONSTRAINT ck_gender CHECK (gender in ('m', 'f'))\n" +
+                "\tspouse varchar(255)\n" +
+                //"\tCONSTRAINT ck_gender CHECK (gender in ('m', 'f'))\n" +
                 ");\n" +
                 "\n" +
                 "CREATE TABLE Events\n" +
@@ -81,7 +81,7 @@ public class Transaction {
                 "\tlastname varchar(255) NOT NULL,\n" +
                 "\tgender varchar(1),\n" +
                 "\tpersonID varchar(255),\n" +
-                "\tCONSTRAINT ck_gender CHECK (gender in ('m', 'f')),\n" +
+                //"\tCONSTRAINT ck_gender CHECK (gender in ('m', 'f')),\n" +
                 "\tFOREIGN KEY(personID) REFERENCES Persons(personID) ON delete CASCADE ON update CASCADE\n" +
                 ");";
 
@@ -93,6 +93,10 @@ public class Transaction {
 
     }
 
+    public void testing(){
+        String  dbNameTest = "db" + File.separator + "familyMap.sqlite";
+        connectionURL = "jdbc:sqlite:" + dbNameTest;
+    }
     public boolean openConnection() {
         if (conn != null) {
             //check to see if the connection already open

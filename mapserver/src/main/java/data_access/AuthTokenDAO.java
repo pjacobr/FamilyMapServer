@@ -29,23 +29,37 @@ public class AuthTokenDAO {
      * @return
      */
     public AuthToken getAuthToken(String username) {
-        String sql = "select authtoken from AuthTokens where username='" + username + "';";
+        String sql = "select * from AuthTokens where username = ?;";
 
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
         try {
             stmt = conn.prepareStatement(sql);
+            stmt.setString(1, username);
             rs = stmt.executeQuery();
-            stmt.close();
             //get the relevant data
-            String authToken = rs.getString(1);
-            String userName = rs.getString(2);
-            //close the return Set and return the authtoken
-            rs.close();
-            return new AuthToken(userName, authToken);
+            if(rs.next()) {
+                String userName = rs.getString(1);
+                String authToken = rs.getString(2);
+                //close the return Set and return the authtoken
+
+                return new AuthToken(userName, authToken);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
+        }finally{
+
+            try {
+                if(stmt != null) {
+                    stmt.close();
+                }
+                if( rs != null) {
+                    rs.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         return null;
 

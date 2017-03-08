@@ -6,7 +6,7 @@ package request;
 
 public class RegisterRequest {
     //Private datamembers
-    private String username = null;
+    private String userName = null;
     private String password = null;
     private String email = null;
     private String firstName = null;
@@ -23,8 +23,8 @@ public class RegisterRequest {
      * @param lastName the last name of the person being registered
      * @param gender the gender of the person being registered
      */
-    public RegisterRequest(String username, String password, String email, String firstName, String lastName, String gender) {
-        this.username = username;
+    public RegisterRequest(String userName, String password, String email, String firstName, String lastName, String gender) {
+        this.userName = userName;
         this.password = password;
         this.email = email;
         this.firstName = firstName;
@@ -33,11 +33,11 @@ public class RegisterRequest {
     }
 
     public String getUsername() {
-        return username;
+        return userName;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUsername(String userName) {
+        this.userName = userName;
     }
 
     public String getPassword() {

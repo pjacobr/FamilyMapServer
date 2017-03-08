@@ -3,9 +3,12 @@ package data_access;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+
+import java.sql.SQLException;
 import java.util.concurrent.TimeUnit;
 
 import model.AuthToken;
+import model.Person;
 import model.User;
 
 import static org.junit.Assert.assertEquals;
@@ -19,6 +22,7 @@ public class AuthTokenDAOTest {
     @Before
     public void setUp() throws Exception {
         transaction = new Transaction();
+        transaction.testing();
         transaction.openConnection();
         transaction.createTables();
     }
@@ -32,8 +36,11 @@ public class AuthTokenDAOTest {
     public void addAuthToken() throws Exception {
         //get a new daoconnect
         AuthTokenDAO daoconnect = transaction.getAuthToken();
-        //User myUser = new User("pjacobr", "password", "jacobp1794@gmail.com", "Jacob", "Pettingill", "m", "12321");
-
+        User myUser = new User("pjacobr", "password", "jacobp1794@gmail.com", "Jacob", "Pettingill", "m", "12321");
+        PersonDAO persondao = transaction.getPerson();
+        UserDAO userdao = transaction.getUser();
+        persondao.addPerson(new Person(myUser.getPersonID(), null, myUser.getFirstName(), myUser.getLastName(), myUser.getGender(), null, null, null));
+        userdao.addUser(myUser);
         daoconnect.addAuthToken("pjacobr");
         //Finally!!!! It works
         AuthToken authToken= daoconnect.getAuthToken("pjacobr");
@@ -43,12 +50,15 @@ public class AuthTokenDAOTest {
 
     @Test
     public void deleteAuthToken() throws Exception {
-        //get a new daoconnect
         AuthTokenDAO daoconnect = transaction.getAuthToken();
-        User user = new User("pjacobr", "password", "jacobp1794@gmail.com", "Jacob", "Pettingill", "m", "12321");
-        daoconnect.addAuthToken(user.getUsername());
+        User myUser = new User("pjacobr", "password", "jacobp1794@gmail.com", "Jacob", "Pettingill", "m", "12321");
+        PersonDAO persondao = transaction.getPerson();
+        UserDAO userdao = transaction.getUser();
+        persondao.addPerson(new Person(myUser.getPersonID(), null, myUser.getFirstName(), myUser.getLastName(), myUser.getGender(), null, null, null));
+        userdao.addUser(myUser);
+        daoconnect.addAuthToken(myUser.getUsername());
         //Finally!!!! It works
-        assertEquals("pjacobr", daoconnect.getAuthToken("pjacobr"));
+        assertEquals("pjacobr", daoconnect.getAuthToken("pjacobr").getAuthToken());
         TimeUnit.SECONDS.sleep(3600);
         daoconnect.deleteAuthTokens();
         //System.out.println(newUser.getEmail());
@@ -56,13 +66,17 @@ public class AuthTokenDAOTest {
     }
 
     @Test
-    public void updateAuthToken() throws Exception {
-        //get a new daoconnect
+    public void updateAuthToken() throws SQLException{
+        //Get AuthToken connection
         AuthTokenDAO daoconnect = transaction.getAuthToken();
-        User user = new User("pjacobr", "password", "jacobp1794@gmail.com", "Jacob", "Pettingill", "m", "12321");
+        User myUser = new User("pjacobr", "password", "jacobp1794@gmail.com", "Jacob", "Pettingill", "m", "12321");
+        PersonDAO persondao = transaction.getPerson();
+        UserDAO userdao = transaction.getUser();
+        persondao.addPerson(new Person(myUser.getPersonID(), null, myUser.getFirstName(), myUser.getLastName(), myUser.getGender(), null, null, null));
+        userdao.addUser(myUser);
         daoconnect.addAuthToken("pjacobr");
         //Finally!!!! It works
-        assertEquals("pjacobr", daoconnect.getAuthToken("pjacobr"));
+        assertEquals("pjacobr", daoconnect.getAuthToken("pjacobr").getUsername());
         daoconnect.updateAuthToken("pjacobr");
         //System.out.println(newUser.getEmail());
         assertEquals("pjacobr", daoconnect.getAuthToken("pjacobr").getUsername());

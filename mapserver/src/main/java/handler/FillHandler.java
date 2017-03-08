@@ -28,36 +28,27 @@ public class FillHandler implements HttpHandler {
         URI uri = exchange.getRequestURI();
         String pathString = uri.getPath();
         String[] input = uri.getPath().split("/");
-
         boolean success = false;
-
+        String filledJson = null;
         try {
-            //if (exchange.getRequestMethod().toLowerCase().equals("post")) {
-
-            //get the request body which should be 3 arrays
-            // InputStream reqBody = exchange.getRequestBody();
-            //InputStreamReader is = new InputStreamReader(reqBody);
-            //does a bunch of stuff.
+            //Conver what from json? nothing
             Gson converter = new Gson();
             FillRequest fill = null;
+
+            //check and see if they gave us a number of generations to fill
             if (input.length > 2) {
+                //format should be fill/username/# of generations
                 fill = new FillRequest(input[1], Integer.parseInt(input[2]));
             }else {
                 fill = new FillRequest(input[1]);
             }
+
             //call the fillservice
             FillService fillService = new FillService();
             FillResult filled = fillService.fill(fill);
+
             //now give that back to JSON
-            String filledJson = converter.toJson(filled);
-
-            OutputStream sendResponse = exchange.getResponseBody();
-            //Send back the body
-            sendResponse.write(filledJson.getBytes());
-            sendResponse.close();
-
-            // TODO: Claim a route based on the request data
-
+            filledJson = converter.toJson(filled);
             exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
 
             success = true;
@@ -71,6 +62,10 @@ public class FillHandler implements HttpHandler {
             e.printStackTrace();
         }
 
+        OutputStream sendResponse = exchange.getResponseBody();
+        //Send back the body
+        sendResponse.write(filledJson.getBytes());
+        sendResponse.close();
 
     }
 }

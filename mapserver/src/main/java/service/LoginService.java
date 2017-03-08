@@ -42,7 +42,11 @@ public class LoginService {
             e.printStackTrace();
             return new LoginResult(e.getMessage());
         } finally {
-            trans.closeConnection();
+            try {
+                trans.closeConnection(true);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
