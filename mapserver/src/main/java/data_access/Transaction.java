@@ -24,11 +24,11 @@ public class Transaction {
         }
     }
 
-    final private String dbName = "db" + File.separator + "familyMap.sqlite";
+    final private String dbName = "mapserver" + File.separator + "db" + File.separator + "familyMap.sqlite";
     final private String connectionURL = "jdbc:sqlite:" + dbName;
     private Connection conn = null;
 
-    public Transaction(/* Request Object here? */) {
+    public Transaction() {
 
     }
     //Create all the tables in the database
@@ -133,6 +133,18 @@ public class Transaction {
             conn = null;
             return true;
         }
+    }
+
+    public boolean closeConnection(boolean commit) throws SQLException{
+        if(conn == null){
+            return false;
+        }
+        if(commit){
+            conn.commit();
+        }else{
+            conn.rollback();
+        }
+        return closeConnection();
     }
 
 

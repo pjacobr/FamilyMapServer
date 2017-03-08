@@ -57,7 +57,6 @@ public class FillService {
             //add the events to the database
             persondao.addPerson(peopleToAdd);
             eventdao.addEvent(eventsToAdd);
-
             return new FillResult("Successfully added" + peopleToAdd.size() + " persons and " + eventsToAdd.size() + " events to the database.");
 
         } catch (SQLException e) {

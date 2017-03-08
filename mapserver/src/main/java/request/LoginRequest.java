@@ -6,7 +6,7 @@ package request;
 
 public class LoginRequest {
     public String getUserName() {
-        return userName;
+        return username;
     }
 
     public String getPassword() {
@@ -14,16 +14,16 @@ public class LoginRequest {
     }
 
     //private data members
-    private String userName = null;
+    private String username = null;
     private String password = null;
 
     /**
      * Login constructor
-     * @param userName the username of the person logging in .
+     * @param username the username of the person logging in .
      * @param password the password of the person logging in
      */
-    public LoginRequest(String userName, String password) {
-        this.userName = userName;
+    public LoginRequest(String username, String password) {
+        this.username = username;
         this.password = password;
     }
 }

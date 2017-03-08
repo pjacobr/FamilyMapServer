@@ -15,7 +15,7 @@ import result.LoginResult;
 
 public class LoginService {
 
-    public LoginResult login(LoginRequest l){
+    public LoginResult login(LoginRequest l) {
 
         Transaction trans = new Transaction();
         trans.openConnection();
@@ -25,9 +25,9 @@ public class LoginService {
         try {
             User user = userdao.getUser(l.getUserName());
             //if the user exists in the database
-            if(user != null){
+            if (user != null) {
                 //check to see if the correct password is given
-                if(user.getPassword() == l.getPassword()){
+                if (user.getPassword() == l.getPassword()) {
                     AuthTokenDAO authdao = trans.getAuthToken();
                     authdao.addAuthToken(l.getUserName());
                     String authtoken = authdao.getAuthToken(l.getUserName()).getAuthToken();
@@ -35,14 +35,14 @@ public class LoginService {
                     return new LoginResult(authtoken, l.getUserName(), user.getPersonID());
                 }
                 return new LoginResult("Incorrect Password");
+            } else {
+                return new LoginResult("Username not associated with an account");
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
             return new LoginResult(e.getMessage());
-        }finally{
+        } finally {
             trans.closeConnection();
         }
-        return new LoginResult("Username not associated with an account");
     }
 }

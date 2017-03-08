@@ -6,7 +6,11 @@ package handler;
 
 import java.io.*;
 import java.net.*;
+import java.sql.SQLException;
+
 import com.sun.net.httpserver.*;
+
+import data_access.Transaction;
 
 
 public class FM_Server {
@@ -30,10 +34,10 @@ public class FM_Server {
         server.setExecutor(null); // use the default executor
 
         System.out.println("Creating contexts");
-        //server.createContext("/user/login", new );
+        server.createContext("/user/login", new LoginHandler());
         //server.createContext("/user/register",  );
         //server.createContext("/clear",);
-        //server.createContext("/fill/username/generations", );
+        server.createContext("/fill", new FillHandler());
         //server.createContext("/load", );
         //server.createContext("/person", );
         //server.createContext("/person", );
@@ -47,6 +51,19 @@ public class FM_Server {
 
     public static void main(String[] args) {
         String portNumber = args[0];
+        Transaction trans = new Transaction();
+        trans.openConnection();
+        try {
+            trans.createTables();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally{
+            try {
+                trans.closeConnection(true);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
         new FM_Server().run(portNumber);
     }
 }
