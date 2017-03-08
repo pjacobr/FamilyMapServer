@@ -26,8 +26,11 @@ public class FillHandler implements HttpHandler {
     public void handle(HttpExchange exchange) throws IOException {
         //How to get the path from the URI
         URI uri = exchange.getRequestURI();
-        String pathString = uri.getPath();
-        String[] input = uri.getPath().split("/");
+        String pathString = uri.getPath().substring(1,uri.getPath().length() - 1);
+        String[] input = pathString.split("/");
+        for(String inputString : input){
+            System.out.println(inputString);
+        }
         boolean success = false;
         String filledJson = null;
         try {

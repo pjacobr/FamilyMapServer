@@ -46,8 +46,8 @@ public class Transaction {
                 "\tgender varchar(1) NOT NULL,\n" +
                 "\tfather varchar(255),\n" +
                 "\tmother varchar(255),\n" +
-                "\tspouse varchar(255)\n" +
-                //"\tCONSTRAINT ck_gender CHECK (gender in ('m', 'f'))\n" +
+                "\tspouse varchar(255),\n" +
+                "\tCONSTRAINT ck_gender CHECK (gender in ('m', 'f'))\n" +
                 ");\n" +
                 "\n" +
                 "CREATE TABLE Events\n" +
