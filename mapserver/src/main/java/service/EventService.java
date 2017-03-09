@@ -4,8 +4,10 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import data_access.AuthTokenDAO;
 import data_access.EventDAO;
 import data_access.Transaction;
+import model.AuthToken;
 import model.Event;
 import result.EventResult;
 
@@ -14,6 +16,12 @@ import result.EventResult;
  */
 
 public class EventService {
+    String authToken = null;
+
+    public EventService(String authToken){
+        this.authToken = authToken;
+    }
+
     /**
      * get an event based on an event id.
      *
@@ -26,16 +34,29 @@ public class EventService {
         trans.openConnection();
 
         EventDAO eventdao = trans.getEvent();
-        Event event = null;
-        try {
-            event = eventdao.getEvent(eventID);
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return new EventResult(e.getMessage());
+        AuthTokenDAO authTokenDAO = trans.getAuthToken();
+        String username = null;
+        if((username = authTokenDAO.checkUser(authToken)) != null){
+            Event event = null;
+
+            try {
+                event = eventdao.getEvent(eventID);
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return new EventResult(e.getMessage());
+            }finally {
+                try {
+                    trans.closeConnection(true);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            return new EventResult(event.getDescendant(), event.getEventID(), event.getPersonID(), event.getLatitude(), event.getLongitude(), event.getCountry(), event.getCity(), event.getEventType(), event.getEventYear());
+        }else{
+            return new EventResult("AuthToken not valid, please login again");
         }
 
-
-        return new EventResult(event.getDescendant(), event.getEventID(), event.getPersonID(), event.getLatitude(), event.getLongitude(), event.getCountry(), event.getCity(), event.getEventType(), event.getEventYear());
     }
 
     /**

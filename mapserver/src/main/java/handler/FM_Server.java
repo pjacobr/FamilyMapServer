@@ -40,7 +40,7 @@ public class FM_Server {
         server.createContext("/fill", new FillHandler());
         //server.createContext("/load", );
         server.createContext("/person", new PersonHandler());
-        //server.createContext("/event",);
+        server.createContext("/event", new EventsHandler());
         server.createContext("/", new DefaultHandler());
 
         System.out.println("Starting server");

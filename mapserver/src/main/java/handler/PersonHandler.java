@@ -44,7 +44,7 @@ public class PersonHandler implements HttpHandler {
         URI uri = exchange.getRequestURI();
         String pathString = null;
         if (uri.getPath().charAt(0) == '/') {
-            pathString = uri.getPath().substring(1, uri.getPath().length() - 1);
+            pathString = uri.getPath().substring(1, uri.getPath().length());
         } else {
             pathString = uri.getPath();
         }
