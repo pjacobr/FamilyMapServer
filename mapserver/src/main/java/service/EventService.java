@@ -7,8 +7,9 @@ import java.util.List;
 import data_access.AuthTokenDAO;
 import data_access.EventDAO;
 import data_access.Transaction;
-import model.AuthToken;
+import data_access.UserDAO;
 import model.Event;
+import model.User;
 import result.EventResult;
 
 /**
@@ -18,7 +19,7 @@ import result.EventResult;
 public class EventService {
     String authToken = null;
 
-    public EventService(String authToken){
+    public EventService(String authToken) {
         this.authToken = authToken;
     }
 
@@ -32,19 +33,34 @@ public class EventService {
         //The transactions work like this.
         Transaction trans = new Transaction();
         trans.openConnection();
-
+        UserDAO userDAO = trans.getUser();
         EventDAO eventdao = trans.getEvent();
         AuthTokenDAO authTokenDAO = trans.getAuthToken();
         String username = null;
-        if((username = authTokenDAO.checkUser(authToken)) != null){
+
+        if ((username = authTokenDAO.checkUser(authToken)) != null) {
             Event event = null;
 
+               /*
+            Get the username of the person associated with the authtoken
+         */
+            User user = null;
             try {
-                event = eventdao.getEvent(eventID);
+                user = userDAO.getUser(username);
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            // check if they gave me the wrong AuthToken
+            if (user == null) {
+                return new EventResult("Invalid Authtoken");
+            }
+
+            try {
+                event = eventdao.getEvent(eventID, user.getUsername());
             } catch (SQLException e) {
                 e.printStackTrace();
                 return new EventResult(e.getMessage());
-            }finally {
+            } finally {
                 try {
                     trans.closeConnection(true);
                 } catch (SQLException e) {
@@ -53,7 +69,7 @@ public class EventService {
             }
 
             return new EventResult(event.getDescendant(), event.getEventID(), event.getPersonID(), event.getLatitude(), event.getLongitude(), event.getCountry(), event.getCity(), event.getEventType(), event.getEventYear());
-        }else{
+        } else {
             return new EventResult("AuthToken not valid, please login again");
         }
 
@@ -70,19 +86,43 @@ public class EventService {
         trans.openConnection();
         List<EventResult> eventResList = null;
         EventDAO eventdao = trans.getEvent();
+        UserDAO userDAO = trans.getUser();
+        AuthTokenDAO authTokenDao = trans.getAuthToken();
+        /*
+            Get the username of the person associated with the authtoken
+         */
+        User user = null;
+        try {
+            user = userDAO.getUser(authTokenDao.checkUser(authToken));
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        // check if they gave me the wrong AuthToken
+        if (user == null) {
+            List<EventResult> invalidAuthToken = new ArrayList<>();
+            invalidAuthToken.add(new EventResult("Invalid Authtoken"));
+            return invalidAuthToken;
+        }
         List<Event> eventList = null;
+
         //GET ALL the events in the database
         try {
-            eventList = eventdao.getEvent();
+            eventList = eventdao.getEvents(user.getUsername());
         } catch (SQLException e) {
             e.printStackTrace();
             eventResList = new ArrayList<>();
             eventResList.add(new EventResult(e.getMessage()));
-            trans.closeConnection();
+            try {
+                trans.closeConnection(false);
+            } catch (SQLException e1) {
+                e1.printStackTrace();
+            }
             return eventResList;
         }
-         eventResList = new ArrayList<>();
-        for(Event e : eventList){
+
+
+        eventResList = new ArrayList<>();
+        for (Event e : eventList) {
             eventResList.add(new EventResult(e.getDescendant(), e.getEventID(), e.getPersonID(), e.getLatitude(), e.getLongitude(), e.getCountry(), e.getCity(), e.getEventType(), e.getEventYear()));
         }
         try {
@@ -90,6 +130,8 @@ public class EventService {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
+
         return eventResList;
     }
 }

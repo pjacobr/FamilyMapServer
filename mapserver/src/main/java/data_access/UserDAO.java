@@ -32,13 +32,21 @@ public class UserDAO {
      * @return boolean
      */
     public void addUser(User user) throws SQLException {
-        String sql = "INSERT INTO Users(username, password, email, firstname, lastname, personID)" +
-                "VALUES ('" + user.getUsername() + "','" + user.getPassword() + "','" + user.getEmail() +
-                "','" + user.getFirstName() + "','" + user.getLastName() + "','" + user.getPersonID() + "');";
+
+        String sql = "INSERT INTO Users(username, password, email, firstname, lastname, username, personID)" +
+                "VALUES (?,?,?,?,?,?,?);";
         PreparedStatement stmt = null;
 
         //make a statement with the sql string above
         stmt = conn.prepareStatement(sql);
+        //inject the data into the sql query
+        stmt.setString(1,user.getUsername());
+        stmt.setString(2,user.getPassword());
+        stmt.setString(3,user.getEmail());
+        stmt.setString(4,user.getFirstName());
+        stmt.setString(5,user.getLastName());
+        stmt.setString(6,user.getUsername());
+        stmt.setString(7,user.getPersonID());
         stmt.executeUpdate();
         stmt.close();
 

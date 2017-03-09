@@ -8,11 +8,13 @@ import java.util.UUID;
 
 public class Person {
     //private datamembers
-    private String personID = null;
-    private String descendant = null;
+
     private String firstName = null;
     private String lastName = null;
     private String gender;
+    private String personID = null;
+    private String descendant = null;
+
     private String father = null;
     private String mother = null;
     private String spouse = null;

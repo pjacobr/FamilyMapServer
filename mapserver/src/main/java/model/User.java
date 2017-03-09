@@ -6,7 +6,7 @@ package model;
 
 public class User {
 
-    private String username = null;
+    private String userName = null;
     private String password = null;
     private String email = null;
     private String firstName = null;
@@ -17,7 +17,7 @@ public class User {
     /**
      * Constructor
      *
-     * @param username  the user name of the user
+     * @param userName  the user name of the user
      * @param password  the password of the user
      * @param email     the email of the user
      * @param firstName the first name of the usr
@@ -25,8 +25,8 @@ public class User {
      * @param gender    the gender of the user
      * @param personID  the id of the person that the user is connected with
      */
-    public User(String username, String password, String email, String firstName, String lastName, String gender, String personID) {
-        this.username = username;
+    public User(String userName, String password, String email, String firstName, String lastName, String gender, String personID) {
+        this.userName = userName;
         this.password = password;
         this.email = email;
         this.firstName = firstName;
@@ -37,11 +37,11 @@ public class User {
 
 
     public String getUsername() {
-        return username;
+        return userName;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setUsername(String userName) {
+        this.userName = userName;
     }
 
     public String getPassword() {

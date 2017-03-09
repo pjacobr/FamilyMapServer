@@ -6,15 +6,16 @@ package model;
 
 public class Event {
     //datamembers
-    private String eventID = null;
-    private String descendant = null;
+
+    private String eventType = null;
     private String personID = null;
+    private String city = null;
+    private String country = null;
     private double latitude = 0;
     private double longitude = 0;
-    private String country = null;
-    private String city = null;
-    private String eventType = null;
-    private int eventYear = 0;
+    private int year = 0;
+    private String descendant = null;
+    private String eventID = null;
 
     /**
      * Constructor
@@ -28,9 +29,9 @@ public class Event {
      * @param country    name of the country where the event occured
      * @param city       name of the city where the event occured
      * @param eventType  the type of event
-     * @param eventYear  the year in which the event took place
+     * @param year  the year in which the event took place
      */
-    public Event(String eventID, String descendant, String personID, double latitude, double longitude, String country, String city, String eventType, int eventYear) {
+    public Event(String eventID, String descendant, String personID, double latitude, double longitude, String country, String city, String eventType, int year) {
         this.eventID = eventID;
         this.descendant = descendant;
         this.personID = personID;
@@ -39,7 +40,7 @@ public class Event {
         this.country = country;
         this.city = city;
         this.eventType = eventType;
-        this.eventYear = eventYear;
+        this.year = year;
     }
 
     public String getEventID() {
@@ -107,11 +108,11 @@ public class Event {
     }
 
     public int getEventYear() {
-        return eventYear;
+        return year;
     }
 
-    public void setEventYear(int eventYear) {
-        this.eventYear = eventYear;
+    public void setEventYear(int year) {
+        this.year = year;
     }
 
 

@@ -8,24 +8,25 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URI;
 
 import request.FillRequest;
-import request.LoginRequest;
+import request.LoadRequest;
 import request.RegisterRequest;
-import result.LoginResult;
+import result.FillResult;
+import result.LoadResult;
 import result.RegisterResult;
 import service.FillService;
-import service.LoginService;
+import service.LoadService;
 import service.RegisterService;
 
 /**
- * Created by jacob on 2/16/2017.
+ * Created by jacob on 3/9/2017.
  */
 
-public class RegisterHandler implements HttpHandler {
+public class LoadHandler implements HttpHandler {
+
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         //How to get the path from the URI
@@ -35,30 +36,22 @@ public class RegisterHandler implements HttpHandler {
         boolean success = false;
         String filledJson = null;
         try {
-            if(exchange.getRequestMethod().toLowerCase().equals("post")){
+            if (exchange.getRequestMethod().toLowerCase().equals("post")) {
                 //InputStreamReader is = new InputStreamReader(reqBody);
                 //does a bunch of stuff.
                 InputStream request = exchange.getRequestBody();
                 String jsonString = readString(request);
                 Gson gson = new Gson();
-                RegisterRequest registration = gson.fromJson(jsonString, RegisterRequest.class);
+                LoadRequest loadRequest = gson.fromJson(jsonString, LoadRequest.class);
                 //call the fillservice
-                RegisterService register = new RegisterService();
-                RegisterResult registered = register.registerUser(registration);
-                //fill them with 4 generations of data
-                FillService fillData = new FillService();
-                fillData.fill(new FillRequest(registration.getUsername()));
+                LoadService loadService = new LoadService();
+                LoadResult loaded = loadService.load(loadRequest);
 
-                LoginService logIn = new LoginService();
-                LoginResult loggedIn =  logIn.login(new LoginRequest(registration.getUsername(), registration.getPassword()));
-                registered.setAuthToken(loggedIn.getAuthToken());
                 //now give that back to JSON
-                filledJson = gson.toJson(registered);
-
+                filledJson = gson.toJson(loaded);
 
                 exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
                 // TODO: Claim a route based on the request data
-
 
                 success = true;
             }
@@ -75,9 +68,8 @@ public class RegisterHandler implements HttpHandler {
         //Send back the body
         sendResponse.write(filledJson.getBytes());
         sendResponse.close();
-
-
     }
+
     private static String readString(InputStream is) throws IOException {
         StringBuilder sb = new StringBuilder();
         InputStreamReader sr = new InputStreamReader(is);

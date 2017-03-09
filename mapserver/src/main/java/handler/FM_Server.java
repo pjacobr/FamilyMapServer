@@ -38,7 +38,7 @@ public class FM_Server {
         server.createContext("/user/register", new RegisterHandler());
         server.createContext("/clear", new ClearHandler());
         server.createContext("/fill", new FillHandler());
-        //server.createContext("/load", );
+        server.createContext("/load", new LoadHandler());
         server.createContext("/person", new PersonHandler());
         server.createContext("/event", new EventsHandler());
         server.createContext("/", new DefaultHandler());

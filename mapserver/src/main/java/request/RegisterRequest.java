@@ -16,7 +16,7 @@ public class RegisterRequest {
     /**
      * <h1>Constructor</h1>
      *
-     * @param username the username of the person being registerd
+     * @param userName the username of the person being registerd
      * @param password the password of the
      * @param email the email of the person being registered
      * @param firstName the first name of the person being registered

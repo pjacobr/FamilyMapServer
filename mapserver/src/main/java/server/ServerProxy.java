@@ -1,6 +1,9 @@
 package server;
 
 
+import com.google.gson.Gson;
+
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -8,10 +11,15 @@ import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
+import model.AuthToken;
+import request.ClearRequest;
+import request.FillRequest;
 import request.LoadRequest;
 import request.LoginRequest;
+import request.PersonRequest;
 import request.RegisterRequest;
 import result.ClearResult;
 import result.EventResult;
@@ -26,151 +34,329 @@ import result.RegisterResult;
 
 public class ServerProxy {
 
+    String authToken = null;
+    public ServerProxy(String authToken){
+        this.authToken = authToken;
+    }
 
     public static void main(String[] args){}
 
-    private static void getGameList(String serverHost, String serverPort) {
+//    http.addRequestProperty("Authorization", "afj232hj2332");
+  //  http.addRequestProperty("Content-Type", "application/json");
+
+    //
+    public RegisterResult register(String serverHost, String serverPort, RegisterRequest rg) {
         try {
-            URL url = new URL("http://" + serverHost + ":" + serverPort + "/games/list");
-
-            HttpURLConnection http = (HttpURLConnection)url.openConnection();
-
-            http.setRequestMethod("GET");
-            http.setDoOutput(false);	// There is no request body
-
-            http.addRequestProperty("Authorization", "afj232hj2332");
-            http.addRequestProperty("Accept", "application/json");
-
-            http.connect();
-            if (http.getResponseCode() == HttpURLConnection.HTTP_OK) {
-
-                InputStream respBody = http.getInputStream();
-
-                String respData = readString(respBody);
-
-                System.out.println(respData);
-            }
-            else {
-                System.out.println("ERROR: " + http.getResponseMessage());
-            }
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-    public void serverProxy(String serverHost, String serverPort) {
-        try {
-            URL url = new URL("http://" + serverHost + ":" + serverPort + "/routes/claim");
+            URL url = new URL("http://" + serverHost + ":" + serverPort + "/user/register");
 
             HttpURLConnection http = (HttpURLConnection)url.openConnection();
 
             http.setRequestMethod("POST");
             http.setDoOutput(true);	// There is a request body
-
-            http.addRequestProperty("Authorization", "afj232hj2332");
-            http.addRequestProperty("Content-Type", "application/json");
-
             http.connect();
 
-            String reqData =
-                    "{" +
-                            "\"route\": \"atlanta-miami\"" +
-                            "}";
 
+            Gson gs = new Gson();
+            String jsonString = gs.toJson(rg);
             OutputStream reqBody = http.getOutputStream();
-            writeString(reqData, reqBody);
+            writeString(jsonString , reqBody);
             reqBody.close();
 
             if (http.getResponseCode() == HttpURLConnection.HTTP_OK) {
-
+                InputStream respBody = http.getInputStream();
+                String respData = readString(respBody);
+                RegisterResult result = gs.fromJson(respData, RegisterResult.class);
                 System.out.println("Route successfully claimed.");
+                return result;
             }
             else {
-                System.out.println("ERROR: " + http.getResponseMessage());
+                return new RegisterResult("ERROR: " + http.getResponseMessage());
             }
         }
         catch (IOException e) {
             e.printStackTrace();
+            return new RegisterResult(e.getMessage());
         }
     }
 
-    /**
-     * register a new user
-     * @param r request for a person to be registered
-     * @return
-     */
-    public RegisterResult register(RegisterRequest r){
-        return null;
-    }
+    public LoginResult login(String serverHost, String serverPort, LoginRequest lg) {
+        try {
+            URL url = new URL("http://" + serverHost + ":" + serverPort + "/user/login");
 
-    /**
-     * log a user in
-     * @param l login request for the person to be logged in.
-     * @return LoginResult
-     */
-    public LoginResult login(LoginRequest l){
-        return null;
+            HttpURLConnection http = (HttpURLConnection)url.openConnection();
+
+            http.setRequestMethod("POST");
+            http.setDoOutput(true);	// There is a request body
+            http.connect();
+
+            //Convert to JSON and back
+            Gson gs = new Gson();
+            String jsonString = gs.toJson(lg);
+            OutputStream reqBody = http.getOutputStream();
+            writeString(jsonString , reqBody);
+            reqBody.close();
+
+            if (http.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                InputStream respBody = http.getInputStream();
+                String respData = readString(respBody);
+                LoginResult result = gs.fromJson(respData, LoginResult.class);
+                System.out.println("Route successfully claimed.");
+                return result;
+            }
+            else {
+                System.out.println("ERROR: " + http.getResponseMessage());
+                return new LoginResult("Error" + http.getResponseMessage());
+            }
+        }
+        catch (IOException e) {
+           return new LoginResult( e.toString());
+        }
+
     }
 
     /**
      * Clear all the data in the database so you can start over
      * @return ClearResult
      */
-    public ClearResult clear(){
-        return null;
+    public ClearResult clear(String serverHost, String serverPort){
+        try {
+            URL url = new URL("http://" + serverHost + ":" + serverPort + "/clear");
+
+            HttpURLConnection http = (HttpURLConnection)url.openConnection();
+
+            http.setRequestMethod("POST");
+            http.setDoOutput(false);	// There is a request body
+            http.connect();
+
+
+            Gson gs = new Gson();
+
+            if (http.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                InputStream respBody = http.getInputStream();
+                String respData = readString(respBody);
+                ClearResult result = gs.fromJson(respData, ClearResult.class);
+                System.out.println("Route successfully claimed.");
+                return result;
+            }
+            else {
+                System.out.println("ERROR: " + http.getResponseMessage());
+                return new ClearResult("Error" + http.getResponseMessage());
+            }
+        }
+        catch (IOException e) {
+            return new ClearResult( e.toString());
+        }
     }
 
     /**
      * Fill the persons heritage up to the number of generations
-     * @param username username of the logged in person
-     * @param generations number of generations desired
+     * @param lg username of the logged in person
+     * @param serverPort number of generations desired
+     * @param serverHost
      * @return
      */
-    public FillResult fill(String username, int generations){
-        return null;
+    public FillResult fill(String serverHost, String serverPort, FillRequest lg){
+        try {
+            URL url = new URL("http://" + serverHost + ":" + serverPort + "/fill");
+
+            HttpURLConnection http = (HttpURLConnection)url.openConnection();
+
+            http.setRequestMethod("POST");
+            http.setDoOutput(false);	// There is a request body
+            http.connect();
+
+            Gson gs = new Gson();
+
+            if (http.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                InputStream respBody = http.getInputStream();
+                String respData = readString(respBody);
+                FillResult result = gs.fromJson(respData, FillResult.class);
+                System.out.println("Route successfully claimed.");
+                return result;
+            }
+            else {
+                System.out.println("ERROR: " + http.getResponseMessage());
+                return new FillResult("Error" + http.getResponseMessage());
+            }
+        }
+        catch (IOException e) {
+            return new FillResult(e.toString());
+        }
     }
 
     /**
      * Load the database with a bunch of data
-     * @param l load request for the load
+     * @param lg load request for the load
+     *
      * @return
      */
-    public LoadResult load(LoadRequest l){
-        return null;
+    public LoadResult load(String serverHost, String serverPort, LoginRequest lg){
+        try {
+            URL url = new URL("http://" + serverHost + ":" + serverPort + "/load");
+
+            HttpURLConnection http = (HttpURLConnection)url.openConnection();
+
+            http.setRequestMethod("POST");
+            http.setDoOutput(true);	// There is a request body
+            http.connect();
+
+
+            Gson gs = new Gson();
+            String jsonString = gs.toJson(lg);
+            OutputStream reqBody = http.getOutputStream();
+            writeString(jsonString , reqBody);
+            reqBody.close();
+
+            if (http.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                InputStream respBody = http.getInputStream();
+                String respData = readString(respBody);
+                LoadResult result = gs.fromJson(respData, LoadResult.class);
+                System.out.println("Route successfully claimed.");
+                return result;
+            }
+            else {
+                System.out.println("ERROR: " + http.getResponseMessage());
+                return new LoadResult("Error" + http.getResponseMessage());
+            }
+        }
+        catch (IOException e) {
+            return new LoadResult(e.toString());
+        }
     }
 
     /**
      * Get a person based on the id given
-     * @param personID
+     * @param serverHost
+     * @param serverPort
+     * @param lg
      * @return PersonResult
      */
-    public PersonResult person(String personID){
-        return null;
+    public PersonResult person(String serverHost, String serverPort, PersonRequest lg) {
+        try {
+            URL url = new URL("http://" + serverHost + ":" + serverPort + "/person" + File.separator + lg.getPersonID());
+
+            HttpURLConnection http = (HttpURLConnection)url.openConnection();
+
+            http.setRequestMethod("GET");
+            http.setDoOutput(false);	// There is a request body
+            http.addRequestProperty("Authorization", authToken);
+
+            http.addRequestProperty("Content-Type", "application/json");
+            http.connect();
+            Gson gs = new Gson();
+
+            if (http.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                InputStream respBody = http.getInputStream();
+                String respData = readString(respBody);
+                PersonResult result = gs.fromJson(respData, PersonResult.class);
+                System.out.println("Route successfully claimed.");
+                return result;
+            }
+            else {
+                System.out.println("ERROR: " + http.getResponseMessage());
+                return new PersonResult("Error" + http.getResponseMessage());
+            }
+        }
+
+        catch (IOException e) {
+            return new PersonResult(e.toString());
+        }
     }
 
     /**
      *  get all the people that are currently in the database
      * @return List
      */
-    public static List<PersonResult> person(){
+    public List<PersonResult> person(String serverHost, String serverPort){
+        try {
+            URL url = new URL("http://" + serverHost + ":" + serverPort + "/person");
 
-        return null;
+            HttpURLConnection http = (HttpURLConnection)url.openConnection();
+
+            http.setRequestMethod("GET");
+            http.setDoOutput(false);	// There is a request body
+            http.addRequestProperty("Authorization", authToken);
+
+            http.addRequestProperty("Content-Type", "application/json");
+            http.connect();
+            Gson gs = new Gson();
+
+            if (http.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                InputStream respBody = http.getInputStream();
+                String respData = readString(respBody);
+                 class Results{
+                    List<PersonResult> results = null;
+                }
+                Results result = gs.fromJson(respData, Results.class);
+                System.out.println("Route successfully claimed.");
+                return result.results;
+            }
+            else {
+                System.out.println("ERROR: " + http.getResponseMessage());
+                List<PersonResult> results = new ArrayList<>();
+                results.add(new PersonResult("Error" + http.getResponseMessage()));
+                return results;
+            }
+        }
+
+        catch (IOException e) {
+            List<PersonResult> results = new ArrayList<>();
+            results.add(new PersonResult(e.toString()));
+            return results;
+        }
     }
 
     /**
      * Get one event based on the event id
-     * @param eventID
+     * @param serverHost
+     * @param serverPort
      * @return EventResult
      */
-    public EventResult event(String eventID){
-        return null;
+    public List<EventResult> event(String serverHost, String serverPort){
+
+        try {
+            URL url = new URL("http://" + serverHost + ":" + serverPort + "/events");
+
+            HttpURLConnection http = (HttpURLConnection)url.openConnection();
+
+            http.setRequestMethod("GET");
+            http.setDoOutput(false);	// There is a request body
+            http.addRequestProperty("Authorization", authToken);
+
+            http.addRequestProperty("Content-Type", "application/json");
+            http.connect();
+            Gson gs = new Gson();
+
+            if (http.getResponseCode() == HttpURLConnection.HTTP_OK) {
+                InputStream respBody = http.getInputStream();
+                String respData = readString(respBody);
+                class Results{
+                    List<EventResult> results = null;
+                }
+                Results result = gs.fromJson(respData, Results.class);
+                System.out.println("Route successfully claimed.");
+                return result.results;
+            }
+            else {
+                System.out.println("ERROR: " + http.getResponseMessage());
+                List<EventResult> results = new ArrayList<>();
+                results.add(new EventResult("Error" + http.getResponseMessage()));
+                return results;
+            }
+        }
+
+        catch (IOException e) {
+            List<EventResult> results = new ArrayList<>();
+            results.add(new EventResult(e.toString()));
+            return results;
+        }
     }
 
     /**
      * Get all the events that are available on the database
      * @return List
      */
-    public List<EventResult> event(){
+    public EventResult event(){
         return null;
     }
 

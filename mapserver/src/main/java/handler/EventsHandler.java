@@ -71,6 +71,7 @@ public class EventsHandler implements HttpHandler {
                     List<EventResult> eventResults = null;
                     //ok do we want all of them?
                     boolean list = false;
+                    //check which we want
                     if(input.length > 1){
                         list = true;
                         //personResult = personService.person(new PersonRequest(input[1]));

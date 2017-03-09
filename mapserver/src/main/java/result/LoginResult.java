@@ -8,6 +8,10 @@ import model.AuthToken;
 
 public class LoginResult {
 
+    public String getAuthToken() {
+        return authToken;
+    }
+
     private String authToken = null;
     private String userName = null;
     private String personID= null;

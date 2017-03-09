@@ -49,7 +49,6 @@ public class ClearHandler implements HttpHandler {
             InputStream request = exchange.getRequestBody();
             String jsonString = readString(request);
             Gson gson = new Gson();
-            ClearRequest clear = gson.fromJson(jsonString, ClearRequest.class);
             //call the fillservice
             ClearService clearService = new ClearService();
             ClearResult clearIt = clearService.clear();

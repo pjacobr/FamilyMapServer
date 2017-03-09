@@ -18,9 +18,6 @@ import service.FillService;
  */
 
 public class FillHandler implements HttpHandler {
-    private static final String DEFAULT_FILE_NAME = "\\index.html";
-    private static final String LOC_404 = "C:\\Users\\jacob\\AndroidStudioProjects\\FamilyMapServer\\familymapserver\\data\\HTML\\404.html";
-    private static final String HTTP_ROOT = "C:\\Users\\jacob\\AndroidStudioProjects\\FamilyMapServer\\familymapserver\\data\\HTML";
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {

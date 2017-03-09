@@ -6,6 +6,11 @@ package result;
 
 public class RegisterResult {
     String authToken = null;
+
+    public void setAuthToken(String authToken) {
+        this.authToken = authToken;
+    }
+
     String userName = null;
     String personID = null;
 

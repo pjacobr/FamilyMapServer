@@ -24,9 +24,9 @@ public class RegisterService {
         int generations = 4;
         Transaction newTrans = new Transaction();
         newTrans.openConnection();
+        //Database objects
         UserDAO userdao = newTrans.getUser();
         PersonDAO persondao = newTrans.getPerson();
-        EventDAO eventdao = newTrans.getEvent();
         AuthTokenDAO authdao = newTrans.getAuthToken();
 
         try {
@@ -36,15 +36,28 @@ public class RegisterService {
                 return new RegisterResult("User Already Exists, unable to register!");
             }
 
+
+
             //Create a personID for the person
             String uuid = UUID.randomUUID().toString();
-            persondao.addPerson(new Person(uuid, null, newRegister.getFirstName(), newRegister.getLastName(), newRegister.getGender(), null, null, null));
+            String username = newRegister.getUsername();
+            String password = newRegister.getPassword();
+            String firstName = newRegister.getFirstName();
+            String lastName = newRegister.getLastName();
+            String email = newRegister.getEmail();
+            String gender = newRegister.getGender();
+
+
+
+            //add them as a Person and a user.
+            persondao.addPerson(new Person(uuid, null, firstName, lastName, gender, null, null, null));
+            User newUser = new User(username, password, email, firstName, lastName, gender, uuid);
             //register the person as a person first
-            userdao.addUser(new User(newRegister.getUsername(), newRegister.getPassword(), newRegister.getEmail(), newRegister.getFirstName(), newRegister.getLastName(), newRegister.getGender(), uuid));
-            authdao.addAuthToken(newRegister.getUsername());
+            userdao.addUser(newUser);
+            authdao.addAuthToken(username);
             //Fill their data
             //log them in
-            return new RegisterResult(authdao.getAuthToken(newRegister.getUsername()).getAuthToken(), newRegister.getUsername(), uuid);
+            return new RegisterResult(authdao.getAuthToken(username).getAuthToken(), username, uuid);
         } catch (SQLException e) {
             //SQL error found
             e.printStackTrace();

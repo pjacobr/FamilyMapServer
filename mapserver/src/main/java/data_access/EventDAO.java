@@ -30,7 +30,7 @@ public class EventDAO {
      * @return boolean
      */
     public void addEvent(Event event) throws SQLException {
-        String sql = "INSERT INTO Events (eventID, descendant, personid, latitude, longitude, country, city, eventtype, year)\n" +
+        String sql = "INSERT INTO Events (eventID, descendant, personID, latitude, longitude, country, city, eventtype, year)\n" +
                 "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
         PreparedStatement stmt = null;
         //make a statement with the sql string above
@@ -104,8 +104,8 @@ public class EventDAO {
      * @param eventid the eventid for the event that would like to get
      * @return EventResult
      */
-    public Event getEvent(String eventid) throws SQLException {
-        String sql = "select eventID, descendant, personID, latitude, longitude, country, city, eventtype, year from Events where eventID='" + eventid + "';";
+    public Event getEvent(String eventid, String descendantID) throws SQLException {
+        String sql = "select eventID, descendant, personID, latitude, longitude, country, city, eventtype, year from Events where eventID= ? and descendant = ?;";
 
 
         PreparedStatement stmt = null;
@@ -113,6 +113,8 @@ public class EventDAO {
 
         //make a statement with the sql string above
         stmt = conn.prepareStatement(sql);
+        stmt.setString(1, eventid);
+        stmt.setString(2, descendantID);
         rs = stmt.executeQuery();
         if (rs.next()) {
             //Get the data that is returned
@@ -138,8 +140,8 @@ public class EventDAO {
      *
      * @return
      */
-    public List<Event> getEvent() throws SQLException {
-        String sql = "select * from Events;";
+    public List<Event> getEvents(String username) throws SQLException {
+        String sql = "select * from Events where descendant = ?;";
         List<Event> events = new ArrayList<>();
 
         PreparedStatement stmt = null;
@@ -147,6 +149,7 @@ public class EventDAO {
 
         //make a statement with the sql string above
         stmt = conn.prepareStatement(sql);
+        stmt.setString(1, username);
         rs = stmt.executeQuery();
 
 

@@ -37,7 +37,7 @@ public class EventDAOTest {
 
         daoconnect.addEvent(event);
         //Finally!!!! It works
-        Event newEvent = daoconnect.getEvent("1234");
+        Event newEvent = daoconnect.getEvent("1234", "Granppa");
         //System.out.println(newUser.getEmail());
         assertEquals("Granppa", newEvent.getDescendant());
     }
@@ -54,7 +54,7 @@ public class EventDAOTest {
         daoconnect.addEvent(events);
         //Finally!!!! It works
         List<Event> events2 = new ArrayList<>();
-        events2 = daoconnect.getEvent();
+        events2 = daoconnect.getEvents("Granppa1");
 
         //System.out.println(newUser.getEmail());
         assertEquals(2, events2.size());
@@ -67,12 +67,12 @@ public class EventDAOTest {
         //create the original event
         Event event = new Event("1234", "Granppa", "id", 2323.3, 12342.2, "USA", "Provo", "baptism", 1994);
         daoconnect.addEvent(event);
-        assertEquals("Granppa", daoconnect.getEvent("1234").getDescendant());
+        assertEquals("Granppa", daoconnect.getEvent("1234", "Granppa").getDescendant());
         //create an package with all the updated info
         Event event2 = new Event("1234", "Granppa1", "id1", 232333.3, 123421111.2, "USA2", "Provo1", "baptism1", 1993);
         daoconnect.updateEvent(event2, "1234");
         //System.out.println(newUser.getEmail());
-        assertEquals("Granppa1", daoconnect.getEvent("1234").getDescendant());
+        assertEquals("Granppa1", daoconnect.getEvent("1234", "Granppa").getDescendant());
     }
 
     @Test
@@ -82,11 +82,11 @@ public class EventDAOTest {
         //create the original event
         Event event = new Event("1234", "Granppa", "id", 2323.3, 12342.2, "USA", "Provo", "baptism", 1994);
         daoconnect.addEvent(event);
-        assertEquals("Granppa", daoconnect.getEvent("1234").getDescendant());
+        assertEquals("Granppa", daoconnect.getEvent("1234", "Granppa").getDescendant());
         //create an package with all the updated info
         daoconnect.deleteEvent("1234");
         //System.out.println(newUser.getEmail());
-        assertEquals(null, daoconnect.getEvent("1234"));
+        assertEquals(null, daoconnect.getEvent("1234", "Granppa"));
     }
 
     @Test
@@ -96,11 +96,10 @@ public class EventDAOTest {
         //create the original event
         Event event = new Event("1234", "Granppa", "id", 2323.3, 12342.2, "USA", "Provo", "baptism", 1994);
         daoconnect.addEvent(event);
-        assertEquals("Granppa", daoconnect.getEvent("1234").getDescendant());
+        assertEquals("Granppa", daoconnect.getEvent("1234","Granppa").getDescendant());
         //create an package with all the updated info
         daoconnect.clear();
         //System.out.println(newUser.getEmail());
-        assertEquals(null, daoconnect.getEvent("1234"));
+        assertEquals(null, daoconnect.getEvent("1234", "Granppa"));
     }
-
 }

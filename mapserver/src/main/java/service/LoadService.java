@@ -31,17 +31,17 @@ public class LoadService {
             UserDAO userdao = trans.getUser();
             PersonDAO persondao = trans.getPerson();
             EventDAO eventdao = trans.getEvent();
-            //fill the event table
-            for (Event event : events) {
-                eventdao.addEvent(event);
+            //fill the person table
+            for (Person person : persons) {
+                persondao.addPerson(person);
             }
             //fill the user table
             for (User user : users) {
                 userdao.addUser(user);
             }
-            //fill the person table
-            for (Person person : persons) {
-                persondao.addPerson(person);
+            //fill the event table
+            for (Event event : events) {
+                eventdao.addEvent(event);
             }
             return new LoadResult("Successfully returned " + users.length + " users, " + persons.length + " people, and " + events.length + " events");
         } catch (SQLException e) {
