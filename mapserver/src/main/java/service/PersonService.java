@@ -81,7 +81,7 @@ public class PersonService {
             try {
                 User user = userDao.getUser(username);
                 //Get all the people connected through the descendant
-                people = persondao.getPersons(user.getPersonID());
+                people = persondao.getPersons(user.getUsername());
 
                 for (Person person : people) {
                     results.add(new PersonResult(person.getDescendant(), person.getPersonID(), person.getFirstName(), person.getLastName(), person.getGender(), person.getMother(), person.getFather(), person.getSpouse()));

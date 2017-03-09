@@ -73,7 +73,7 @@ public class PersonHandler implements HttpHandler {
                         personResults = personService.person();
                     }
 
-                    if(!list){
+                    if(list){
                         filledJson = gson.toJson(personResult);
                     }else{
                         PersonResult[] personresults = personResults.toArray(new PersonResult[personResults.size()]);
@@ -104,7 +104,5 @@ public class PersonHandler implements HttpHandler {
         //Send back the body
         sendResponse.write(filledJson.getBytes());
         sendResponse.close();
-
-
     }
 }
