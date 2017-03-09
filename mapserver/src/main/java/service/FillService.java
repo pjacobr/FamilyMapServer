@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import data_access.AuthTokenDAO;
 import data_access.EventDAO;
 import data_access.PersonDAO;
 import data_access.Transaction;
@@ -25,12 +26,6 @@ public class FillService {
 
     }
 
-
-    private void fillPerson(String username, int generations) {
-
-    }
-
-
     /**
      * fill the
      *
@@ -43,14 +38,20 @@ public class FillService {
         EventDAO eventdao = trans.getEvent();
         PersonDAO persondao = trans.getPerson();
         UserDAO userdao = trans.getUser();
-
+        AuthTokenDAO authTokenDAO = trans.getAuthToken();
         try {
             User userInput = userdao.getUser(r.getUsername());
+
             if (userInput == null) {
                 return new FillResult("User does not exist, please try again");
             }
+
             Person p = persondao.getPerson(userInput.getPersonID());
-            DataGenerator dg = new DataGenerator(p);
+            persondao.delete(p.getPersonID());
+            persondao.addPerson(p);
+            userdao.addUser(userInput);
+            authTokenDAO.addAuthToken(userInput.getUsername());
+            DataGenerator dg = new DataGenerator(p, r.getGenerations(), r.getUsername());
             dg.fillTrie();
             List<Person> peopleToAdd = dg.ancestors;
             List<Event> eventsToAdd = dg.eventList;

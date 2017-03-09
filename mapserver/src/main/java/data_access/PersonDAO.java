@@ -85,6 +85,9 @@ public class PersonDAO {
     }
 
 
+
+
+
     /**
      * get a specific person from the database to check
      *
@@ -94,6 +97,8 @@ public class PersonDAO {
     public Person getPerson(String personID) throws SQLException {
 
         //get the person based on their person ID
+
+
         String sql = "select personID, descendant, firstname, lastname, gender, father, mother, spouse from Persons where personID='" + personID + "';";
         PreparedStatement stmt = null;
         ResultSet rs = null;
@@ -127,16 +132,17 @@ public class PersonDAO {
      *
      * @return List
      */
-    public List<Person> getPerson() throws SQLException {
+    public List<Person> getPersons(String descendantID) throws SQLException {
         List<Person> persons = new ArrayList<>();
 
-        String sql = "select * from Persons";
+        String sql = "select * from Persons where descendant = ?";
 
         PreparedStatement stmt = null;
         ResultSet rs = null;
 
         //make a statement with the sql string above
         stmt = conn.prepareStatement(sql);
+        stmt.setString(1, descendantID);
         rs = stmt.executeQuery();
         boolean added = false;
 

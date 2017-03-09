@@ -1,5 +1,6 @@
 package handler;
 
+
 import com.google.gson.Gson;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
@@ -8,29 +9,29 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URI;
 
-import request.FillRequest;
 import request.LoginRequest;
-import request.RegisterRequest;
 import result.LoginResult;
-import result.RegisterResult;
-import service.FillService;
 import service.LoginService;
-import service.RegisterService;
 
 /**
- * Created by jacob on 2/16/2017.
+ * Created by jacob on 3/8/2017.
  */
 
-public class RegisterHandler implements HttpHandler {
+public class EventsHandler implements HttpHandler {
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         //How to get the path from the URI
         URI uri = exchange.getRequestURI();
-        String pathString = uri.getPath();
+        String pathString = null;
+        if(uri.getPath().charAt(0) == '/') {
+            pathString = uri.getPath().substring(1, uri.getPath().length() - 1);
+        }else{
+            pathString = uri.getPath();
+        }
+        String[] input = pathString.split("/");
 
         boolean success = false;
         String filledJson = null;
@@ -41,19 +42,15 @@ public class RegisterHandler implements HttpHandler {
                 InputStream request = exchange.getRequestBody();
                 String jsonString = readString(request);
                 Gson gson = new Gson();
-                RegisterRequest registration = gson.fromJson(jsonString, RegisterRequest.class);
+                LoginRequest login = gson.fromJson(jsonString, LoginRequest.class);
                 //call the fillservice
-                RegisterService loginservice = new RegisterService();
-                RegisterResult loggedIn = loginservice.registerUser(registration);
-                //fill them with 4 generations of data
-                FillService fillData = new FillService();
-                fillData.fill(new FillRequest(registration.getUsername()));
+                LoginService loginservice = new LoginService();
+                LoginResult loggedIn = loginservice.login(login);
                 //now give that back to JSON
                 filledJson = gson.toJson(loggedIn);
 
 
                 exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
-                // TODO: Claim a route based on the request data
 
 
                 success = true;

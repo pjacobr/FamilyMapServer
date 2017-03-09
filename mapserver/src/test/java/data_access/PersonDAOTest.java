@@ -52,7 +52,7 @@ public class PersonDAOTest {
         //Add the people in the
         daoconnect.addPerson(persons);
         //Finally!!!! It works
-        List<Person> persons2 = daoconnect.getPerson();
+        List<Person> persons2 = daoconnect.getPersons("Granppa");
         //System.out.println(newUser.getEmail());
         for(Person person3 : persons2){
             System.out.println(person3.getPersonID());

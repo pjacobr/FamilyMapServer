@@ -5,14 +5,18 @@ import com.google.gson.Gson;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.Reader;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.time.Year;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
+import data_access.Transaction;
 import model.Event;
 import model.Person;
+import model.User;
 
 /**
  * Created by jacob on 3/6/2017.
@@ -52,7 +56,15 @@ public class DataGenerator {
         this();
         this.userNode = new PersonNode(userNode);
         this.numGenerations = numGenerations;
+        descendant = userNode.getPersonID();
     }
+
+    public DataGenerator(Person userNode, int numGenerations, String username){
+        this(userNode, numGenerations);
+        descendant = username;
+
+    }
+
 
 
     public DataGenerator() {
@@ -60,20 +72,20 @@ public class DataGenerator {
         Gson gson = new Gson();
         Reader reader = null;
         try {
-            reader = new FileReader("C:\\Users\\jacob\\AndroidStudioProjects\\FamilyMapServer\\mapserver\\locations.json");
+            reader = new FileReader("C:\\Users\\jacob\\AndroidStudioProjects\\FamilyMapServer\\json\\locations.json");
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
         locData = gson.fromJson(reader, LocationData.class);
         gson = new Gson();
         try {
-            reader = new FileReader("C:\\Users\\jacob\\AndroidStudioProjects\\FamilyMapServer\\mapserver\\fnames.json");
+            reader = new FileReader("C:\\Users\\jacob\\AndroidStudioProjects\\FamilyMapServer\\json\\fnames.json");
             femNames = gson.fromJson(reader, NameData.class);
 
-            reader = new FileReader("C:\\Users\\jacob\\AndroidStudioProjects\\FamilyMapServer\\mapserver\\mnames.json");
+            reader = new FileReader("C:\\Users\\jacob\\AndroidStudioProjects\\FamilyMapServer\\json\\mnames.json");
             maleNames = gson.fromJson(reader, NameData.class);
 
-            reader = new FileReader("C:\\Users\\jacob\\AndroidStudioProjects\\FamilyMapServer\\mapserver\\snames.json");
+            reader = new FileReader("C:\\Users\\jacob\\AndroidStudioProjects\\FamilyMapServer\\json\\snames.json");
             lastNames = gson.fromJson(reader, NameData.class);
 
         } catch (FileNotFoundException e) {
@@ -213,7 +225,7 @@ public class DataGenerator {
     //initializing data
     public void fillTrie() {
         if (userNode != null) {
-            descendant = userNode.getInfo().getPersonID();
+            //descendant = userNode.getInfo().getPersonID();
             //if(userNode.info.getBirthyear() == 0){
                 helperTrie(userNode, 0, Year.now().getValue() - (new Random().nextInt(50) + 10));
             //}

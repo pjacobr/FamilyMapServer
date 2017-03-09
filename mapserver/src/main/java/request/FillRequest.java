@@ -8,28 +8,29 @@ public class FillRequest {
 
     //the username that should be filled with generated data.
     private String username;
-    private int generations = 0;
+    private int generations = 4;
 
-    public FillRequest(String username, int generations){
-        this.username = username;
+    //if I want to specify the number of generations
+    public FillRequest(String username, int generations) {
+        this(username);
         this.generations = generations;
+    }
+    //default constructor
+    public FillRequest(String username){
+        this.username = username;
     }
 
     /**
      * get the username associated with with the request
+     *
      * @return username
      */
     public String getUsername() {
         return username;
     }
 
-    /**
-     * Create a request object that allows us to fill the
-     * user with generated data.
-     * @param username the user name of the person that needs their generations filled
-     */
-    public FillRequest(String username) {
-        this.username = username;
-        generations = 4;
+    public int getGenerations() {
+        return generations;
     }
+
 }

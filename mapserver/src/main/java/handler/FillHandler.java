@@ -26,7 +26,12 @@ public class FillHandler implements HttpHandler {
     public void handle(HttpExchange exchange) throws IOException {
         //How to get the path from the URI
         URI uri = exchange.getRequestURI();
-        String pathString = uri.getPath().substring(1,uri.getPath().length() - 1);
+        String pathString = null;
+        if(uri.getPath().charAt(0) == '/') {
+            pathString = uri.getPath().substring(1, uri.getPath().length());
+        }else{
+            pathString = uri.getPath();
+        }
         String[] input = pathString.split("/");
         for(String inputString : input){
             System.out.println(inputString);

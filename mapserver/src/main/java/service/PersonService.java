@@ -4,9 +4,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import data_access.AuthTokenDAO;
 import data_access.PersonDAO;
 import data_access.Transaction;
+import data_access.UserDAO;
 import model.Person;
+import model.User;
 import request.PersonRequest;
 import result.PersonResult;
 
@@ -15,6 +18,12 @@ import result.PersonResult;
  */
 
 public class PersonService {
+    String authToken = null;
+
+    public PersonService(String authToken) {
+        this.authToken = authToken;
+    }
+
     /**
      * get a person from the server
      *
@@ -25,18 +34,30 @@ public class PersonService {
         trans.openConnection();
 
         PersonDAO persondao = trans.getPerson();
-        Person person = null;
-        try {
-            person = persondao.getPerson(p.getPersonID());
-        } catch (SQLException e) {
-            e.printStackTrace();
-            return new PersonResult(e.getMessage());
-        } finally {
-            trans.closeConnection();
+        AuthTokenDAO authTokenDAO = trans.getAuthToken();
+        String username = null;
+        if ((username = authTokenDAO.checkUser(authToken)) != null) {
+
+            Person person = null;
+            try {
+                person = persondao.getPerson(p.getPersonID());
+            } catch (SQLException e) {
+                e.printStackTrace();
+                return new PersonResult(e.getMessage());
+            } finally {
+                try {
+                    trans.closeConnection(true);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+            //successfully retrieved person!
+            return new PersonResult(person.getDescendant(), person.getPersonID(), person.getFirstName(), person.getLastName(), person.getGender(), person.getMother(), person.getFather(), person.getSpouse());
+        }else{
+            return new PersonResult("AuthToken not valid, please login again");
         }
-        //successfully retrieved person!
-        return new PersonResult(person.getDescendant(), person.getPersonID(), person.getFirstName(), person.getLastName(), person.getGender(), person.getMother(), person.getFather(), person.getSpouse());
     }
+
 
     /**
      * get all the people from the server
@@ -47,26 +68,41 @@ public class PersonService {
         Transaction trans = new Transaction();
         trans.openConnection();
 
+        //Access the database
         PersonDAO persondao = trans.getPerson();
-        List<PersonResult> results = new ArrayList<>();
-        try {
-            List<Person> people = persondao.getPerson();
-
-            for (Person person : people) {
-                results.add(new PersonResult(person.getDescendant(), person.getPersonID(), person.getFirstName(), person.getLastName(), person.getGender(), person.getMother(), person.getFather(), person.getSpouse()));
-            }
-            return results;
-        } catch (SQLException e) {
-            e.printStackTrace();
-            List<PersonResult> list = new ArrayList<>();
-            list.add(new PersonResult(e.getMessage()));
-            return list;
-        } finally {
+        AuthTokenDAO authTokenDAO = trans.getAuthToken();
+        UserDAO userDao = trans.getUser();
+        //this is the name of the person that we want all their ancestors
+        String username = null;
+        List<Person> people = null;
+        List<PersonResult> results = null;
+        if ((username = authTokenDAO.checkUser(authToken)) != null) {
+            results = new ArrayList<>();
             try {
-                trans.closeConnection(true);
+                User user = userDao.getUser(username);
+                //Get all the people connected through the descendant
+                people = persondao.getPersons(user.getPersonID());
+
+                for (Person person : people) {
+                    results.add(new PersonResult(person.getDescendant(), person.getPersonID(), person.getFirstName(), person.getLastName(), person.getGender(), person.getMother(), person.getFather(), person.getSpouse()));
+                }
+                return results;
             } catch (SQLException e) {
                 e.printStackTrace();
+                List<PersonResult> list = new ArrayList<>();
+                list.add(new PersonResult(e.getMessage()));
+                return list;
+            } finally {
+                try {
+                    trans.closeConnection(true);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
             }
+        }else {
+            results.add(new PersonResult("User is not authorized"));
+            return results;
         }
     }
+
 }

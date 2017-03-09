@@ -8,6 +8,7 @@ import java.sql.Statement;
 import java.util.UUID;
 
 import model.AuthToken;
+import model.User;
 
 /**
  * Created by jacob on 2/16/2017.
@@ -65,24 +66,45 @@ public class AuthTokenDAO {
 
     }
 
-    /*
-function callEveryHour() {
-    setInterval(yourFunction, 1000 * 60 * 60);
-}
-
-var nextDate = new Date();
-if (nextDate.getMinutes() === 0) { // You can check for seconds here too
-    callEveryHour()
-} else {
-    nextDate.setHours(d.getHours() + 1);
-    nextDate.setMinutes(0);
-    nextDate.setSeconds(0);// I wouldn't do milliseconds too ;)
-
-    var difference = nextDate - new Date();
-    setTimeout(callEveryHour, difference);
-}
-
+    /**
+     *  Gets the authtoken from the authtoken class
+     * @param authToken
+     * @return username
      */
+    public String checkUser(String authToken) {
+        String sql = "select username from AuthTokens where authtoken = ?;";
+
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+
+        try {
+            stmt = conn.prepareStatement(sql);
+            stmt.setString(1, authToken);
+            rs = stmt.executeQuery();
+            //get the relevant data
+            if(rs.next()) {
+                return rs.getString(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally{
+
+            try {
+                if(stmt != null) {
+                    stmt.close();
+                }
+                if( rs != null) {
+                    rs.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
+
+    }
+
+
 
     public void deleteAuthTokens(){
         String sql = "delete from AuthTokens where currenttime <= datetime('now','-1 hour');";

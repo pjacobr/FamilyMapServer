@@ -67,7 +67,7 @@ public class UserDAO {
         ResultSet rs = null;
         User user = null;
 
-        String sql = "select username, password, email, firstname, lastname, gender, personID from Users where username = '" + username + "'";
+        String sql = "select * from Users where username = '" + username + "'";
         stmt = conn.prepareStatement(sql);
 
         rs = stmt.executeQuery();
@@ -83,6 +83,49 @@ public class UserDAO {
         String password = null;
 
         if (rs.next()) {
+            password = rs.getString(2);
+            email = rs.getString(3);
+            firstName = rs.getString(4);
+            lastName = rs.getString(5);
+            gender = rs.getString(6);
+            personID = rs.getString(7);
+            stmt.close();
+            rs.close();
+
+            return new User(username, password, email, firstName, lastName, gender, personID);
+        }
+        return null;
+    }
+
+    /**
+     * get a user
+     *
+     * @param personID the id of the user that we would like to get information
+     * @return User
+     */
+    public User getUserByID(String personID) throws SQLException {
+        PreparedStatement stmt = null;
+        ResultSet rs = null;
+        User user = null;
+
+        String sql = "select username, password, email, firstname, lastname, gender, personID from Users where personID = '" + personID+ "'";
+        stmt = conn.prepareStatement(sql);
+
+        rs = stmt.executeQuery();
+
+
+        //make sure that the number of rows returned was not greater than
+        //information from the database about the person
+        String username = null;
+        String firstName = null;
+        String lastName = null;
+        String email = null;
+        String gender = null;
+         personID = null;
+        String password = null;
+
+        if (rs.next()) {
+            username = rs.getString(1);
             password = rs.getString(2);
             email = rs.getString(3);
             firstName = rs.getString(4);

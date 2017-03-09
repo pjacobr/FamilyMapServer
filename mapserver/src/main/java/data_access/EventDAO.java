@@ -31,12 +31,22 @@ public class EventDAO {
      */
     public void addEvent(Event event) throws SQLException {
         String sql = "INSERT INTO Events (eventID, descendant, personid, latitude, longitude, country, city, eventtype, year)\n" +
-                "VALUES (" + "'" + event.getEventID() + "','" + event.getDescendant() + "','" + event.getPersonID() +
-                "'," + event.getLatitude() + "," + event.getLongitude() + ",'" + event.getCountry() + "','"
-                + event.getCity() + "','" + event.getEventType() + "'," + event.getEventYear() + ");";
+                "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?);";
         PreparedStatement stmt = null;
         //make a statement with the sql string above
+        if(event.getCity() == null || event.getCountry() == null){
+            System.out.println("WHat the?");
+        }
         stmt = conn.prepareStatement(sql);
+        stmt.setString(1, event.getEventID());
+        stmt.setString(2, event.getDescendant());
+        stmt.setString(3, event.getPersonID());
+        stmt.setDouble(4, event.getLatitude());
+        stmt.setDouble(5, event.getLongitude());
+        stmt.setString(6, event.getCountry());
+        stmt.setString(7, event.getCity());
+        stmt.setString(8, event.getEventType());
+        stmt.setInt(9, event.getEventYear());
         stmt.executeUpdate();
         stmt.close();
     }
