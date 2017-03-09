@@ -22,7 +22,7 @@ public class DefaultHandler implements HttpHandler
 
         int responseCode = 0;
         int bodyIsEmptyCode = 0;
-        Path path = Paths.get(HTTP_ROOT + pathString);
+        Path path = Paths.get(HTTP_ROOT + pathString + DEFAULT_FILE_NAME);
         byte[] result = new byte[0];
         try {
             result = Files.readAllBytes(path);
@@ -49,7 +49,7 @@ public class DefaultHandler implements HttpHandler
         os.close();
     }
 
-    private static final String DEFAULT_FILE_NAME = "\\index.html";
-    private static final String LOC_404 = "C:\\Users\\jacob\\AndroidStudioProjects\\FamilyMapServer\\HTML\\404.html";
-    private static final String HTTP_ROOT = "C:\\Users\\jacob\\AndroidStudioProjects\\FamilyMapServer\\HTML";
+    private static final String DEFAULT_FILE_NAME = "index.html";
+    private static final String LOC_404 = "./HTML/404.html";
+    private static final String HTTP_ROOT = "./HTML";
 }

@@ -39,7 +39,10 @@ public class ServerProxy {
         this.authToken = authToken;
     }
 
-    public static void main(String[] args){}
+    public static void main(String[] args){
+
+
+    }
 
 //    http.addRequestProperty("Authorization", "afj232hj2332");
   //  http.addRequestProperty("Content-Type", "application/json");
