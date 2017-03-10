@@ -8,7 +8,20 @@ import model.AuthToken;
 
 public class LoginResult {
 
+    public String getUserName() {
+        return userName;
+    }
+
+    public String getPersonID() {
+        return personID;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
     public String getAuthToken() {
+
         return authToken;
     }
 

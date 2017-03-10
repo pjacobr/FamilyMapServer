@@ -47,11 +47,10 @@ public class RegisterService {
             String email = newRegister.getEmail();
             String gender = newRegister.getGender();
 
-
-
             //add them as a Person and a user.
             persondao.addPerson(new Person(uuid, null, firstName, lastName, gender, null, null, null));
             User newUser = new User(username, password, email, firstName, lastName, gender, uuid);
+
             //register the person as a person first
             userdao.addUser(newUser);
             authdao.addAuthToken(username);

@@ -27,7 +27,7 @@ public class LoadService {
         User[] users = loader.getUsers();
 
         try {
-            trans.createTables();
+            trans.createTables(true);
             UserDAO userdao = trans.getUser();
             PersonDAO persondao = trans.getPerson();
             EventDAO eventdao = trans.getEvent();

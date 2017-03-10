@@ -21,7 +21,7 @@ public class UserDAOTest {
     public void setUp() throws Exception {
         transaction = new Transaction();
         transaction.openConnection();
-        transaction.createTables();
+        transaction.createTables(true);
     }
 
     @After

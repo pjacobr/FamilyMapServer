@@ -76,6 +76,9 @@ public class PersonHandler implements HttpHandler {
                     if(list){
                         filledJson = gson.toJson(personResult);
                     }else{
+                        if(personResults == null){
+                            filledJson = gson.toJson(new PersonResult("Invalid Authorization"));
+                        }
                         PersonResult[] personresults = personResults.toArray(new PersonResult[personResults.size()]);
                         filledJson = gson.toJson(personresults);
                     }

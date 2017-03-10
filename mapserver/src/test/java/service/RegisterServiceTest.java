@@ -17,7 +17,7 @@ public class RegisterServiceTest {
     public void setUp() throws Exception {
         Transaction trans = new Transaction();
         trans.openConnection();
-        trans.createTables();
+        trans.createTables(true);
         trans.closeConnection();
     }
 

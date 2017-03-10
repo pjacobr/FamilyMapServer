@@ -57,6 +57,9 @@ public class EventService {
 
             try {
                 event = eventdao.getEvent(eventID, user.getUsername());
+                if(!event.getDescendant().equals(user.getUsername())){
+                    return new EventResult("Invalid Authtoken");
+                }
             } catch (SQLException e) {
                 e.printStackTrace();
                 return new EventResult(e.getMessage());
@@ -99,9 +102,7 @@ public class EventService {
         }
         // check if they gave me the wrong AuthToken
         if (user == null) {
-            List<EventResult> invalidAuthToken = new ArrayList<>();
-            invalidAuthToken.add(new EventResult("Invalid Authtoken"));
-            return invalidAuthToken;
+            return null;
         }
         List<Event> eventList = null;
 
@@ -110,14 +111,13 @@ public class EventService {
             eventList = eventdao.getEvents(user.getUsername());
         } catch (SQLException e) {
             e.printStackTrace();
-            eventResList = new ArrayList<>();
-            eventResList.add(new EventResult(e.getMessage()));
+
             try {
                 trans.closeConnection(false);
             } catch (SQLException e1) {
                 e1.printStackTrace();
             }
-            return eventResList;
+            return null;
         }
 
 

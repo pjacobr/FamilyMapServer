@@ -5,15 +5,33 @@ package result;
  */
 
 public class RegisterResult {
-    String authToken = null;
+
 
     public void setAuthToken(String authToken) {
         this.authToken = authToken;
     }
 
+    public String getAuthToken(){
+        return authToken;
+    }
+
+
+    String authToken = null;
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public String getPersonID() {
+        return personID;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
     String userName = null;
     String personID = null;
-
     String message = null;
 
     /**

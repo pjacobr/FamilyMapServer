@@ -49,7 +49,7 @@ public class DefaultHandler implements HttpHandler
         os.close();
     }
 
-    private static final String DEFAULT_FILE_NAME = "index.html";
+    private static final String DEFAULT_FILE_NAME = "";
     private static final String LOC_404 = "./HTML/404.html";
     private static final String HTTP_ROOT = "./HTML";
 }

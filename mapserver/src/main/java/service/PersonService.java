@@ -41,6 +41,9 @@ public class PersonService {
             Person person = null;
             try {
                 person = persondao.getPerson(p.getPersonID());
+                if(!person.getDescendant().equals(username)){
+                    return new PersonResult("Invalid Authtoken");
+                }
             } catch (SQLException e) {
                 e.printStackTrace();
                 return new PersonResult(e.getMessage());
@@ -72,10 +75,12 @@ public class PersonService {
         PersonDAO persondao = trans.getPerson();
         AuthTokenDAO authTokenDAO = trans.getAuthToken();
         UserDAO userDao = trans.getUser();
+
         //this is the name of the person that we want all their ancestors
         String username = null;
         List<Person> people = null;
         List<PersonResult> results = null;
+
         if ((username = authTokenDAO.checkUser(authToken)) != null) {
             results = new ArrayList<>();
             try {
@@ -89,9 +94,7 @@ public class PersonService {
                 return results;
             } catch (SQLException e) {
                 e.printStackTrace();
-                List<PersonResult> list = new ArrayList<>();
-                list.add(new PersonResult(e.getMessage()));
-                return list;
+                return null;
             } finally {
                 try {
                     trans.closeConnection(true);
@@ -100,8 +103,7 @@ public class PersonService {
                 }
             }
         }else {
-            results.add(new PersonResult("User is not authorized"));
-            return results;
+            return null;
         }
     }
 

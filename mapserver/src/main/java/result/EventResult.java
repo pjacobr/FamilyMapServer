@@ -27,6 +27,46 @@ public class EventResult {
         this.message = message;
     }
 
+    public String getDescendant() {
+        return descendant;
+    }
+
+    public String getEventID() {
+        return eventID;
+    }
+
+    public String getPersonID() {
+        return personID;
+    }
+
+    public double getLatitude() {
+        return latitude;
+    }
+
+    public double getLongitude() {
+        return longitude;
+    }
+
+    public String getCountry() {
+        return country;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public String getEventType() {
+        return eventType;
+    }
+
+    public int getYear() {
+        return year;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
     /**
      * Success body constructor
      * @param descendant

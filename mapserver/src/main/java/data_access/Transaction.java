@@ -31,13 +31,30 @@ public class Transaction {
     public Transaction() {
 
     }
-    //Create all the tables in the database
-    public void createTables() throws SQLException{
+
+    public void dropTables(){
         String sql = "drop table if exists Persons;\n" +
                 "drop table if exists AuthTokens;\n" +
                 "drop table if exists Users;\n" +
-                "drop table if exists Events;\n" +
-                "CREATE TABLE Persons\n " +
+                "drop table if exists Events;\n";
+        Statement stmt = null;
+
+        try {
+            stmt = conn.createStatement();
+            stmt.executeUpdate(sql);
+            stmt.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    //Create all the tables in the database
+    public void createTables(boolean drop) throws SQLException{
+        if(drop){
+            dropTables();
+        }
+
+        String sql =
+                "CREATE TABLE IF NOT EXISTS Persons\n " +
         "(\n" +
                 "\tpersonID varchar(255) NOT NULL PRIMARY KEY,\n" +
                 "\tdescendant varchar(255),\n" +
@@ -50,7 +67,7 @@ public class Transaction {
                 "\tCONSTRAINT ck_gender CHECK (gender in ('m', 'f'))\n" +
                 ");\n" +
                 "\n" +
-                "CREATE TABLE Events\n" +
+                "CREATE TABLE IF NOT EXISTS Events\n" +
                 "(\n" +
                 "\teventID varchar(255) NOT NULL PRIMARY KEY UNIQUE,\n" +
                 "\tdescendant varchar(255),\n" +
@@ -65,14 +82,14 @@ public class Transaction {
                 ");\n" +
                 "\n" +
                 "\n" +
-                "CREATE TABLE AuthTokens\n" +
+                "CREATE TABLE IF NOT EXISTS AuthTokens\n" +
                 "(\n" +
                 "\tusername varchar(255) NOT NULL,\n" +
                 "\tauthtoken varchar(255) NOT NULL,\n" +
                 "\tcurrenttime DATETIME NOT NULL,\n" +
                 "\tFOREIGN KEY(username) REFERENCES Users(username)ON delete CASCADE ON update CASCADE\n" +
                 ");\n" +
-                "CREATE TABLE Users\n" +
+                "CREATE TABLE IF NOT EXISTS Users\n" +
                 "(\n" +
                 "\tusername varchar(255) NOT NULL UNIQUE,\n" +
                 "\tpassword varchar(255) NOT NULL,\n" +

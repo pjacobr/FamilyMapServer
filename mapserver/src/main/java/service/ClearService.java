@@ -24,7 +24,7 @@ public class ClearService {
         trans.openConnection();
     //try and drop the tables and recreate them. I don't know why I event have clear functions
         try {
-            trans.createTables();
+            trans.createTables(true);
             return new ClearResult("Clear succeeded");
         } catch (SQLException e) {
             e.printStackTrace();

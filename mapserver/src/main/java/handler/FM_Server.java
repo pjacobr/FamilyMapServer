@@ -36,11 +36,11 @@ public class FM_Server {
         System.out.println("Creating contexts");
         server.createContext("/user/login", new LoginHandler());
         server.createContext("/user/register", new RegisterHandler());
-        server.createContext("/clear", new ClearHandler());
-        server.createContext("/fill", new FillHandler());
-        server.createContext("/load", new LoadHandler());
-        server.createContext("/person", new PersonHandler());
-        server.createContext("/event", new EventsHandler());
+        server.createContext("/clear/", new ClearHandler());
+        server.createContext("/fill/", new FillHandler());
+        server.createContext("/load/", new LoadHandler());
+        server.createContext("/person/", new PersonHandler());
+        server.createContext("/event/", new EventsHandler());
         server.createContext("/", new DefaultHandler());
 
         System.out.println("Starting server");
@@ -52,7 +52,7 @@ public class FM_Server {
         Transaction trans = new Transaction();
         trans.openConnection();
         try {
-            trans.createTables();
+            trans.createTables(false);
         } catch (SQLException e) {
             e.printStackTrace();
         }finally{

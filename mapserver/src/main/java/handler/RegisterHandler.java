@@ -45,13 +45,16 @@ public class RegisterHandler implements HttpHandler {
                 //call the fillservice
                 RegisterService register = new RegisterService();
                 RegisterResult registered = register.registerUser(registration);
-                //fill them with 4 generations of data
-                FillService fillData = new FillService();
-                fillData.fill(new FillRequest(registration.getUsername()));
 
-                LoginService logIn = new LoginService();
-                LoginResult loggedIn =  logIn.login(new LoginRequest(registration.getUsername(), registration.getPassword()));
-                registered.setAuthToken(loggedIn.getAuthToken());
+                if(registered.getMessage() == null) {
+                    //fill them with 4 generations of data
+                    FillService fillData = new FillService();
+                    fillData.fill(new FillRequest(registration.getUsername()));
+
+                    LoginService logIn = new LoginService();
+                    LoginResult loggedIn = logIn.login(new LoginRequest(registration.getUsername(), registration.getPassword()));
+                    registered.setAuthToken(loggedIn.getAuthToken());
+                }
                 //now give that back to JSON
                 filledJson = gson.toJson(registered);
 

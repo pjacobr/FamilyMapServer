@@ -14,14 +14,8 @@ import java.net.HttpURLConnection;
 import java.net.URI;
 import java.util.List;
 
-import request.LoginRequest;
-import request.PersonRequest;
 import result.EventResult;
-import result.LoginResult;
-import result.PersonResult;
 import service.EventService;
-import service.LoginService;
-import service.PersonService;
 
 /**
  * Created by jacob on 3/8/2017.
@@ -72,20 +66,24 @@ public class EventsHandler implements HttpHandler {
                     //ok do we want all of them?
                     boolean list = false;
                     //check which we want
-                    if(input.length > 1){
+                    if (input.length > 1) {
                         list = true;
                         //personResult = personService.person(new PersonRequest(input[1]));
                         eventResult = eventService.event(input[1]);
-                    }else{
+                    } else {
                         //personResults = personService.person();
                         eventResults = eventService.event();
                     }
 
-                    if(list){
+                    if (list) {
                         filledJson = gson.toJson(eventResult);
-                    }else{
-                        EventResult[] eventresults = eventResults.toArray(new EventResult[eventResults.size()]);
-                        filledJson = gson.toJson(eventresults);
+                    } else {
+                        if (eventResults == null) {
+                            filledJson = gson.toJson(new EventResult("Error Retrieving Information"));
+                        } else {
+                            EventResult[] eventresults = eventResults.toArray(new EventResult[eventResults.size()]);
+                            filledJson = gson.toJson(eventresults);
+                        }
                     }
 
                     exchange.sendResponseHeaders(HttpURLConnection.HTTP_OK, 0);
@@ -94,7 +92,6 @@ public class EventsHandler implements HttpHandler {
 
                 }
                 //InputStreamReader is = new InputStreamReader(reqBody);
-
 
 
                 success = true;

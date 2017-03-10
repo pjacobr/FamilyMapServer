@@ -24,7 +24,7 @@ public class AuthTokenDAOTest {
         transaction = new Transaction();
         transaction.testing();
         transaction.openConnection();
-        transaction.createTables();
+        transaction.createTables(true);
     }
 
     @After
