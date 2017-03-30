@@ -2,8 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/FamilyMapServer.iml" filepath="$PROJECT_DIR$/.idea/modules/FamilyMapServer.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/mapserver/mapserver.iml" filepath="$PROJECT_DIR$/.idea/modules/mapserver/mapserver.iml" />
+      <module fileurl="file://$PROJECT_DIR$/FamilyMapServer2.iml" filepath="$PROJECT_DIR$/FamilyMapServer2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/familyapp/familyapp.iml" filepath="$PROJECT_DIR$/familyapp/familyapp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/familymapserver/familymapserver.iml" filepath="$PROJECT_DIR$/familymapserver/familymapserver.iml" />
     </modules>
   </component>
 </project>

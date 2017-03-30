@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">Family App</string>
+    <string name="female">Female</string>
+    <string name="male">Male</string>
+    <string name="first_name">First Name</string>
+    <string name="last_name">Last Name</string>
+    <string name="host_port">Host Port</string>
+    <string name="host_address">Host Address</string>
+    <string name="password">Password</string>
+    <string name="username">Username</string>
+    <string name="gender">Gender</string>
+    <string name="sign_in">Sign In</string>
+    <string name="register">Register</string>
+    <string name="homeIP">10.0.0.4</string>
+    <string name="talmageIP">Talmage IP</string>
+    <string name="jacob_username">pjacobr</string>
+    <string name="jacob_password">testing</string>
+    <string name="not_registered">Not Registered?</string>
+    <string name="submit">Submit</string>
+    <string name="jacob_email">jacobp1794@byu.edu</string>
+    <string name="email">Email</string>
+
+</resources>

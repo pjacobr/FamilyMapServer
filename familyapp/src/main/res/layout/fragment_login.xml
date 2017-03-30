@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    android:weightSum="1">
+
+
+    <ImageView
+        android:layout_width="336dp"
+        android:layout_height="280dp"
+        android:background="@drawable/logo"
+        android:layout_gravity="center_horizontal"
+        />
+
+    <EditText
+        android:id="@+id/input_login_host_port"
+        style="@style/LoginScreenInput"
+        android:hint="Host Port"
+        android:inputType="numberSigned"
+        android:text="8080" />
+
+    <EditText
+        android:id="@+id/input_login_host_address"
+        style="@style/LoginScreenInput"
+        android:hint="Host Address"
+        android:inputType="text"
+        android:text="192.168.254.156" />
+
+    <EditText
+        android:id="@+id/input_login_username"
+        style="@style/LoginScreenInput"
+        android:hint="Username"
+        android:inputType="textPersonName"
+        android:text="@string/jacob_username" />
+
+    <EditText
+        android:id="@+id/input_login_password"
+        style="@style/LoginScreenInput"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:text="@string/jacob_password" />
+
+    <Button
+        android:id="@+id/input_login_submit"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="10dp"
+        android:ems="8"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+
+        android:text="Sign In"
+        android:textAllCaps="false" />
+
+    <Button
+        android:id="@+id/input_login_register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:background="@android:color/transparent"
+        android:text="@string/not_registered"
+        android:clickable="true"
+        android:textAllCaps="false"
+        android:textColor="#1155ee" />
+
+
+
+</LinearLayout>
