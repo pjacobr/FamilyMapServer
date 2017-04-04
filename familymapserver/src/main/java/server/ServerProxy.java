@@ -48,6 +48,7 @@ public class ServerProxy {
     }
 
     String authToken = null;
+    //serverHost is the IP ADDRESS
     String serverHost = null;
     String serverPort = null;
 

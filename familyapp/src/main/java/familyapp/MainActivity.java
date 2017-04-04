@@ -9,7 +9,7 @@ import android.os.Bundle;
 import com.example.familyapp.R;
 
 
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends FragmentActivity implements Context{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,5 +36,20 @@ public class MainActivity extends FragmentActivity {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, new LoginFragment())
                 .commit();
+    }
+    public void goToMapFragment(){
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, new MapFragment())
+                .commit();
+    }
+
+    @Override
+    public void MakeToast(String message) {
+
+    }
+
+    @Override
+    public void onComplete() {
+        goToMapFragment();
     }
 }

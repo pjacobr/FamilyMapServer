@@ -187,8 +187,15 @@ public class DataGenerator {
         int fatherBirthYear = genGenGap(curYear);
         int motherBirthYear = genGenGap(curYear);
                 //set the parents to a new node so we can recurse
+
         curNode.father = new PersonNode(new Person(uuidFather, descendant, firstNameFather, lastNameFather, MALE, null, null, uuidMother, fatherBirthYear));
         curNode.mother = new PersonNode(new Person(uuidMother, descendant, firstNameMother, lastNameMother, FEMALE, null, null, uuidFather, motherBirthYear));
+
+        if(curLevel == 0){
+            curNode.info.setFather(firstNameFather);
+            curNode.info.setMother(firstNameMother);
+        }
+
         //generate birth events
         String type = "birth";
         generateEvents(curNode.father.info, type, generateEventYear(fatherBirthYear, type));

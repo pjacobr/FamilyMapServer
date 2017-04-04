@@ -52,9 +52,7 @@ public class FillService {
             Person p = persondao.getPerson(userInput.getPersonID());
             persondao.delete(p.getPersonID());
 
-            //Add the current User back to the database
-            persondao.addPerson(p);
-            userdao.addUser(userInput);
+
             //authTokenDAO.addAuthToken(userInput.getUsername());
 
             //Create a data tree using data generator
@@ -62,7 +60,9 @@ public class FillService {
             dg.fillTrie();
             List<Person> peopleToAdd = dg.ancestors;
             List<Event> eventsToAdd = dg.eventList;
-
+            //Add the current User back to the database
+            persondao.addPerson(p);
+            userdao.addUser(userInput);
             //add the events to the database
             persondao.addPerson(peopleToAdd);
             eventdao.addEvent(eventsToAdd);

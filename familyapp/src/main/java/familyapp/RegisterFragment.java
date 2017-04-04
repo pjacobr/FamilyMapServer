@@ -23,7 +23,7 @@ import request.RegisterRequest;
  * Created by jacob on 3/23/2017.
  */
 
-public class RegisterFragment extends Fragment implements FragmentInterface{
+public class RegisterFragment extends Fragment implements Context{
 
 
     public void setmHostNumber(String mHostNumber) {
@@ -54,13 +54,6 @@ public class RegisterFragment extends Fragment implements FragmentInterface{
     }
 
 
-    public String getmHostNumber() {
-        return mHostNumber;
-    }
-
-    public String getmHostAddress() {
-        return mHostAddress;
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -99,9 +92,10 @@ public class RegisterFragment extends Fragment implements FragmentInterface{
                         m.setIpAddress(ipAddress.getText().toString());
                         m.setFirstName(mFirstName.getText().toString());
                         m.setLastName(mLastName.getText().toString());
-                        String gender = (mGender.getText().toString() == "Male") ? "m" : "f";
+                        String gender = ((mGender.getText().toString()).equals("Male")) ? "m" : "f";
                         m.setGender(gender);
                         register();
+
                     }
                 });
         return v;
@@ -113,12 +107,17 @@ public class RegisterFragment extends Fragment implements FragmentInterface{
                 .show();
     }
 
+    @Override
+    public void onComplete() {
+        MainActivity main = (MainActivity) getActivity();
+        main.onComplete();
+    }
+
     public void register(){
         RegisterTask rg = new RegisterTask(this);
         ModelContainer m = ModelContainer.getModelInstance();
         RegisterRequest registerRequest = new RegisterRequest(m.getUsername(), m.getPassword(),
                 m.getEmail(),m.getFirstName(),m.getLastName(),m.getGender());
         rg.execute(registerRequest);
-        m = ModelContainer.getModelInstance();
     }
 }

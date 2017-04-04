@@ -16,9 +16,9 @@ import server.ServerProxy;
 
 public class SyncTask extends AsyncTask<Void, Void, Void> {
         ModelContainer cm;
-        FragmentInterface fm;
+        Context fm;
         boolean register;
-        public SyncTask(FragmentInterface fm, boolean register){
+        public SyncTask(Context fm, boolean register){
             cm = ModelContainer.getModelInstance();
             this.fm = fm;
             this.register = register;
@@ -26,24 +26,28 @@ public class SyncTask extends AsyncTask<Void, Void, Void> {
 
         @Override
         protected Void doInBackground(Void ... Void) {
-           ServerProxy proxy = new ServerProxy(cm.getAuthToken().getAuthToken(), cm.getHostPort(), cm.getIpAddress());
+           ServerProxy proxy = new ServerProxy(cm.getAuthToken().getAuthToken(),cm.getIpAddress(),cm.getHostPort());
            cm.setEvents(proxy.event());
            cm.setPersons(proxy.person());
            PersonResult person = proxy.person(new PersonRequest(cm.getUserID()));
            cm.setFirstName(person.getFirstname());
            cm.setLastName(person.getLastname());
            cm.setGender(person.getGender());
-           cm.setFirstName(person.getFirstname());
-           cm.setFirstName(person.getFirstname());
+           cm.setMother(person.getMother());
+           cm.setFather(person.getFather());
+           cm.setUserID(person.getPersonID());
            return null;
         }
 
         //After we are done with this.
-        protected void onPostExecute(LoginResult loginResult){
+        protected void onPostExecute(Void v){
+            fm.MakeToast("ON Post");
             if(register){
                 fm.MakeToast("Successfully logged in " + cm.getFirstName() + " " + cm.getLastName());
+                fm.onComplete();
             }else{
                 fm.MakeToast("Successfully synced");
             }
+
         }
 }

@@ -2,7 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/FamilyMapServer2.iml" filepath="$PROJECT_DIR$/FamilyMapServer2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/FamilyMapServer.iml" filepath="$PROJECT_DIR$/FamilyMapServer.iml" />
+      <module fileurl="file://$PROJECT_DIR$/amazon-maps-api-v2/amazon-maps-api-v2.iml" filepath="$PROJECT_DIR$/amazon-maps-api-v2/amazon-maps-api-v2.iml" />
       <module fileurl="file://$PROJECT_DIR$/familyapp/familyapp.iml" filepath="$PROJECT_DIR$/familyapp/familyapp.iml" />
       <module fileurl="file://$PROJECT_DIR$/familymapserver/familymapserver.iml" filepath="$PROJECT_DIR$/familymapserver/familymapserver.iml" />
     </modules>

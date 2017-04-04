@@ -16,19 +16,21 @@ import server.ServerProxy;
  */
 
 public class LoginTask extends AsyncTask<LoginRequest, Void, LoginResult> {
-    FragmentInterface fm;
-    public LoginTask(FragmentInterface fm){
+    familyapp.Context fm;
+    public LoginTask(familyapp.Context fm){
        this.fm = fm;
     }
 
     @Override
     protected LoginResult doInBackground(LoginRequest... params) {
-        ServerProxy proxy = new ServerProxy(/*ipAddress*/null,/*fm.getHostPort()*/null);
-        LoginResult result = proxy.login(params[0]);
         ModelContainer m = ModelContainer.getModelInstance();
+        //connect to the server
+        ServerProxy proxy = new ServerProxy( m.getIpAddress() ,m.getHostPort());
+        LoginResult result = proxy.login(params[0]);
+        //give it the auth token from the login
         m.setAuthToken(result.getAuthToken(), result.getUserName());
         m.setUserID(result.getPersonID());
-        //LoginResult r = new LoginResult("pjacobr", "auth", "what");
+
         return result;
     }
 
@@ -40,8 +42,8 @@ public class LoginTask extends AsyncTask<LoginRequest, Void, LoginResult> {
             fm.MakeToast("User is not Registered");
             return;
         }
-        SyncTask sync = null;
-        fm.MakeToast("Auth Token: " + m.getFirstName() + " " + m.getLastName());
+        SyncTask sync = new SyncTask(fm, true);
+        sync.execute();
     }
 
 }

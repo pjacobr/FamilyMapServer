@@ -5,6 +5,7 @@ import java.util.List;
 import model.AuthToken;
 import model.Event;
 import model.Person;
+import model.User;
 import result.EventResult;
 import result.PersonResult;
 
@@ -54,8 +55,34 @@ public class ModelContainer {
     private String ipAddress;
     private String username;
     private String password;
+
+    public void setMother(String mother) {
+        this.mother = mother;
+    }
+
+    public void setFather(String father) {
+        this.father = father;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public void setBirthyear(int birthyear) {
+        this.birthyear = birthyear;
+    }
+
+    public void setAuthtoken(AuthToken authtoken) {
+        this.authtoken = authtoken;
+    }
+
     private String firstName;
     private String lastName;
+    private String mother;
+    private String father;
+    private String userId;
+    Person p;
+    int birthyear;
     private AuthToken authtoken;
     private String email;
 

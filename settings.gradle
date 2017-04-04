@@ -1,1 +1,1 @@
-include ':familymapserver', ':familyapp'
+include ':familymapserver', ':familyapp', ':amazon-maps-api-v2'

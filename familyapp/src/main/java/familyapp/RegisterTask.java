@@ -14,8 +14,8 @@ import server.ServerProxy;
  */
 
 public class RegisterTask extends AsyncTask<RegisterRequest, Void, RegisterResult> {
-        private FragmentInterface fm;
-        public RegisterTask(FragmentInterface fm){
+        private Context fm;
+        public RegisterTask(Context fm){
             this.fm = fm;
         }
 

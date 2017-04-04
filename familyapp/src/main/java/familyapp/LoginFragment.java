@@ -30,7 +30,7 @@ import result.LoginResult;
  * Created by jacob on 3/22/2017.
  */
 
-public class LoginFragment extends Fragment implements FragmentInterface{
+public class LoginFragment extends Fragment implements familyapp.Context{
     private EditText mUsername;
     private EditText mPassword;
     private RadioButton mGender;
@@ -65,19 +65,20 @@ public class LoginFragment extends Fragment implements FragmentInterface{
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_login, container, false);
         //set the username listener
+
         submit = (Button) v.findViewById(R.id.input_login_submit);
         register = (Button) v.findViewById(R.id.input_login_register);
         mUsername = (EditText) v.findViewById(R.id.input_login_username);
         mPassword = (EditText) v.findViewById(R.id.input_login_password);
         mHostPort = (EditText) v.findViewById(R.id.input_login_host_port);
         mIPAddress =(EditText) v.findViewById(R.id.input_login_host_address);
+
         submit.setOnClickListener(new View.OnClickListener() {
             public void onClick(View view) {
-                hostPort = mHostPort.getText().toString();
-                ipAddress = mIPAddress.getText().toString();
-
+                ModelContainer m = ModelContainer.getModelInstance();
+                m.setHostPort(mHostPort.getText().toString());
+                m.setIpAddress(mIPAddress.getText().toString());
                 login();
-
             }
         });
 
@@ -97,11 +98,15 @@ public class LoginFragment extends Fragment implements FragmentInterface{
                 .show();
     }
 
+    @Override
+    public void onComplete() {
+        MainActivity main = (MainActivity) getActivity();
+        main.onComplete();
+    }
+
     public void login(){
         LoginTask lg = new LoginTask(this);
         LoginRequest loginR = new LoginRequest(mUsername.getText().toString(), mPassword.getText().toString());
         lg.execute(loginR);
-        ModelContainer m = ModelContainer.getModelInstance();
-
     }
 }

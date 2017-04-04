@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.amazon.geo.mapsv2.AmazonMap;
+import com.amazon.geo.mapsv2.OnMapReadyCallback;
 import com.example.familyapp.R;
 
 import java.util.Map;
@@ -15,8 +17,12 @@ import java.util.Map;
  */
 
 public class MapFragment extends Fragment {
-    private String authToken;
     //what kind of data will I need floating around here
+
+    private MapFragment mMapFragment;
+    public MapFragment(){
+
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -26,8 +32,12 @@ public class MapFragment extends Fragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                             Bundle savedInstanceState){
-        View v = inflater.inflate(R.layout.fragment_login, container, false);
-        //I don't know what kind of listeners to make here.
+        View v = inflater.inflate(R.layout.fragment_map, container, false);
+        // Extract a reference to the map fragment
+
+        // Call .getMapAsync() and pass it an object that implements
+        // the OnMapReadyCallback interface.
+
 
         return v;
     }
