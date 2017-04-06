@@ -23,6 +23,14 @@ public class ModelContainer {
 
     public void setPersons(List<PersonResult> persons) {
         this.persons = persons;
+        accessPersons = new HashMap<String, PersonResult>();
+        for(PersonResult person : this.persons){
+            accessPersons.put(person.getPersonID(), person);
+        }
+    }
+
+    public Map<String, PersonResult> getAccessPersons() {
+        return accessPersons;
     }
 
     public void setEvents(List<EventResult> events) {
@@ -76,7 +84,11 @@ public class ModelContainer {
 
     private List<PersonResult> persons;
     private List<EventResult> events;
+    //Events by Type
     private Map<String, List<EventResult>> eventList;
+    //Persons by ID
+    private Map<String, PersonResult> accessPersons;
+
     private String hostPort;
     private String ipAddress;
     private String username;

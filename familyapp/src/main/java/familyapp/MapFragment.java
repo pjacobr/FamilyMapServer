@@ -6,6 +6,7 @@ import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.amazon.geo.mapsv2.AmazonMap;
 import com.amazon.geo.mapsv2.OnMapReadyCallback;
@@ -22,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
+import model.Person;
 import result.EventResult;
 import result.PersonResult;
 
@@ -32,71 +34,94 @@ import result.PersonResult;
 
 public class MapFragment extends Fragment {
     //what kind of data will I need floating around here
-    private SupportMapFragment map;
     private AmazonMap amazonMap;
-    private List<Marker> markers;
-    public MapFragment(){
+    private TextView personInfo;
+    //TODO put this in the Modelclass
+    private Map<Marker, EventResult> markerInfo;
+
+    public MapFragment() {
 
     }
 
     @Override
-    public void onCreate(Bundle savedInstanceState){
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //what do I create here??
 
     }
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                            Bundle savedInstanceState){
+                             Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_map, container, false);
 
         ModelContainer m = ModelContainer.getModelInstance();
-      //  m.setEventList();
+        //  m.setEventList();
         // Extract a reference to the map fragment
         //amazonMap.addPolyline();
-        amazonMap = ((SupportMapFragment)getChildFragmentManager().findFragmentById(R.id.map)).getMap();
+        amazonMap = ((SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map)).getMap();
         amazonMap.setMapType(AmazonMap.MAP_TYPE_HYBRID);
 
+        personInfo = (TextView) v.findViewById(R.id.person_id);
+        personInfo.setVisibility(View.GONE);
 
-        Map<String, List<EventResult>> eventsType = (HashMap)m.getEventList();
-        List<EventResult> events = (ArrayList)m.getEvents();
+
+        //TODO refactor the code into functions
+        Map<String, List<EventResult>> eventsType = (HashMap) m.getEventList();
+        List<EventResult> events = (ArrayList) m.getEvents();
         int hue = 35;
         int numEventTypes = 0;
-        for(EventResult eventResult : events){
-            if(!eventsType.containsKey(eventResult.getEventType())){
+        //function Initialize map data containers
+        // Initialize the eventResults and get them organized by type and also connect them to their persons.
+        for (EventResult eventResult : events) {
+            if (!eventsType.containsKey(eventResult.getEventType())) {
                 eventsType.put(eventResult.getEventType(), new ArrayList<EventResult>());
                 numEventTypes++;
             }
-            ((ArrayList)eventsType.get(eventResult.getEventType())).add(eventResult);
+            //add the event to the map of that is connected to its type
+            ((ArrayList) eventsType.get(eventResult.getEventType())).add(eventResult);
+            //go through and add the events connect to the person.
+            for (PersonResult person : m.getPersons()) {
+                if (person.getPersonID().equals(eventResult.getPersonID())) {
+                    person.getEvents().add(eventResult);
+                    //Once I find the person that it is connected to I can jump out because it should not be connected to multiple people.
+                    break;
+                }
+            }
         }
-
-        markers = new ArrayList<Marker>();
-        int hueOffset = 325/numEventTypes;
-
-        Map<Marker, Map<EventResult, PersonResult>> markerMap = new HashMap<>();
-
-
-       // PersonResult
-        for(Map.Entry<String, List<EventResult>> entry : eventsType.entrySet()) {
+        //TODO Why do I want to keep track of the MARKERS??
+        int hueOffset = 325 / numEventTypes;
+        markerInfo = new HashMap<>();
+        // PersonResult
+        Map<String, PersonResult> info = m.getAccessPersons();
+        for (Map.Entry<String, List<EventResult>> entry : eventsType.entrySet()) {
             for (EventResult event : entry.getValue()) {
+                String firstName = info.get(event.getPersonID()).getFirstname();
+                String lastName = info.get(event.getPersonID()).getLastname();
                 MarkerOptions markerOptions = new MarkerOptions()
                         .position(new LatLng(event.getLatitude(), event.getLongitude()))
                         .alpha(5)
+                        //.title(firstName + " " + lastName + "\n" + event.getCity() + ", " + event.getCountry() + "\n" + event.getEventType())
                         .icon(BitmapDescriptorFactory.defaultMarker(hue));
                 Marker mark = amazonMap.addMarker(markerOptions);
-                /*if(!markerMap.containsKey(mark)){
-                    markerMap.put(mark, new HashMap<EventResult, PersonResult>());
-                }*/
-                //((HashMap)markerMap.get(mark)).put(event, );
-
-                markers.add(mark);
+                markerInfo.put(mark, event);
             }
-            int i = (hue + hueOffset +20 < 360) ? hue+= (hueOffset+15) : (hue+=hueOffset);
+            int i = (hue + hueOffset + 20 < 360) ? hue += (hueOffset + 15) : (hue += hueOffset);
         }
+
+        amazonMap.setOnMarkerClickListener(new AmazonMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                EventResult event = markerInfo.get(marker);
+                PersonResult person = ModelContainer.getModelInstance().getAccessPersons().get(event.getPersonID());
+                personInfo.setText(person.getFirstname() + " " + person.getLastname() + "\n" + event.getCity() + ", " + event.getCountry()
+                        + "\n" + ToolBox.capitalizeFirstLetter(event.getEventType()) + " " + event.getYear());
+                personInfo.setVisibility(View.VISIBLE);
+                return false;
+            }
+        });
 
 
         //amazonMap.setOnMarkerClickListener();
-
 
 
         //amazonMap.getCameraPosition();
@@ -106,4 +131,7 @@ public class MapFragment extends Fragment {
         return v;
     }
 
+
+
 }
+

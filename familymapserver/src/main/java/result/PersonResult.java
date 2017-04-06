@@ -1,16 +1,34 @@
 package result;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import model.Person;
+
 /**
  * Created by jacob on 2/16/2017.
  */
-
+//TODO someday make sure to condense this a little bit better (put a person class here instead of the individual
+    //data members
 public class PersonResult {
     String message = null;
-    String descendant = null;
-    String personID= null;
-    String firstname = null;
+    String descendant;
+    String personID;
+    String firstname;
+    String lastname;
+    String gender;
+    String mother;
+    String father;
+    String spouse;
+
+    public List<EventResult> getEvents() {
+        return events;
+    }
+
+    List<EventResult> events;
 
     public PersonResult(String descendant, String personID, String firstname, String lastname, String gender, String mother, String father, String spouse) {
+        events = new ArrayList<EventResult>(0);
         this.descendant = descendant;
         this.personID = personID;
         this.firstname = firstname;
@@ -21,11 +39,7 @@ public class PersonResult {
         this.spouse = spouse;
     }
 
-    String lastname = null;
-    String gender = null;
-    String mother = null;
-    String father = null;
-    String spouse = null;
+
 
     public String getMessage() {
         return message;

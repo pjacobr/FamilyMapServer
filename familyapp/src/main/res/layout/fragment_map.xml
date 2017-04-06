@@ -15,4 +15,22 @@
         android:layout_weight="1"
         tools:context="familyapp.MainActivity"
         class="com.amazon.geo.mapsv2.SupportMapFragment" />
+    
+    <TextView
+        android:layout_width="match_parent"
+        android:id="@+id/person_id"
+        android:layout_height="90dp"
+        android:visibility=""
+        android:background="@color/colorPrimary"
+        android:textColor="#000000"
+        android:padding="5dp"
+        android:text="Person LastName \n City, Country \n Event Event Year"
+        android:textSize="20dp"
+        android:textAlignment="center"
+
+        >
+
+    </TextView>
+
+
 </LinearLayout>
