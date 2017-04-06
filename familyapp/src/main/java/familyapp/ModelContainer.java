@@ -1,6 +1,10 @@
 package familyapp;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import model.AuthToken;
 import model.Event;
@@ -23,7 +27,28 @@ public class ModelContainer {
 
     public void setEvents(List<EventResult> events) {
         this.events = events;
+        //separate out the events by type so I can easily
+        setEventList();
     }
+
+    int numEventTypes = 0;
+
+    public Map<String, List<EventResult>> getEventList() {
+        return eventList;
+    }
+
+    public int getNumEventTypes() {
+
+        return numEventTypes;
+    }
+
+    public void setEventList(){
+        if(eventList == null){
+            eventList = new HashMap<>();
+        }
+        //fill the list with Lists of the type
+    }
+
 
     public void setHostPort(String hostPort) {
         this.hostPort = hostPort;
@@ -51,6 +76,7 @@ public class ModelContainer {
 
     private List<PersonResult> persons;
     private List<EventResult> events;
+    private Map<String, List<EventResult>> eventList;
     private String hostPort;
     private String ipAddress;
     private String username;

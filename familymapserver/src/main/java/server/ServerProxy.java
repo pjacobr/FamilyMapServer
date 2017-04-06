@@ -361,10 +361,14 @@ public class ServerProxy {
             if (http.getResponseCode() == HttpURLConnection.HTTP_OK) {
                 InputStream respBody = http.getInputStream();
                 String respData = readString(respBody);
-                List<EventResult> results = null;
-                results = gs.fromJson(respData, ArrayList.class);
+                EventResult[] results = null;
+                results = gs.fromJson(respData, EventResult[].class);
+                List<EventResult> results1= new ArrayList<>();
+                for(EventResult ev : results){
+                    results1.add(ev);
+                }
                 System.out.println("Route successfully claimed.");
-                return results;
+                return results1;
             } else {
                 System.out.println("ERROR: " + http.getResponseMessage());
                 List<EventResult> results = new ArrayList<>();

@@ -27,7 +27,7 @@
             android:layout_column="2"
             android:layout_row="1"
             android:inputType="text"
-            android:text="10.0.0.4" />
+            android:text="10.0.0.4"/>
 
 
         <EditText

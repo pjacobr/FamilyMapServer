@@ -24,6 +24,7 @@ public class RegisterTask extends AsyncTask<RegisterRequest, Void, RegisterResul
             ModelContainer m = ModelContainer.getModelInstance();
             ServerProxy proxy = new ServerProxy(m.getIpAddress(), m.getHostPort());
             RegisterResult result = proxy.register(params[0]);
+
             m.setAuthToken(result.getAuthToken(), result.getUserName());
             m.setUserID(result.getPersonID());
             //LoginResult r = new LoginResult("pjacobr", "auth", "what");
@@ -31,12 +32,14 @@ public class RegisterTask extends AsyncTask<RegisterRequest, Void, RegisterResul
         }
 
         @Override
-        public void onPostExecute(RegisterResult login){
+        public void onPostExecute(RegisterResult login) {
             //update stuffmGender.getText().toString()
+            if (login.getMessage() != null) {
+                fm.MakeToast("Error registering, you may be already registered");
+                return;
+            }
             ModelContainer m = ModelContainer.getModelInstance();
             SyncTask sync = new SyncTask(fm, true);
             sync.execute();
-
-            fm.MakeToast("Thank you for registering "  + m.getFirstName() + " " + m.getLastName());
         }
 }

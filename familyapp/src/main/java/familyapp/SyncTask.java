@@ -3,8 +3,12 @@ package familyapp;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import request.LoginRequest;
 import request.PersonRequest;
+import result.EventResult;
 import result.LoginResult;
 import result.PersonResult;
 import result.RegisterResult;
@@ -27,8 +31,10 @@ public class SyncTask extends AsyncTask<Void, Void, Void> {
         @Override
         protected Void doInBackground(Void ... Void) {
            ServerProxy proxy = new ServerProxy(cm.getAuthToken().getAuthToken(),cm.getIpAddress(),cm.getHostPort());
-           cm.setEvents(proxy.event());
-           cm.setPersons(proxy.person());
+
+           List<EventResult> list = (ArrayList)proxy.event();
+           cm.setEvents(list);
+           cm.setPersons((ArrayList)proxy.person());
            PersonResult person = proxy.person(new PersonRequest(cm.getUserID()));
            cm.setFirstName(person.getFirstname());
            cm.setLastName(person.getLastname());
@@ -41,13 +47,12 @@ public class SyncTask extends AsyncTask<Void, Void, Void> {
 
         //After we are done with this.
         protected void onPostExecute(Void v){
-            fm.MakeToast("ON Post");
+            //fm.MakeToast("ON Post");
             if(register){
                 fm.MakeToast("Successfully logged in " + cm.getFirstName() + " " + cm.getLastName());
                 fm.onComplete();
             }else{
                 fm.MakeToast("Successfully synced");
             }
-
         }
 }
