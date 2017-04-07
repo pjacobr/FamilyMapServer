@@ -1,4 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-
+<menu xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    >
+    <item
+        android:icon="@mipmap/map_tool_bar_search"
+        android:title="Search"
+        app:showAsAction="always"
+        android:id="@+id/searchIcon"></item>
+    <item
+        app:showAsAction="always"
+        android:title="Filter"
+        android:icon="@mipmap/map_tool_bar_filter"
+        android:id="@+id/filterIcon"
+        ></item>
+    <item android:title="Settings"
+        app:showAsAction="always"
+        android:icon="@mipmap/map_tool_bar_settings"
+        android:enabled="true"
+        android:visible="true"
+        android:id="@+id/settingsIcon"
+        >
+    </item>
 </menu>
