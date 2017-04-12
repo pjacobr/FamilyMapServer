@@ -1,0 +1,5 @@
+package familyapp;
+
+public enum ActivityType{
+    SEARCH_ACTIVITY, SETTINGS_ACTIVITY, FILTER_ACTIVITY, MAIN_ACTIVITY, PERSON_ACTIVITY;
+}

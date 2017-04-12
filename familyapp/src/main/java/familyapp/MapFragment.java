@@ -7,6 +7,7 @@ import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -49,20 +50,45 @@ public class MapFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
         //what do I create here??
-
     }
+
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+       super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.map_toolbar, menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle item selection
+        switch (item.getItemId()) {
+            case R.id.filterIcon:
+                ((MainActivity)getActivity()).startNewActivity(ActivityType.FILTER_ACTIVITY);
+                return true;
+            case R.id.settingsIcon:
+                ((MainActivity)getActivity()).startNewActivity(ActivityType.SETTINGS_ACTIVITY);
+                return true;
+            case R.id.searchIcon:
+                ((MainActivity)getActivity()).startNewActivity(ActivityType.SEARCH_ACTIVITY);
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         View v = inflater.inflate(R.layout.fragment_map, container, false);
         MainActivity mainActivity = (MainActivity)getActivity();
-        @Override
-        mainActivity.onCreateOptionsMenu(Menu menu) {
 
 
-            MenuInflater.inflate(R.menu.map_toolbar, menu);
-        }
+
+            //MenuInflater.inflate(R.menu.map_toolbar, menu);
+
         ModelContainer m = ModelContainer.getModelInstance();
         //  m.setEventList();
         // Extract a reference to the map fragment

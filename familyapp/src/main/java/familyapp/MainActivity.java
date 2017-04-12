@@ -1,15 +1,17 @@
 package familyapp;
 
+import android.content.Intent;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
 
 import com.example.familyapp.R;
 
-
-public class MainActivity extends FragmentActivity implements Context{
+public class MainActivity extends AppCompatActivity implements Context{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +27,10 @@ public class MainActivity extends FragmentActivity implements Context{
                     .add(R.id.fragment_container, fragment)
                     .commit();
         }
+
     }
+
+
 
     public void changeToRegisterFragment(){
         getSupportFragmentManager().beginTransaction()
@@ -42,6 +47,35 @@ public class MainActivity extends FragmentActivity implements Context{
                 .replace(R.id.fragment_container, new MapFragment())
                 .commit();
     }
+
+    public void startNewActivity(ActivityType type){
+        Intent i = new Intent();
+        Object objectType = null;
+        switch (type){
+            case SEARCH_ACTIVITY:
+                objectType = new SearchActivity();
+                break;
+            case SETTINGS_ACTIVITY:
+                objectType = new SettingsActivity();
+                break;
+            case FILTER_ACTIVITY:
+                objectType = new FilterActivity();
+                break;
+            case PERSON_ACTIVITY:
+                objectType = new PersonActivity();
+            default:
+                System.out.print("Error");
+                break;
+        }
+        Intent myIntent = new Intent(this, objectType.getClass() );
+        //myIntent.putExtra("key", value); //Optional parameters
+        this.startActivity(myIntent);
+    }
+
+    public void startSearchActivity(){
+
+    }
+
 
     @Override
     public void MakeToast(String message) {

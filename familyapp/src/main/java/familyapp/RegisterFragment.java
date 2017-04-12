@@ -51,6 +51,7 @@ public class RegisterFragment extends Fragment implements Context{
     @Override
     public void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(false);
     }
 
 

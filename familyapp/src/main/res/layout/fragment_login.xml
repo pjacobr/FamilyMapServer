@@ -27,7 +27,7 @@
         style="@style/LoginScreenInput"
         android:hint="Host Address"
         android:inputType="text"
-        android:text="10.0.0.4" />
+        android:text="192.168.254.156" />
 
     <EditText
         android:id="@+id/input_login_username"
