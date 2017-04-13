@@ -1,10 +1,13 @@
 package familyapp;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.familyapp.R;
 
@@ -28,7 +31,7 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.ViewHolder
         View contactView = inflater.inflate(R.layout.person_children_layout, parent, false);
 
         //Return a new holder instance
-        ViewHolder viewHolder = new ViewHolder(contactView);
+        ViewHolder viewHolder = new ViewHolder(contactView, context);
 
         return viewHolder;
     }
@@ -57,11 +60,22 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.ViewHolder
 
         //We also create a constructor that accepts the entire tiem row
         //and does the view lookups to find each subview
-        public ViewHolder(View itemView){
+        public ViewHolder(View itemView, final android.content.Context c){
             super(itemView);
 
             personInfo = (TextView)itemView.findViewById(R.id.child_name);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Toast.makeText(c ,"clicked="+ getPosition(),Toast.LENGTH_SHORT).show();
+                    Intent myIntent = new Intent(c, PersonActivity.class);
+                    //myIntent.putExtra("key", value); //Optional parameters
+                    c.startActivity(myIntent);
+                }
+            });
         }
+
+
     }
     //The Children to include
     private List<PersonResult> mPersons;

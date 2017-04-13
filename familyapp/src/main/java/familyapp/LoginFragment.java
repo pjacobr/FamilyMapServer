@@ -96,6 +96,7 @@ public class LoginFragment extends Fragment implements familyapp.Context{
     @Override
     public void MakeToast(String message){
         Toast.makeText(getContext(), message, Toast.LENGTH_SHORT)
+                .show();Toast.makeText(getContext(), message, Toast.LENGTH_SHORT)
                 .show();
     }
 

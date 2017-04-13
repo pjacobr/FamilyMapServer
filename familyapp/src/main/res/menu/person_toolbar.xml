@@ -2,7 +2,7 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/searchIcon"
+        android:id="@+id/up_button"
         android:icon="@mipmap/up_button"
         android:title="Search"
         app:showAsAction="always"></item>

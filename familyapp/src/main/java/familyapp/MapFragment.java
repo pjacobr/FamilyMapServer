@@ -112,13 +112,13 @@ public class MapFragment extends Fragment {
         Map<String, List<EventResult>> eventsType = (HashMap) m.getEventList();
         List<EventResult> events = (ArrayList) m.getEvents();
         int hue = 35;
-        int numEventTypes = 0;
+
         //function Initialize map data containers
         // Initialize the eventResults and get them organized by type and also connect them to their persons.
         for (EventResult eventResult : events) {
             if (!eventsType.containsKey(eventResult.getEventType())) {
                 eventsType.put(eventResult.getEventType(), new ArrayList<EventResult>());
-                numEventTypes++;
+
             }
             //add the event to the map of that is connected to its type
             ((ArrayList) eventsType.get(eventResult.getEventType())).add(eventResult);
@@ -131,8 +131,13 @@ public class MapFragment extends Fragment {
                 }
             }
         }
+        int numEventTypes = eventsType.size();
         //TODO Why do I want to keep track of the MARKERS??
-        int hueOffset = 325 / numEventTypes;
+        int hueOffset = 1;
+        if(numEventTypes > 0) {
+            hueOffset = 325 / numEventTypes;
+        }
+
         markerInfo = new HashMap<>();
         // PersonResult
         Map<String, PersonResult> info = m.getAccessPersons();

@@ -1,8 +1,8 @@
 package familyapp;
 
 /**
- * Created by jacob on 4/12/2017.
+ * Created by jacob on 4/13/2017.
  */
 
-public class SearchActivity {
+class SearchActivity {
 }
