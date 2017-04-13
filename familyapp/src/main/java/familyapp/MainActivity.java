@@ -2,12 +2,9 @@ package familyapp;
 
 import android.content.Intent;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuInflater;
 
 import com.example.familyapp.R;
 
@@ -49,7 +46,6 @@ public class MainActivity extends AppCompatActivity implements Context{
     }
 
     public void startNewActivity(ActivityType type){
-        Intent i = new Intent();
         Object objectType = null;
         switch (type){
             case SEARCH_ACTIVITY:
@@ -63,19 +59,16 @@ public class MainActivity extends AppCompatActivity implements Context{
                 break;
             case PERSON_ACTIVITY:
                 objectType = new PersonActivity();
+                break;
             default:
                 System.out.print("Error");
                 break;
         }
-        Intent myIntent = new Intent(this, objectType.getClass() );
+        Intent myIntent = new Intent(this, objectType.getClass());
+
         //myIntent.putExtra("key", value); //Optional parameters
-        this.startActivity(myIntent);
+        startActivity(myIntent);
     }
-
-    public void startSearchActivity(){
-
-    }
-
 
     @Override
     public void MakeToast(String message) {

@@ -10,6 +10,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.amazon.geo.mapsv2.AmazonMap;
@@ -90,14 +91,21 @@ public class MapFragment extends Fragment {
             //MenuInflater.inflate(R.menu.map_toolbar, menu);
 
         ModelContainer m = ModelContainer.getModelInstance();
-        //  m.setEventList();
-        // Extract a reference to the map fragment
+        //m.setEventList();
+        //Extract a reference to the map fragment
         //amazonMap.addPolyline();
         amazonMap = ((SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map)).getMap();
         amazonMap.setMapType(AmazonMap.MAP_TYPE_HYBRID);
 
         personInfo = (TextView) v.findViewById(R.id.person_id);
         personInfo.setVisibility(View.GONE);
+
+
+        personInfo.setOnClickListener(new View.OnClickListener(){
+            public void onClick(View view){
+                ((MainActivity)getActivity()).startNewActivity(ActivityType.PERSON_ACTIVITY);
+            }
+        });
 
 
         //TODO refactor the code into functions
