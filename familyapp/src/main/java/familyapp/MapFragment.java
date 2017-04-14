@@ -1,8 +1,10 @@
 package familyapp;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.SupportActivity;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -42,10 +44,10 @@ public class MapFragment extends Fragment {
     private AmazonMap amazonMap;
     private TextView personInfo;
     //TODO put this in the Modelclass
-    private Map<Marker, EventResult> markerInfo;
-
+    private Marker curMarker;
+    Context context;
     public MapFragment() {
-
+        this.context = context;
     }
 
     @Override
@@ -103,6 +105,10 @@ public class MapFragment extends Fragment {
 
         personInfo.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
+               EventResult e = ModelContainer.getModelInstance().getMarkerInfo().get(curMarker);
+               ModelContainer.getModelInstance().curEvent = e;
+               ModelContainer.getModelInstance().curPerson = ModelContainer.getModelInstance().getAccessPersons().get(e.getPersonID());
+                // Intent intent = new Intent((MainActivity)getActivity().getBaseContext(), PersonActivity.class);
                 ((MainActivity)getActivity()).startNewActivity(ActivityType.PERSON_ACTIVITY);
             }
         });
@@ -138,7 +144,7 @@ public class MapFragment extends Fragment {
             hueOffset = 325 / numEventTypes;
         }
 
-        markerInfo = new HashMap<>();
+        ModelContainer.getModelInstance().setMarkerInfo(new HashMap<Marker, EventResult>());
         // PersonResult
         Map<String, PersonResult> info = m.getAccessPersons();
         for (Map.Entry<String, List<EventResult>> entry : eventsType.entrySet()) {
@@ -151,7 +157,7 @@ public class MapFragment extends Fragment {
                         //.title(firstName + " " + lastName + "\n" + event.getCity() + ", " + event.getCountry() + "\n" + event.getEventType())
                         .icon(BitmapDescriptorFactory.defaultMarker(hue));
                 Marker mark = amazonMap.addMarker(markerOptions);
-                markerInfo.put(mark, event);
+                ModelContainer.getModelInstance().getMarkerInfo().put(mark, event);
             }
             int i = (hue + hueOffset + 20 < 360) ? hue += (hueOffset + 15) : (hue += hueOffset);
         }
@@ -159,11 +165,12 @@ public class MapFragment extends Fragment {
         amazonMap.setOnMarkerClickListener(new AmazonMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
-                EventResult event = markerInfo.get(marker);
+                EventResult event = ModelContainer.getModelInstance().getMarkerInfo().get(marker);
                 PersonResult person = ModelContainer.getModelInstance().getAccessPersons().get(event.getPersonID());
                 personInfo.setText(person.getFirstname() + " " + person.getLastname() + "\n" + event.getCity() + ", " + event.getCountry()
                         + "\n" + ToolBox.capitalizeFirstLetter(event.getEventType()) + " " + event.getYear());
                 personInfo.setVisibility(View.VISIBLE);
+                curMarker = marker;
                 return false;
             }
         });

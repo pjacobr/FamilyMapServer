@@ -1,5 +1,7 @@
 package familyapp;
 
+import com.amazon.geo.mapsv2.model.Marker;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -20,80 +22,59 @@ import result.PersonResult;
 public class ModelContainer {
 
     private static ModelContainer _instance;
-
-    public void setPersons(List<PersonResult> persons) {
-        this.persons = persons;
-        accessPersons = new HashMap<String, PersonResult>();
-        for(PersonResult person : this.persons){
-            accessPersons.put(person.getPersonID(), person);
-        }
-    }
-
-    public Map<String, PersonResult> getAccessPersons() {
-        return accessPersons;
-    }
-
-    public void setEvents(List<EventResult> events) {
-        this.events = events;
-        //separate out the events by type so I can easily
-        setEventList();
-    }
-
     int numEventTypes = 0;
 
-    public Map<String, List<EventResult>> getEventList() {
-        return eventList;
-    }
-
-    public int getNumEventTypes() {
-
-        return numEventTypes;
-    }
-
-    public void setEventList(){
-        if(eventList == null){
-            eventList = new HashMap<>();
-        }
-        //fill the list with Lists of the type
-    }
-
-
-    public void setHostPort(String hostPort) {
-        this.hostPort = hostPort;
-    }
-
-    public void setIpAddress(String ipAddress) {
-        this.ipAddress = ipAddress;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
+    /*
+     * Map Markers associated with the events that they are attached to
+     * Key is Map Pin Marker
+     * Value is the associated Map Key
+     */
+    private Map<Marker, EventResult> markerInfo;
+    //List of all the People associated with the current user
     private List<PersonResult> persons;
+    // List of all the event results for the current User
     private List<EventResult> events;
-    //Events by Type
+    /*
+    * Events by Type
+    * Key is the type of the Event
+    * Value is the Event associated with the event
+    */
     private Map<String, List<EventResult>> eventList;
-    //Persons by ID
+    /*
+    * People associated by ID
+    *   KEY is person ID
+    *   VALUE is Person Event
+    */
     private Map<String, PersonResult> accessPersons;
 
+    /*
+        Information for Current User
+     */
     private String hostPort;
     private String ipAddress;
     private String username;
     private String password;
+    private String firstName;
+    private String lastName;
+    private String mother;
+    private String father;
+    private String userId;
+    int birthyear;
+    private AuthToken authtoken;
+    private String email;
+    private String userID;
+    private String gender;
 
+    //*******************************
+
+    //Currently pressed marker Person/Event/Marker
+    PersonResult curPerson;
+    EventResult curEvent;
+    /*********************************************************************************
+     *
+     * Setters and Getters
+     *
+     ********************************************************************************/
     public void setMother(String mother) {
         this.mother = mother;
     }
@@ -114,16 +95,6 @@ public class ModelContainer {
         this.authtoken = authtoken;
     }
 
-    private String firstName;
-    private String lastName;
-    private String mother;
-    private String father;
-    private String userId;
-    Person p;
-    int birthyear;
-    private AuthToken authtoken;
-    private String email;
-
     public String getEmail() {
         return email;
     }
@@ -131,9 +102,6 @@ public class ModelContainer {
     public void setEmail(String email) {
         this.email = email;
     }
-
-    private String userID;
-    private String gender;
 
     public String getGender() {
         return gender;
@@ -202,4 +170,72 @@ public class ModelContainer {
     public String getLastName() {
         return lastName;
     }
+
+    public void setPersons(List<PersonResult> persons) {
+        this.persons = persons;
+        accessPersons = new HashMap<String, PersonResult>();
+        for(PersonResult person : this.persons){
+            accessPersons.put(person.getPersonID(), person);
+        }
+    }
+
+    public Map<String, PersonResult> getAccessPersons() {
+        return accessPersons;
+    }
+
+    public void setEvents(List<EventResult> events) {
+        this.events = events;
+        //separate out the events by type so I can easily
+        setEventList();
+    }
+
+    public Map<String, List<EventResult>> getEventList() {
+        return eventList;
+    }
+
+    public int getNumEventTypes() {
+
+        return numEventTypes;
+    }
+
+    public void setEventList(){
+        if(eventList == null){
+            eventList = new HashMap<>();
+        }
+        //fill the list with Lists of the type
+    }
+
+
+    public void setHostPort(String hostPort) {
+        this.hostPort = hostPort;
+    }
+
+    public void setIpAddress(String ipAddress) {
+        this.ipAddress = ipAddress;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public Map<Marker, EventResult> getMarkerInfo() {
+        return markerInfo;
+    }
+
+    public void setMarkerInfo(Map<Marker, EventResult> markerInfo) {
+        this.markerInfo = markerInfo;
+    }
+
 }

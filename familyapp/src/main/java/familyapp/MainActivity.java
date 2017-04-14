@@ -9,6 +9,8 @@ import android.widget.Toast;
 
 import com.example.familyapp.R;
 
+import result.PersonResult;
+
 public class MainActivity extends AppCompatActivity implements Context{
 
     @Override
@@ -55,6 +57,7 @@ public class MainActivity extends AppCompatActivity implements Context{
 
     public void startNewActivity(ActivityType type){
         Object objectType = null;
+
         switch (type){
             case SEARCH_ACTIVITY:
                 objectType = new SearchActivity();
@@ -66,13 +69,13 @@ public class MainActivity extends AppCompatActivity implements Context{
                 objectType = new FilterActivity();
                 break;
             case PERSON_ACTIVITY:
-                objectType = new PersonActivity();
+                objectType = new PersonActivity(/*(PersonResult)info*/);
                 break;
             default:
                 System.out.print("Error");
                 break;
         }
-        Intent myIntent = new Intent(this, objectType.getClass());
+           Intent myIntent = new Intent(this, objectType.getClass());
 
         //myIntent.putExtra("key", value); //Optional parameters
         startActivity(myIntent);

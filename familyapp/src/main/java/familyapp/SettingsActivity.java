@@ -26,7 +26,7 @@ class SettingsActivity extends AppCompatActivity implements Context {
     @Override
     protected void onCreate(Bundle savedInstance){
         super.onCreate(savedInstance);
-        
+
     }
 
 }

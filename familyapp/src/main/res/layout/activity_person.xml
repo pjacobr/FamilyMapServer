@@ -6,28 +6,76 @@
     android:layout_height="match_parent"
     tools:context="familyapp.PersonActivity">
 
-    <android.support.v4.widget.Space
-        android:layout_width="match_parent"
-        android:layout_height="80dp" />
-
     <TextView
         android:layout_width="match_parent"
         android:id="@+id/person_id"
-        android:layout_height="90dp"
+        android:layout_height="100dp"
         android:visibility="visible"
         android:background="@color/colorPrimary"
         android:textColor="#000000"
         android:padding="5dp"
         android:text="Person LastName \n City, Country \n Event Event Year"
         android:textSize="20dp"
-        android:textAlignment="center"
+
         >
 
     </TextView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="#d3d3d3"
+        android:weightSum="1">
+    <TextView
+        android:id="@+id/person_list_header"
+        android:layout_width="wrap_content"
+        android:textAlignment="gravity"
+        android:layout_height="65dp"
+        android:text="Persons"
+        android:textColor="#000000"
+        android:textSize="25dp"
+        android:padding="10dp"
+        android:paddingTop="30dp"
+        android:layout_weight="1.05" />
+        <Button
+            android:id="@+id/person_list_up"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@mipmap/list_down_arrow"/>
+    </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/person_children"
         android:layout_height="match_parent"
-        android:layout_width="match_parent" />
+        android:layout_width="match_parent"
+        android:visibility="gone"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="#d3d3d3"
+        android:weightSum="1">
+        <TextView
+        android:id="@+id/events_list_header"
+        android:layout_width="80dp"
+        android:textAlignment="gravity"
+        android:layout_height="65dp"
+        android:text="Events"
+        android:textColor="#000000"
+        android:textSize="25dp"
+        android:padding="10dp"
+        android:paddingTop="30dp"
+        android:layout_weight="1.05" />
+    <Button
+        android:id="@+id/event_list_up"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@mipmap/list_down_arrow"/>
+    </LinearLayout>
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/person_events"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:visibility="gone"/>
 
 </LinearLayout>
