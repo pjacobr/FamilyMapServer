@@ -30,6 +30,13 @@ public class ModelContainer {
      * Value is the associated Map Key
      */
     private Map<Marker, EventResult> markerInfo;
+
+    /**
+     * Event ID associated with a given marker
+     * Key is the event ID
+     * Value is the associated Marker
+     */
+    private Map<String, Marker> eventMarker;
     //List of all the People associated with the current user
     private List<PersonResult> persons;
     // List of all the event results for the current User
@@ -203,6 +210,17 @@ public class ModelContainer {
             eventList = new HashMap<>();
         }
         //fill the list with Lists of the type
+    }
+
+    public Map<String, Marker> getEventMarker() {
+        if(eventMarker == null){
+            eventMarker = new HashMap<String, Marker>();
+        }
+        return eventMarker;
+    }
+
+    public void setEventMarker(Map<String, Marker> eventMarker) {
+        this.eventMarker = eventMarker;
     }
 
 

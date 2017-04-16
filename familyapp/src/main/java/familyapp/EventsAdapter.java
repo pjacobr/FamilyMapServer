@@ -39,8 +39,7 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
     @Override
     public void onBindViewHolder(EventsAdapter.ViewHolder holder, int position) {
         //get the data model based on position
-        ModelContainer eventsInfo = ModelContainer.getModelInstance();
-        EventResult p = eventsInfo.getEvents().get(position);
+        EventResult p = events.get(position);
 
         TextView textView = holder.personInfo;
         textView.setText(p.getCountry() + " " + p.getEventType());
@@ -49,7 +48,7 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
 
     @Override
     public int getItemCount() {
-        return ModelContainer.getModelInstance().getEvents().size();
+        return events.size();
     }
 
     //Proved a direct reference to each of the
@@ -68,9 +67,9 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
                 @Override
                 public void onClick(View v) {
                     Toast.makeText(c ,"clicked="+ getPosition(),Toast.LENGTH_SHORT).show();
-                    Intent myIntent = new Intent(c, PersonActivity.class);
+                    //Intent myIntent = new Intent(c, MapActivity.class);
                     //myIntent.putExtra("key", value); //Optional parameters
-                    c.startActivity(myIntent);
+                    //c.startActivity(myIntent);
                 }
             });
         }

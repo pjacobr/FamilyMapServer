@@ -34,21 +34,20 @@ public class MainActivity extends AppCompatActivity implements Context{
         }else{
 
         }
-
     }
-
-
 
     public void changeToRegisterFragment(){
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, new RegisterFragment())
                 .commit();
     }
+
     public void backToLoginFragment(){
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, new LoginFragment())
                 .commit();
     }
+
     public void goToMapFragment(){
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, new MapFragment())

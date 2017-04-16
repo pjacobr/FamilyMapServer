@@ -54,7 +54,7 @@ public class DataGenerator {
 
     public DataGenerator(Person userNode, int numGenerations) {
         this();
-        this.userNode = new PersonNode(userNode);
+        this. userNode = new PersonNode(userNode);
         this.numGenerations = numGenerations;
         descendant = userNode.getPersonID();
     }
@@ -98,7 +98,7 @@ public class DataGenerator {
 
     //for testing purposes
     public static void main(String args[]) {
-        DataGenerator dg = new DataGenerator(new Person("jp1232", "jp1232", "Jacob", "Pettingill", "m", "Richard", "Khristine", null, 1994));
+        DataGenerator dg = new DataGenerator(new Person("jp1232", "jp1232", "Jacob", "Pettingill", "m", null, null, null, 1994));
         dg.fillTrie();
         System.out.println("Success! Made it here?");
     }
@@ -127,10 +127,15 @@ public class DataGenerator {
         }
     }
     //generateEvents
-    private void generateEvents(Person addBirth, String eventType, int eventYear){
+    private void generateEvents(Person addBirth, String eventType, int eventYear, LocationData.Location location){
         //new event ID
         String eventID = UUID.randomUUID().toString();
-        LocationData.Location loc = getLocation();
+        LocationData.Location loc;
+        if(location == null) {
+            loc = getLocation();
+        }else{
+            loc = location;
+        }
         //parse the location data and add it to the event.
         String city = loc.city;
         String country = loc.country;
@@ -191,34 +196,31 @@ public class DataGenerator {
         curNode.father = new PersonNode(new Person(uuidFather, descendant, firstNameFather, lastNameFather, MALE, null, null, uuidMother, fatherBirthYear));
         curNode.mother = new PersonNode(new Person(uuidMother, descendant, firstNameMother, lastNameMother, FEMALE, null, null, uuidFather, motherBirthYear));
 
-        if(curLevel == 0){
-            curNode.info.setFather(firstNameFather);
-            curNode.info.setMother(firstNameMother);
-        }
-
         //generate birth events
         String type = "birth";
-        generateEvents(curNode.father.info, type, generateEventYear(fatherBirthYear, type));
-        generateEvents(curNode.mother.info, type, generateEventYear(motherBirthYear, type));
+        generateEvents(curNode.father.info, type, generateEventYear(fatherBirthYear, type), null);
+        generateEvents(curNode.mother.info, type, generateEventYear(motherBirthYear, type), null);
 
         //marriage events
         type = "marriage";
         int year = generateEventYear(fatherBirthYear, type);
-        generateEvents(curNode.mother.info, type, year);
-        generateEvents(curNode.father.info, type, year);
+        //TODO: Need to make the events happen in the same place
+        LocationData.Location loc = getLocation();
+        generateEvents(curNode.mother.info, type, year, loc);
+        generateEvents(curNode.father.info, type, year, loc);
 
         //baptism?
         if((new Random().nextInt() % 2) == 1) {
             type = "baptism";
-            generateEvents(curNode.father.info, type, generateEventYear(fatherBirthYear, type));
-            generateEvents(curNode.mother.info, type, generateEventYear(motherBirthYear, type));
+            generateEvents(curNode.father.info, type, generateEventYear(fatherBirthYear, type), null);
+            generateEvents(curNode.mother.info, type, generateEventYear(motherBirthYear, type), null);
         }
 
         //death
         if(curLevel >= 3){
             type = "death";
-            generateEvents(curNode.father.info, type, generateEventYear(fatherBirthYear, type));
-            generateEvents(curNode.mother.info, type, generateEventYear(motherBirthYear, type));
+            generateEvents(curNode.father.info, type, generateEventYear(fatherBirthYear, type), null);
+            generateEvents(curNode.mother.info, type, generateEventYear(motherBirthYear, type), null);
         }
 
 

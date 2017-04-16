@@ -5,13 +5,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="familyapp.PersonActivity">
-
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="100"
+        android:background="@color/colorPrimary">
+    <TextView
+        android:layout_weight="70"
         android:id="@+id/person_id"
         android:layout_height="100dp"
+        android:layout_width="wrap_content"
         android:visibility="visible"
-        android:background="@color/colorPrimary"
         android:textColor="#000000"
         android:padding="5dp"
         android:text="Person LastName \n City, Country \n Event Event Year"
@@ -20,6 +25,19 @@
         >
 
     </TextView>
+        <Space
+            android:layout_width="10dp"
+            android:layout_weight="30"
+            android:layout_height="match_parent" />
+        <TextView
+
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:id="@+id/person_gender_activity"
+            android:background="@mipmap/person_info_female_pink"
+
+            />
+    </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

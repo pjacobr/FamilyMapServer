@@ -1,8 +1,11 @@
 package familyapp;
 
+import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.SupportActivity;
 import android.view.Display;
@@ -13,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.amazon.geo.mapsv2.AmazonMap;
@@ -41,8 +45,10 @@ import result.PersonResult;
 
 public class MapFragment extends Fragment {
     //what kind of data will I need floating around here
+    View personGender;
     private AmazonMap amazonMap;
-    private TextView personInfo;
+    private TextView personInfoText;
+    private LinearLayout personInfo;
     //TODO put this in the Modelclass
     private Marker curMarker;
     Context context;
@@ -99,9 +105,10 @@ public class MapFragment extends Fragment {
         amazonMap = ((SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map)).getMap();
         amazonMap.setMapType(AmazonMap.MAP_TYPE_HYBRID);
 
-        personInfo = (TextView) v.findViewById(R.id.person_id);
+        personInfo = (LinearLayout) v.findViewById(R.id.person_info_wrapper);
         personInfo.setVisibility(View.GONE);
-
+        personInfoText = (TextView)v.findViewById(R.id.person_id);
+        personGender = (View)v.findViewById(R.id.person_gender);
 
         personInfo.setOnClickListener(new View.OnClickListener(){
             public void onClick(View view){
@@ -109,7 +116,9 @@ public class MapFragment extends Fragment {
                ModelContainer.getModelInstance().curEvent = e;
                ModelContainer.getModelInstance().curPerson = ModelContainer.getModelInstance().getAccessPersons().get(e.getPersonID());
                 // Intent intent = new Intent((MainActivity)getActivity().getBaseContext(), PersonActivity.class);
-                ((MainActivity)getActivity()).startNewActivity(ActivityType.PERSON_ACTIVITY);
+               ((MainActivity)getActivity()).startNewActivity(ActivityType.PERSON_ACTIVITY);
+                List<PersonResult> list  = ModelContainer.getModelInstance().getPersons();
+                list.isEmpty();
             }
         });
 
@@ -146,6 +155,8 @@ public class MapFragment extends Fragment {
 
         ModelContainer.getModelInstance().setMarkerInfo(new HashMap<Marker, EventResult>());
         // PersonResult
+
+        //Set the Markers
         Map<String, PersonResult> info = m.getAccessPersons();
         for (Map.Entry<String, List<EventResult>> entry : eventsType.entrySet()) {
             for (EventResult event : entry.getValue()) {
@@ -158,26 +169,37 @@ public class MapFragment extends Fragment {
                         .icon(BitmapDescriptorFactory.defaultMarker(hue));
                 Marker mark = amazonMap.addMarker(markerOptions);
                 ModelContainer.getModelInstance().getMarkerInfo().put(mark, event);
+                ModelContainer.getModelInstance().getEventMarker().put(event.getEventID(),mark);
             }
             int i = (hue + hueOffset + 20 < 360) ? hue += (hueOffset + 15) : (hue += hueOffset);
         }
 
+
+
+
+
         amazonMap.setOnMarkerClickListener(new AmazonMap.OnMarkerClickListener() {
+            @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+            @RequiresApi(api = Build.VERSION_CODES.JELLY_BEAN)
             @Override
             public boolean onMarkerClick(Marker marker) {
                 EventResult event = ModelContainer.getModelInstance().getMarkerInfo().get(marker);
                 PersonResult person = ModelContainer.getModelInstance().getAccessPersons().get(event.getPersonID());
-                personInfo.setText(person.getFirstname() + " " + person.getLastname() + "\n" + event.getCity() + ", " + event.getCountry()
+                personInfoText.setText(person.getFirstname() + " " + person.getLastname() + "\n" + event.getCity() + ", " + event.getCountry()
                         + "\n" + ToolBox.capitalizeFirstLetter(event.getEventType()) + " " + event.getYear());
                 personInfo.setVisibility(View.VISIBLE);
-                curMarker = marker;
+                ((MainActivity) getActivity()).MakeToast(person.getGender());
+                if(person.getGender().equals("m")) {
+                    personGender.setBackground(getActivity().getDrawable(R.mipmap.person_info_male_blue));
+                }else{
+                    personGender.setBackground(getActivity().getDrawable(R.mipmap.person_info_female_pink));
+                }
+                    curMarker = marker;
                 return false;
             }
         });
 
-
         //amazonMap.setOnMarkerClickListener();
-
 
         //amazonMap.getCameraPosition();
         // Call .getMapAsync() and pass it an object that implements

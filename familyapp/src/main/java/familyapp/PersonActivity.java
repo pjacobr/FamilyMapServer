@@ -37,6 +37,8 @@ public class PersonActivity extends AppCompatActivity implements Context {
     RecyclerView children;
     RecyclerView eventChildren;
     TextView personInfo;
+    TextView personGender;
+
     private PersonResult person;
 
     //PersonActivity constructor
@@ -55,7 +57,7 @@ public class PersonActivity extends AppCompatActivity implements Context {
 
     }
 
-
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstance) {
         super.onCreate(savedInstance);
@@ -87,10 +89,13 @@ public class PersonActivity extends AppCompatActivity implements Context {
         eventsList = (ArrayList<EventResult>)ModelContainer.getModelInstance().getEvents();
 
         personInfo = (TextView)findViewById(R.id.person_id);
-        personInfo.setText(person.getFirstname() + "\n" + person.getLastname() + "\n" + (person.getGender() == "m" ? "Male" : "Female"));
-        PersonAdapter adapter = new PersonAdapter(this, childrenList);
-        EventsAdapter adapter1 = new EventsAdapter(this, eventsList);
-        //Attach tehadapter to the recyclerview to populate items
+        personGender = (TextView)findViewById(R.id.person_gender_activity);
+        personInfo.setText(person.getFirstname() + "\n" + person.getLastname() + "\n" + (person.getGender().equals("m") ? "Male" : "Female"));
+        personGender.setBackground((person.getGender().equals("m") ? getDrawable(R.mipmap.person_info_male_blue) : getDrawable(R.mipmap.person_info_female_pink)));
+
+        PersonAdapter adapter = new PersonAdapter(this, ToolBox.getFamily(person.getPersonID()));
+        EventsAdapter adapter1 = new EventsAdapter(this, person.getEvents());
+        //Attach the adapter to the recyclerview to populate items
         eventChildren.setAdapter(adapter1);
         eventChildren.setLayoutManager(new LinearLayoutManager(this));
         children.setAdapter(adapter);

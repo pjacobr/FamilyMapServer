@@ -39,8 +39,7 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.ViewHolder
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         //get the data model based on position
-        ModelContainer personInfo = ModelContainer.getModelInstance();
-        PersonResult p = personInfo.getPersons().get(position);
+        PersonResult p = mPersons.get(position);
 
         TextView textView = holder.personInfo;
         textView.setText(p.getFirstname());
@@ -49,7 +48,7 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.ViewHolder
 
     @Override
     public int getItemCount() {
-        return ModelContainer.getModelInstance().getPersons().size();
+        return mPersons.size();
     }
 
     //Proved a direct reference to each of the
@@ -60,7 +59,7 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.ViewHolder
 
         //We also create a constructor that accepts the entire tiem row
         //and does the view lookups to find each subview
-        public ViewHolder(View itemView, final android.content.Context c){
+        public ViewHolder(final View itemView, final android.content.Context c){
             super(itemView);
 
             personInfo = (TextView)itemView.findViewById(R.id.child_name);
@@ -70,6 +69,7 @@ public class PersonAdapter extends RecyclerView.Adapter<PersonAdapter.ViewHolder
                     Toast.makeText(c ,"clicked="+ getPosition(),Toast.LENGTH_SHORT).show();
                     Intent myIntent = new Intent(c, PersonActivity.class);
                     //myIntent.putExtra("key", value); //Optional parameters
+                    ModelContainer.getModelInstance().curPerson = ToolBox.getFamily(ModelContainer.getModelInstance().curPerson.getPersonID()).get(getPosition());
                     c.startActivity(myIntent);
                 }
             });
