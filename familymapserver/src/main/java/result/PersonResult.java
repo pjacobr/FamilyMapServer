@@ -1,6 +1,8 @@
 package result;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import model.Person;
@@ -22,6 +24,7 @@ public class PersonResult {
     String spouse;
 
     public List<EventResult> getEvents() {
+        Collections.sort(events);
         return events;
     }
 

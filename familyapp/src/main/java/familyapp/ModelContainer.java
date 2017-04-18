@@ -3,6 +3,7 @@ package familyapp;
 import com.amazon.geo.mapsv2.model.Marker;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -71,14 +72,28 @@ public class ModelContainer {
     private String email;
     private String userID;
     private String gender;
+    private boolean isMapActivity = false;
+
 
     //*******************************
 
     //Currently pressed marker Person/Event/Marker
     PersonResult curPerson;
     EventResult curEvent;
+    //Settings
+    // lines from the selected
+    private boolean familyLines;
+    private boolean spouseLines;
+    private boolean lifeLines;
+
+    //Map Type
+    private int mapType;
+
+    private int familyLineColor;
+    private int spouseLineColor;
+    private int lifeLineColor;
+
     /*********************************************************************************
-     *
      * Setters and Getters
      *
      ********************************************************************************/
@@ -147,6 +162,7 @@ public class ModelContainer {
     }
 
     public List<EventResult> getEvents() {
+        Collections.sort(events);
         return events;
     }
 
@@ -191,6 +207,7 @@ public class ModelContainer {
     }
 
     public void setEvents(List<EventResult> events) {
+        Collections.sort(events);
         this.events = events;
         //separate out the events by type so I can easily
         setEventList();
@@ -256,4 +273,40 @@ public class ModelContainer {
         this.markerInfo = markerInfo;
     }
 
+    public boolean getFamilyLines(){
+        return familyLines;
+    }
+
+
+    public boolean isFamilyLines() {
+        return familyLines;
+    }
+
+    public void setFamilyLines(boolean familyLines) {
+        this.familyLines = familyLines;
+    }
+
+    public boolean isSpouseLines() {
+        return spouseLines;
+    }
+
+    public void setSpouseLines(boolean spouseLines) {
+        this.spouseLines = spouseLines;
+    }
+
+    public boolean isLifeLines() {
+        return lifeLines;
+    }
+
+    public void setLifeLines(boolean lifeLines) {
+        this.lifeLines = lifeLines;
+    }
+
+    public boolean isMapActivity() {
+        return isMapActivity;
+    }
+
+    public void setMapActivity(boolean mapActivity) {
+        isMapActivity = mapActivity;
+    }
 }

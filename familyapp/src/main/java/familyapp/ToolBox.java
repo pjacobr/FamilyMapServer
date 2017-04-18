@@ -23,7 +23,9 @@ public class ToolBox {
 
     static public PersonResult getMother(String uuid){
         return ModelContainer.getModelInstance().getAccessPersons().get(ModelContainer.getModelInstance().getAccessPersons().get(uuid).getMother());
-
+    }
+    static public PersonResult getSpouse(String uuid){
+        return ModelContainer.getModelInstance().getAccessPersons().get(ModelContainer.getModelInstance().getAccessPersons().get(uuid).getSpouse());
     }
     static public PersonResult getFather(String uuid){
         return ModelContainer.getModelInstance().getAccessPersons().get(ModelContainer.getModelInstance().getAccessPersons().get(uuid).getFather());

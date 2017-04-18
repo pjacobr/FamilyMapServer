@@ -18,7 +18,28 @@
         <item name="android:padding">4dp</item>
         <item name="android:layout_gravity">left|center</item>
     </style>
-
+    <style name="settings_main_text">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:text">Life Story Lines</item>
+        <item name="android:textAppearance">@style/Base.TextAppearance.AppCompat.Display1</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textSize">25dp</item>
+        <item name="android:padding">10dp</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:paddingBottom">0dp</item>
+    </style>
+    <style name="settings_sub">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textAppearance">@style/Base.TextAppearance.AppCompat.Headline</item>
+        <item name="android:textColor">@color/subtext</item>
+        <item name="android:textAllCaps">true</item>
+        <item name="android:paddingLeft">10dp</item>
+        <item name="android:layout_marginTop">-7dp</item>
+        <item name="android:paddingTop">0dp</item>
+        <item name="android:textSize">17dp</item>
+    </style>
     <!--Login Screen Style -->
     <style name="LoginScreenInput">
         <item name="android:layout_weight">0</item>

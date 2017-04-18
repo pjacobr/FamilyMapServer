@@ -25,6 +25,10 @@
             android:name="familyapp.PersonActivity"
             android:label="@string/title_activity_person"
             android:theme="@style/AppTheme"></activity>
+        <activity
+            android:name="familyapp.MapActivity"
+            android:label="MapActivity"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

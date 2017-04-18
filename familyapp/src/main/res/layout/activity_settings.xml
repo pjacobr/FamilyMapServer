@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#d3d3d3">
+    <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:background="@drawable/surrounding">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:text="Life Story Lines"
+                style="@style/settings_main_text"
+                />
+            <TextView
+                android:text="Show Life Story Lines"
+                style="@style/settings_sub"/>
+            />
+        </LinearLayout>
+        <Spinner
+            android:id="@+id/life_story_line_color"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="10">
+        </Spinner>
+        <ToggleButton
+            android:id="@+id/life_story_line_on"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ToggleButton" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@drawable/surrounding">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:text="Family Tree Lines"
+                style="@style/settings_main_text"/>
+            <TextView
+                android:text="SHOw life lines"
+                style="@style/settings_sub"/>
+            />
+        </LinearLayout>
+        <Spinner
+            android:id="@+id/family_tree_line_color"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="10">
+        </Spinner>
+        <ToggleButton
+            android:id="@+id/family_tree_line_on"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ToggleButton" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@drawable/surrounding">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:text="Spouse Lines"
+                style="@style/settings_main_text"/>
+            <TextView
+                android:text="Show spouse lines"
+                style="@style/settings_sub"
+            />
+        </LinearLayout>
+        <Spinner
+            android:id="@+id/spouse_line_color"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="10">
+        </Spinner>
+        <ToggleButton
+            android:id="@+id/spouse_lines_on"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="ToggleButton" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@drawable/surrounding">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:text="Map Type"
+                style="@style/settings_main_text"/>
+            <TextView
+                android:text="Background display on map"
+                style="@style/settings_sub"
+                />
+            />
+        </LinearLayout>
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="10"/>
+        <Spinner
+            android:id="@+id/map_type"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="10">
+        </Spinner>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/resync_data"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@drawable/surrounding">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+
+                android:text="Re-sync Data"
+               style="@style/settings_main_text"/>
+            <TextView
+                style="@style/settings_sub"
+                android:text="From Familymap Service"
+
+            />
+        </LinearLayout>
+
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/logout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:background="@drawable/surrounding">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:text="Logout"
+                style="@style/settings_main_text"/>
+            <TextView
+                style="@style/settings_sub"
+                android:text="Returns to login screen"
+            />
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

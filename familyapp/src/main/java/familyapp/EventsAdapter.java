@@ -67,9 +67,12 @@ public class EventsAdapter extends RecyclerView.Adapter<EventsAdapter.ViewHolder
                 @Override
                 public void onClick(View v) {
                     Toast.makeText(c ,"clicked="+ getPosition(),Toast.LENGTH_SHORT).show();
-                    //Intent myIntent = new Intent(c, MapActivity.class);
+                    Intent myIntent = new Intent(c, MapActivity.class);
+                    ModelContainer.getModelInstance().setMapActivity(true);
+
                     //myIntent.putExtra("key", value); //Optional parameters
-                    //c.startActivity(myIntent);
+                    ModelContainer.getModelInstance().curEvent = ModelContainer.getModelInstance().curPerson.getEvents().get(getPosition());
+                    c.startActivity(myIntent);
                 }
             });
         }

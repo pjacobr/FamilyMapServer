@@ -1,10 +1,12 @@
 package result;
 
+import java.util.Comparator;
+
 /**
  * Created by jacob on 2/16/2017.
  */
 
-public class EventResult {
+public class EventResult implements Comparable<EventResult>{
     //Event datamembers
     String descendant = null;
     String eventID = null;
@@ -89,5 +91,14 @@ public class EventResult {
         this.city = city;
         this.eventType = eventType;
         this.year = year;
+    }
+
+    @Override
+    public int compareTo(EventResult eventResult) {
+        if(year -eventResult.year != 0){
+            return year - eventResult.year;
+        }else{
+            return eventType.compareTo(eventResult.eventType);
+        }
     }
 }

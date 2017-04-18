@@ -1,10 +1,12 @@
 package model;
 
+import java.util.Comparator;
+
 /**
  * Created by jacob on 2/16/2017.
  */
 
-public class Event {
+public class Event implements Comparable<Event> {
     //datamembers
 
     private String eventType = null;
@@ -115,5 +117,12 @@ public class Event {
         this.year = year;
     }
 
-
+    @Override
+    public int compareTo(Event event) {
+        if(year - event.year != 0){
+            return year - event.year;
+        }else{
+            return eventType.compareTo(event.eventType);
+        }
+    }
 }
