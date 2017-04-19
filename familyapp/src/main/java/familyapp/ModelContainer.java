@@ -82,16 +82,20 @@ public class ModelContainer {
     EventResult curEvent;
     //Settings
     // lines from the selected
-    private boolean familyLines;
-    private boolean spouseLines;
-    private boolean lifeLines;
+    private boolean familyLines = true;
+    private boolean spouseLines = true;
+    private boolean lifeLines = true;
 
     //Map Type
-    private int mapType;
+    private boolean mapChanged = false;
 
-    private int familyLineColor;
-    private int spouseLineColor;
-    private int lifeLineColor;
+
+
+    private String mapType = "Normal";
+
+    private String familyLineColor = "Yellow";
+    private String spouseLineColor = "Blue";
+    private String lifeLineColor = "Green";
 
     /*********************************************************************************
      * Setters and Getters
@@ -197,6 +201,7 @@ public class ModelContainer {
     public void setPersons(List<PersonResult> persons) {
         this.persons = persons;
         accessPersons = new HashMap<String, PersonResult>();
+
         for(PersonResult person : this.persons){
             accessPersons.put(person.getPersonID(), person);
         }
@@ -273,9 +278,6 @@ public class ModelContainer {
         this.markerInfo = markerInfo;
     }
 
-    public boolean getFamilyLines(){
-        return familyLines;
-    }
 
 
     public boolean isFamilyLines() {
@@ -308,5 +310,71 @@ public class ModelContainer {
 
     public void setMapActivity(boolean mapActivity) {
         isMapActivity = mapActivity;
+    }
+
+    public String getMapType() {
+        return mapType;
+    }
+
+    public void setMapType(String mapType) {
+        this.mapType = mapType;
+    }
+
+    public String getFamilyLineColor() {
+        return familyLineColor;
+    }
+
+    public void setFamilyLineColor(String familyLineColor) {
+        this.familyLineColor = familyLineColor;
+    }
+
+    public String getSpouseLineColor() {
+        return spouseLineColor;
+    }
+
+    public void setSpouseLineColor(String spouseLineColor) {
+        this.spouseLineColor = spouseLineColor;
+    }
+
+    public String getLifeLineColor() {
+        return lifeLineColor;
+    }
+
+    public void setLifeLineColor(String lifeLineColor) {
+        this.lifeLineColor = lifeLineColor;
+    }
+    public boolean isMapChanged() {
+        return mapChanged;
+    }
+
+    public void setMapChanged(boolean mapChanged) {
+        this.mapChanged = mapChanged;
+    }
+
+    public void syncData(){
+        int numEventTypes = 0;
+        markerInfo.clear();
+        eventMarker.clear();
+        persons.clear();
+        events.clear();
+        eventList.clear();
+        accessPersons.clear();
+        firstName = null;
+        lastName = null;
+        mother = null;
+        father = null;
+        birthyear =0;
+        userId = null;
+        authtoken = null;
+        email = null;
+        userID = null;
+        gender = null;
+        isMapActivity =false;
+        curPerson = null;
+        curEvent = null;
+    }
+
+    public void clear(){
+        _instance = new ModelContainer();
     }
 }

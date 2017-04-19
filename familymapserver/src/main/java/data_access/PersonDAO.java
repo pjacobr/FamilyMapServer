@@ -181,7 +181,8 @@ public class PersonDAO {
     public void delete(String personID) throws SQLException {
 
         //Go through all the events and add the event ** Make sure to delete anything connected.
-        String sql = "delete from Persons where personID='" + personID + "';";
+        String sql = "delete from Persons where descendant='" + personID + "'";
+
         PreparedStatement stmt = null;
         //make a statement with the sql string above
         stmt = conn.prepareStatement(sql);

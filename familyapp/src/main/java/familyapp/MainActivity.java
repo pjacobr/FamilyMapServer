@@ -13,6 +13,7 @@ import result.PersonResult;
 
 public class MainActivity extends AppCompatActivity implements Context{
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements Context{
     }
 
     public void goToMapFragment(){
+        ModelContainer m =ModelContainer.getModelInstance();
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, new MapFragment())
                 .commit();

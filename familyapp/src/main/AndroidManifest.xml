@@ -29,6 +29,20 @@
             android:name="familyapp.MapActivity"
             android:label="MapActivity"
             android:theme="@style/AppTheme"></activity>
+        <activity
+            android:name="familyapp.SettingsActivity"
+            android:label="Family App: Settings"
+            android:theme="@style/AppTheme"></activity>
+        <activity
+            android:name="familyapp.FilterActivity"
+            android:label="Family App: Settings"
+            android:theme="@style/AppTheme"></activity>
+        <activity
+            android:name="familyapp.SearchActivity"
+            android:label="Family App: Settings"
+            android:theme="@style/AppTheme"></activity>
+
+
     </application>
 
 </manifest>

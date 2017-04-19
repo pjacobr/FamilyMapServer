@@ -79,6 +79,9 @@ public class LoginFragment extends Fragment implements familyapp.Context{
                 ModelContainer m = ModelContainer.getModelInstance();
                 m.setHostPort(mHostPort.getText().toString());
                 m.setIpAddress(mIPAddress.getText().toString());
+                m.setPassword(mPassword.getText().toString());
+                m.setUsername(mUsername.getText().toString());
+
                 login();
             }
         });

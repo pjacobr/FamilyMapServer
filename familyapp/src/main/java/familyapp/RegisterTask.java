@@ -38,7 +38,7 @@ public class RegisterTask extends AsyncTask<RegisterRequest, Void, RegisterResul
                 fm.MakeToast("Error registering, you may be already registered");
                 return;
             }
-            ModelContainer m = ModelContainer.getModelInstance();
+           // ModelContainer m = ModelContainer.getModelInstance();
             SyncTask sync = new SyncTask(fm, true);
             sync.execute();
         }

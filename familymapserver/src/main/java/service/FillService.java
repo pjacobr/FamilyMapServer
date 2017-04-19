@@ -48,10 +48,12 @@ public class FillService {
                 return new FillResult("User does not exist, please try again");
             }
 
+
             //save the data and delete all relavant data related to the person.
             Person p = persondao.getPerson(userInput.getPersonID());
-            persondao.delete(p.getPersonID());
-
+            User u = userdao.getUserByID(userInput.getPersonID());
+            persondao.delete(u.getUsername());
+            eventdao.deleteEvent(u.getUsername());
 
             //authTokenDAO.addAuthToken(userInput.getUsername());
 

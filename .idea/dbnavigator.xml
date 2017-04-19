@@ -31,13 +31,7 @@
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="1ba7ff0c-10f4-4a72-ba9f-955f89606f31">
-      <console name="Connection" type="STANDARD"><![CDATA[select * from Persons
-
-
-
-SELECT *
-FROM "Users"
-INNER JOIN "AuthTokens" ON "Users".username="AuthTokens".username]]></console>
+      <console name="Connection" type="STANDARD" />
     </connection>
   </component>
   <component name="DBNavigator.Project.EditorStateManager">

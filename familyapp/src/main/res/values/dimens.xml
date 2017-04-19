@@ -1,3 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="fab_margin">16dp</dimen>
+    <string-array name="colors">
+        <item>Yellow</item><!--#e1ce4c-->
+        <item>Blue</item><!--#4876FF -->
+        <item>Green</item><!--#00FA9A -->
+        <item>Orange</item><!--#FFA500 -->
+        <item>Purple</item><!--#8E388E -->
+    </string-array>
+    <string-array name="map_types">
+        <item>Satellite</item>
+        <item>Hybrid</item>
+        <item>Normal</item>
+        <item>Terrain</item>
+    </string-array>
 </resources>

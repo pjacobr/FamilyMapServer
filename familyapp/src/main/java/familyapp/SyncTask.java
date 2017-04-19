@@ -1,5 +1,6 @@
 package familyapp;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 
@@ -53,6 +54,7 @@ public class SyncTask extends AsyncTask<Void, Void, Void> {
                 fm.onComplete();
             }else{
                 fm.MakeToast("Successfully synced");
+                fm.onComplete();
             }
         }
 }

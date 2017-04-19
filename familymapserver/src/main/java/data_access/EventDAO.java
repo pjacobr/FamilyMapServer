@@ -190,16 +190,13 @@ public class EventDAO {
     public void deleteEvent(String eventID) throws SQLException {
 
         //Go through all the events and add the event
-        String sql = "delete from Events where eventID='" + eventID + "';";
-
+        String sql = "delete from Events where descendant='" + eventID + "'";
         PreparedStatement stmt = null;
 
         //make a statement with the sql string above
         stmt = conn.prepareStatement(sql);
         stmt.executeUpdate();
         stmt.close();
-
-
     }
 
     /**

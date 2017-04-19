@@ -36,10 +36,12 @@ import com.amazon.geo.mapsv2.model.PolylineOptions;
 import com.example.familyapp.R;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
+
 
 import model.Person;
 import result.EventResult;
@@ -122,6 +124,15 @@ public class MapFragment extends Fragment {
     }
 
 
+    //MapFragment mMap = (MapFragment)getFragmentManager().findFragmentById(R.id.map);
+    @Override
+    public void onResume(){
+        super.onResume();
+        amazonMap.setMapType(ToolBox.getIndexMap(ModelContainer.getModelInstance().getMapType()));
+        if(ModelContainer.getModelInstance().getAuthToken() == null){
+
+        }
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -161,16 +172,14 @@ public class MapFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View v = inflater.inflate(R.layout.fragment_map, container, false);
-
-
-        //MenuInflater.inflate(R.menu.map_toolbar, menu);
+                //MenuInflater.inflate(R.menu.map_toolbar, menu);
 
         ModelContainer m = ModelContainer.getModelInstance();
         //m.setEventList();
         //Extract a reference to the map fragment
         //amazonMap.addPolyline();
         amazonMap = ((SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map)).getMap();
-        amazonMap.setMapType(AmazonMap.MAP_TYPE_HYBRID);
+        amazonMap.setMapType(ToolBox.getIndexMap(ModelContainer.getModelInstance().getMapType()));
         if(isMapActivity) {
             curMarker = ModelContainer.getModelInstance().getEventMarker().get(ModelContainer.getModelInstance().curEvent.getEventID());
             CameraUpdate update = CameraUpdateFactory.newCameraPosition(new CameraPosition(curMarker.getPosition(), 0, 0, 0));
@@ -258,7 +267,13 @@ public class MapFragment extends Fragment {
         }
 
 
-
+        amazonMap.setMapType(ToolBox.getIndexMap(ModelContainer.getModelInstance().getMapType()));
+        amazonMap.setOnMapLoadedCallback(new AmazonMap.OnMapLoadedCallback() {
+            @Override
+            public void onMapLoaded() {
+                amazonMap.setMapType(ToolBox.getIndexMap(ModelContainer.getModelInstance().getMapType()));
+            }
+        });
         /**
          * Go through and set a on click function for  each marker
          *
@@ -271,9 +286,17 @@ public class MapFragment extends Fragment {
                 for(Polyline line : polylines){
                     line.remove();
                 }
-                addFamilyTreeLines(marker, LINE_INITIAL_WIDTH);
-                addSpouseLines(marker);
-                addLifeLines(marker);
+                if(ModelContainer.getModelInstance().isFamilyLines()) {
+                    addFamilyTreeLines(marker, LINE_INITIAL_WIDTH);
+                }
+
+                if(ModelContainer.getModelInstance().isSpouseLines()) {
+                    addSpouseLines(marker);
+                }
+
+                if(ModelContainer.getModelInstance().isLifeLines()) {
+                    addLifeLines(marker);
+                }
                 EventResult event = markerInfo.get(marker);
                 PersonResult person = accessPersons.get(event.getPersonID());
                 personInfoText.setText(person.getFirstname() + " " + person.getLastname() + "\n" + event.getCity() + ", " + event.getCountry()
@@ -304,12 +327,14 @@ public class MapFragment extends Fragment {
 
         //make sure that they have parents
         if(dad != null && mom != null) {
+            //set the color of the lines
+            int color = ToolBox.getIndexColor(ModelContainer.getModelInstance().getFamilyLineColor());
 
             //get marker for first events **Should be the birth event, unless one does not exist
             Marker dadConnection = eventMarker.get(dad.getEvents().get(0).getEventID());
             Marker momConnection = eventMarker.get(mom.getEvents().get(0).getEventID());
 
-                //put those lines to be drawn in a vato
+            //put those lines to be drawn in a vato
             //amazonMap.setOnMarkerClickListener()
             //add the line
             ArrayList<LatLng> dadPoint = new ArrayList<LatLng>(LINE_ARRAY_SIZE);
@@ -320,12 +345,12 @@ public class MapFragment extends Fragment {
             dadPoint.add(dadConnection.getPosition());
             PolylineOptions momOpt = new PolylineOptions()
                     .addAll(momPoint)
-                    .color(Color.RED)
+                    .color(color)
                     .geodesic(true)
                     .width(lineSize);
             PolylineOptions dadOpt = new PolylineOptions()
                     .addAll(dadPoint)
-                    .color(Color.RED)
+                    .color(color)
                     .geodesic(true)
                     .width(lineSize);
             Polyline p = amazonMap.addPolyline(momOpt);
@@ -346,6 +371,9 @@ public class MapFragment extends Fragment {
         //make sure that they have parents
         if(spouse != null) {
 
+            //set the line color
+            int color = ToolBox.getIndexColor(ModelContainer.getModelInstance().getSpouseLineColor());
+
             //get marker for first events
             Marker spouseConnection = eventMarker.get(spouse.getEvents().get(0).getEventID());
 
@@ -357,7 +385,7 @@ public class MapFragment extends Fragment {
             spousePoint.add(spouseConnection.getPosition());
             PolylineOptions spouseOpt = new PolylineOptions()
                     .addAll(spousePoint)
-                    .color(Color.BLUE)
+                    .color(color)
                     .geodesic(true)
                     .width(LINE_INITIAL_WIDTH);
             Polyline d = amazonMap.addPolyline(spouseOpt);
@@ -375,6 +403,7 @@ public class MapFragment extends Fragment {
 
         //make sure that they have parents
         if(person != null) {
+            int color = ToolBox.getIndexColor(ModelContainer.getModelInstance().getLifeLineColor());
             for(int i = 0; i < lifeEvents.size()-1; i++) {
                 //get marker for first events
                 Marker firstConnection = eventMarker.get(lifeEvents.get(i).getEventID());
@@ -387,7 +416,8 @@ public class MapFragment extends Fragment {
                 lifeLine.add(secondConnection.getPosition());
                 PolylineOptions spouseOpt = new PolylineOptions()
                         .addAll(lifeLine)
-                        .color(Color.GREEN)
+                        .color(color
+                        )
                         .geodesic(true)
                         .width(LINE_INITIAL_WIDTH);
                 Polyline d = amazonMap.addPolyline(spouseOpt);
@@ -397,5 +427,8 @@ public class MapFragment extends Fragment {
         }
         return;
     }
+
+
+
 }
 

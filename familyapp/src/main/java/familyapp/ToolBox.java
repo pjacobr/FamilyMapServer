@@ -1,5 +1,9 @@
 package familyapp;
 
+import android.graphics.Color;
+
+import com.amazon.geo.mapsv2.AmazonMap;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -72,5 +76,35 @@ public class ToolBox {
             }
         }
         return events;
+    }
+    public static int getIndexMap(String input){
+        switch(input){
+            case "Satellite":
+                return AmazonMap.MAP_TYPE_SATELLITE;
+            case "Hybrid":
+                return AmazonMap.MAP_TYPE_HYBRID;
+            case "Normal":
+                return AmazonMap.MAP_TYPE_NORMAL;
+            case "Terrain":
+                return AmazonMap.MAP_TYPE_TERRAIN;
+            default:
+                return -1;
+        }
+    }
+    public static int getIndexColor(String input){
+        switch(input){
+            case "Yellow":
+                return Color.YELLOW;
+            case "Blue":
+                return Color.BLUE;
+            case "Green":
+                return Color.GREEN;
+            case "Orange":
+                return Color.rgb(255,165,0);
+            case "Purple":
+                return Color.MAGENTA;
+            default:
+                return -1;
+        }
     }
 }
